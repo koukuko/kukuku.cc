@@ -1,0 +1,101 @@
+extends ../../layout/index
+block body
+    +row
+        +col('md',3)
+            +message
+            +well
+                if parent
+                    +toList(parent)
+                    hr
+                +button('primary','sm','创建新的帖子','/content/threads/create').btn-block
+                hr
+                +form('get','/content/threads')
+                    - var pagesize = req.query.pagesize || 20
+                    - var pagenow = req.query.page || 1
+                    input(type='hidden',name='page',value=pagenow)
+                    +input('text','keyword','关键词',req.query.keyword,'包括正文，名称，邮箱。')
+                    +input('text','ip','IP',req.query.ip)
+                    if req.query.ip
+                        +button('default','sm','封禁这个IP？','/system/filter?type=ip&rule='+req.query.ip).btn-block
+                    +select('forum','版块',sails.models.forum.selectList,req.query.forum)
+                    +checkbox('lock','锁定','[{"key":"已锁定","value":"true"}]',req.query.lock)
+                    +checkbox('sage','SAGE','[{"key":"已SAGE","value":"true"}]',req.query.sage)
+                    +input('number','pagesize','页容量', pagesize)
+                    +button('primary','sm','筛选','javascript:document.forms[0].page.value = 1;document.forms[0].submit()').btn-block
+                    hr
+                    p.text-center
+                        +button('default','sm','上一页','javascript:document.forms[0].page.value = Number(document.forms[0].page.value) - 1;document.forms[0].submit()').pull-left
+                        = ' 共 '+page.count + ' 个对象 '+ pagenow + ' / ' + Math.round(page.count/pagesize) + '页 '
+                        +button('default','sm','下一页','javascript:document.forms[0].page.value = Number(document.forms[0].page.value) + 1;document.forms[0].submit();').pull-right
+                hr
+                +button('default','sm','删除选中贴子','javascript:document.forms[1].submit();').btn-block
+        +col('md',9)
+            +form('get','/content/threads/remove')
+                +table('striped hover condensed')
+                    thead
+                        tr
+                            td(width="50")
+                                a(href="#",onclick='')
+                            td(width="70") ID
+                            td 正文
+                            td(width="120") uid/ip
+                            td(width="120") 更新时间/发布时间
+                            td(width="150") 操作
+                    tbody
+                        each item in data
+                            tr
+                                td
+                                    input(type="checkbox",name='ids',value=item.id)
+                                td
+                                    if item.parent
+                                        = item.id
+                                        br
+                                        a(href='/content/threads'+'?parent='+item.parent)=item.parent
+                                    else
+                                        a(href='/content/threads'+'?parent='+item.id)= item.id
+                                td
+                                    p
+                                        font(color="#999")
+                                            = '('+item.forum+'） '
+                                        font(color="#cc1105")
+                                            if item.email
+                                                a(href='mailto:'+item.email)= item.name || '无名氏'
+                                            else
+                                                = item.name || '无名氏'
+                                        | &nbsp;
+                                        font(color="#117743")
+                                            = item.title || '无标题'
+                                        if item.sage
+                                            | &nbsp;
+                                            span.label.label-warning 已SAGE
+                                        if item.lock
+                                            | &nbsp;
+                                            span.label.label-danger 已锁定
+                                    if item.thumb
+                                        img(src=H.settings.siteCdnPath+item.thumb,style="float:left;max-width: 150px;margin-right: 10px;")
+                                    pre(style="white-space: pre-wrap;")!= item.content
+                                td
+                                    a(href='/content/threads?keyword='+item.uid)!=item.uid
+                                    br
+                                    a(href='/content/threads?ip='+item.ip)=item.ip
+                                td
+                                    +time(item.createdAt)
+                                    br
+                                    font(color="#999999")
+                                        +time(item.createdAt)
+                                td
+                                    if item.sage
+                                        a(href='/content/threads/'+item.id+'/set?key=sage&value=false') AGE
+                                    else
+                                        a(href='/content/threads/'+item.id+'/set?key=sage&value=true') SAGE
+                                    | &nbsp;
+                                    if item.lock
+                                        a(href='/content/threads/'+item.id+'/set?key=lock&value=false') 解锁
+                                    else
+                                        a(href='/content/threads/'+item.id+'/set?key=lock&value=true') 锁定
+                                    | &nbsp;
+                                    a(href='/content/threads/'+item.id+'/update') 编辑
+                                    | &nbsp;
+                                    a(href='/content/threads/'+item.id+'/removeImages') 删图
+                                    | &nbsp;
+                                    a(href='/content/threads/'+item.id+'/remove') 删串

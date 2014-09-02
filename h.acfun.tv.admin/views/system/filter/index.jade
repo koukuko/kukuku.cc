@@ -1,0 +1,66 @@
+extends ../../layout/index
+block body
+    +row
+        +col('md',3)
+            +message
+            +well
+                +form('post','/system/filter/create')
+                    +input('text','rule','规则',req.query.rule,'ip支持*通配')
+                    +select('type','类型','[{"key":"关键词","value":"word"},{"key":"IP","value":"ip"},{"key":"IP区域","value":"location"},{"key":"图片MD5","value":"imagemd5"},{"key":"饼干ID","value":"userId"}]',req.query.type)
+                    +input('text','expires','有效期','0','0:永久，s:秒，i:分，h:小时，d:天，m:月，y:年')
+                    +button('primary','sm','创建过滤配置','javascript:document.forms[0].submit()').btn-block
+                hr
+                +form('get','/system/filter')
+                    - var pagesize = req.query.pagesize || 20
+                    - var pagenow = req.query.page || 1
+                    input(type='hidden',name='page',value=pagenow)
+                    +input('text','rule','规则',req.query.rule,'不支持多个关键词注意。')
+                    +select('type','类型','[{"key":"全部","value":""},{"key":"关键词","value":"word"},{"key":"IP","value":"ip"},{"key":"IP区域","value":"location"},{"key":"图片MD5","value":"imagemd5"},{"key":"饼干ID","value":"userId"}]',req.query.type)
+                    +input('number','pagesize','页容量', pagesize)
+                    +button('primary','sm','筛选','javascript:document.forms[1].submit()').btn-block
+                    hr
+                    p.text-center
+                        +button('default','sm','上一页','javascript:document.forms[1].page.value = Number(document.forms[1].page.value) - 1;document.forms[1].submit()').pull-left
+                        = ' 共 '+page.count + ' 个对象 '+ pagenow + ' / ' + Math.round(page.count/pagesize) + '页 '
+                        +button('default','sm','下一页','javascript:document.forms[1].page.value = Number(document.forms[1].page.value) + 1;document.forms[1].submit();').pull-right
+                hr
+                +button('default','sm','删除选中配置','javascript:document.forms[2].submit();').btn-block
+
+        +col('md',9)
+            +form('get','/system/filter/remove')
+                +table('striped hover condensed')
+                    thead
+                        tr
+                            td(width="50")
+                                a(href="#",onclick='')
+                            td(width="50") ID
+                            td(width="100") 类型
+                            td 规则
+                            td(width="200") 过期时间
+                            td(width="150") 操作
+                    tbody
+                        each item in data
+                            tr
+                                td
+                                    input(type="checkbox",name='ids',value=item.id)
+                                td= item.id
+                                td
+                                    case item.type
+                                        when 'word'
+                                            = '关键词'
+                                        when 'ip'
+                                            = 'IP'
+                                        when 'location'
+                                            = 'IP区域'
+                                        when 'userId'
+                                            = '饼干'
+                                        when 'imagemd5'
+                                            = '图片MD5'
+                                        default
+                                            = item.type
+                                td= item.rule
+                                td
+                                    +time(item.expires)
+                                td
+                                    a(href='/system/filter/remove?ids='+item.id) 删除
+

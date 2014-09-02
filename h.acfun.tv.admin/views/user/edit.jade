@@ -1,0 +1,15 @@
+extends ../layout/index
+block body
+    +row
+        +col('md',3)
+            +message
+            +well
+                +button('primary','sm','提交','javascript:document.forms[0].submit()').btn-block
+                +button('default','sm','重置页面','javascript:location.reload()').btn-block
+
+        +col('md',9)
+            +form('post',req.url)
+                hr
+                +input('text','name','用户名',data.name)
+                +input('password','password','密码',data.password)
+                +input('text','access','权限',data.access)

@@ -1,0 +1,28 @@
+extends ../../layout/index
+block body
+    +row
+        +col('md',3)
+            +message
+            +well
+                p
+                    | 已缓存对象:&nbsp;
+                    span.text-primary(style='font-size:45px')=count
+                ul
+                    li 缓存默认过期时间为600秒（10分钟）。
+                    li 清除缓存会造成一定程度的访问卡顿，没有必要的话请尽量不要清空缓存。
+                    li 请按需清除缓存，没有必要的情况下不要清除全部缓存。
+                hr
+                +button('primary','sm','清空全部缓存','/system/cache/flush?key=*').btn-block
+        +col('md',9)
+            h2 首页缓存
+            +button('default','sm','清空首页缓存','/system/cache/flush?key=homepage:*')
+            hr
+            h2 版块缓存
+            +button('default','sm','清空版块缓存','/system/cache/flush?key=forum:*')
+            hr
+            h2 贴子缓存
+            +button('default','sm','清空贴子缓存','/system/cache/flush?key=threads:*')
+            hr
+            h2 Session缓存
+            +button('default','sm','清空Session缓存','/system/cache/flush?key=sess:*')
+

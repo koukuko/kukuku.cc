@@ -1,0 +1,51 @@
+//- 小工具
+
+
+//- 消息提示
+mixin message
+    - var datas = req.flash();
+    if datas
+        - for ( var type in datas)
+            - var alertClass = "alert alert-"+type
+            for info in datas[type]
+                div(role="alert",class=alertClass)
+                    button.close(type="button",data-dismiss="alert")
+                        span(aria-hidden="true") ×
+                        span.sr-only Close
+                    +toList(info)
+
+//- 将Object转为list
+mixin toList(datas)
+    if typeof datas == "object"
+        ul
+            - for ( var key in datas )
+                if _.isFunction(datas[key])
+                    - continue
+                if _.isNumber(key)
+                    li= datas[key]
+                else
+                    - var item = datas[key]
+                    if _.isObject(item)
+                        li
+                            +toList(item)
+                    else
+                        li= key + ": " + datas[key]
+    else
+        p= datas
+
+//- 时间友好化
+mixin time(now)
+    - var now = new Date(now)
+    - var year=now.getFullYear()
+    - var month=now.getMonth()+1
+    - var date=now.getDate()
+    - var hour=now.getHours()
+    - var minute=now.getMinutes()
+    - var second=now.getSeconds()
+    if hour < 10
+        - hour = '0'+hour
+    if minute < 10
+        - minute = '0'+minute
+    if second < 10
+        - second = '0'+second
+    = year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second

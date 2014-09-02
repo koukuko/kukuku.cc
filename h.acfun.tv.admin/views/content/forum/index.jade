@@ -1,0 +1,70 @@
+extends ../../layout/index
+block body
+    +row
+        +col('md',3)
+            +message
+            +well
+                +button('primary','sm','创建新的版块','/content/forum/create').btn-block
+                hr
+                //+form('get','/content/threads')
+                //    - var pagesize = req.query.pagesize || 20
+                //    - var pagenow = req.query.page || 1
+                //    input(type='hidden',name='page',value=pagenow)
+                //    +input('text','keyword','关键词',req.query.keyword,'包括正文，名称，邮箱。')
+                //    +input('text','ip','IP',req.query.ip)
+                //    if req.query.ip
+                //        +button('default','sm','封禁这个IP？','/system/filter?type=ip&rule='+req.query.ip).btn-block
+                //    +checkbox('lock','锁定','[{"key":"已锁定","value":"true"}]',req.query.lock)
+                //    +checkbox('sage','SAGE','[{"key":"已SAGE","value":"true"}]',req.query.sage)
+                //    +input('number','pagesize','页容量', pagesize)
+                //    +button('primary','sm','筛选','javascript:document.forms[0].submit()').btn-block
+                //    hr
+                //    p.text-center
+                //        +button('default','sm','上一页','javascript:document.forms[0].page.value = Number(document.forms[1].page.value) - 1;document.forms[1].submit()').pull-left
+                //        = ' 共 '+page.count + ' 个对象 '+ pagenow + ' / ' + Math.round(page.count/pagesize) + '页 '
+                //        +button('default','sm','下一页','javascript:document.forms[0].page.value = Number(document.forms[1].page.value) + 1;document.forms[1].submit();').pull-right
+                //hr
+                +button('default','sm','删除选中版块','javascript:document.forms[0].submit();').btn-block
+        +col('md',9)
+            +form('get','/content/forum/remove')
+                +table('striped hover condensed')
+                    thead
+                        tr
+                            td(width="50")
+                                a(href="#",onclick='')
+                            td(width="70") ID
+                            td 标题
+                            td(width="120") 状态
+                            td(width="120") CD
+                            td(width="200") 更新时间/发布时间
+                            td(width="150") 操作
+                    tbody
+                        each item in data
+                            tr
+                                td
+                                    input(type="checkbox",name='ids',value=item.id)
+                                td
+                                    a(href='/content/threads'+'?forum='+item.id)= item.id
+                                td
+                                    a(href='/content/threads'+'?forum='+item.id)= item.name
+                                td
+                                    if item.lock
+                                        span.label.label-danger 锁定
+                                    else
+                                        span.label.label-success 正常
+                                td
+                                    = item.cooldown
+                                td
+                                    +time(item.createdAt)
+                                    br
+                                    font(color="#999999")
+                                        +time(item.createdAt)
+                                td
+                                    if item.lock
+                                        a(href='/content/forum/'+item.id+'/set?key=lock&value=false') 解锁
+                                    else
+                                        a(href='/content/forum/'+item.id+'/set?key=lock&value=true') 锁定
+                                    | &nbsp;
+                                    a(href='/content/forum/'+item.id+'/update') 编辑
+                                    | &nbsp;
+                                    a(href='/content/forum/'+item.id+'/remove') 删除

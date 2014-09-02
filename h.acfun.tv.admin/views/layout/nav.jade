@@ -1,0 +1,34 @@
+header#top.navbar.navbar-static-top.bs-docs-nav(role='banner')
+    +container(true)
+        .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='.bs-navbar-collapse')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(href='/')=H.settings.siteName
+        nav.collapse.navbar-collapse.bs-navbar-collapse(role='navigation')
+            ul.nav.navbar-nav
+                li.dropdown
+                    +dropdown-toggle('内容')
+                    +dropdown-menu
+                        +dropdown-item('版块管理','/content/forum')
+                        +dropdown-item('贴子管理','/content/threads')
+                li.dropdown
+                    +dropdown-toggle('用户')
+                    +dropdown-menu
+                        +dropdown-item('用户管理','/user')
+                        +dropdown-item('权限管理','/user/access')
+                li.dropdown
+                    +dropdown-toggle('组件')
+                    +dropdown-menu
+                        +dropdown-item('广告管理','/components/ad')
+                        +dropdown-item('模块管理','/components/module')
+                li.dropdown
+                    +dropdown-toggle('系统')
+                    +dropdown-menu
+                        +dropdown-item('系统配置','/system/setting')
+                        +dropdown-item('过滤管理','/system/filter')
+                        +dropdown-item('缓存管理','/system/cache')
+                        +dropdown-item('日志管理','/system/log')
+                        +dropdown-item('FTP管理','/system/ftp')

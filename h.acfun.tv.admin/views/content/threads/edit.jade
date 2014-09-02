@@ -1,0 +1,29 @@
+extends ../../layout/index
+block body
+    +row
+        +col('md',3)
+            +message
+            +well
+                +button('primary','sm','提交','javascript:document.forms[0].submit()').btn-block
+                +button('default','sm','重置页面','javascript:location.reload()').btn-block
+
+        +col('md',9)
+            +form('post',req.url)
+                hr
+                - var uid = data.uid || req.signedCookies.userId || ''
+                +input('text','uid','ID',uid,'显示的ID，允许HTML。')
+                +select('forum','版块',sails.models.forum.selectList,data.forum)
+                hr
+                +input('text','parent','父贴',data.parent,'即回复对象，如果是发新帖则不填。不支持编辑修改，只会在创建贴子时生效。')
+                hr
+                +input('text','name','名称',data.name)
+                +input('text','email','E-mail',data.email)
+                +input('text','title','标题',data.title)
+                +textarea('content','正文',data.title)
+                hr
+                +input('file','file','缩略图')
+                +input('text','image','大图',data.image)
+                +input('text','thumb','缩略图',data.thumb,'亦为点击缩略图所指向的超链接。')
+                hr
+                +radio('lock','锁定','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',data.lock)
+                +radio('sage','SAGE','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',data.sage)

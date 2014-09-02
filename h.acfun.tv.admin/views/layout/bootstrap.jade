@@ -1,0 +1,262 @@
+//- Bootstrap for Jade - 模块快速构建
+    Bootstrap 是最受欢迎的 HTML、CSS 和 JS 框架，用于开发响应式布局、移动设备优先的 WEB 项目。
+    @author koukuko<9@acfun.tv>
+    @version 1.0.1
+//- 全局 CSS 样式
+
+//- 网格
+//- 布局容器(固定宽度/100%宽度)
+mixin container(fluid)
+    if fluid
+        div.container-fluid
+            if block
+                block
+    else
+        div.container
+            if block
+                block
+
+//- 行
+mixin row
+    div.row
+        if block
+            block
+
+//- 栅格
+mixin col(type,width,offset)
+    - var col = "col-" + type + "-" + width
+    if offset
+        - col += " col-" + type + "-offset-" + offset
+    div(class=col)
+        if block
+            block
+
+//- clearfix
+mixin clear
+    div.clearfix
+
+//- 排版
+//- 中心内容
+mixin lead
+    p.lead
+        if block
+            block
+
+//- 对齐
+mixin text(align)
+    - var align = "text-" + align
+    p(class=align)
+        if block
+            block
+
+//- 表格
+//- 表格基本
+mixin table(args)
+    - var c = 'table'
+    if args
+        - args = args.split(' ');
+        each value in args
+            - c += ' table-' + value
+    table(class=c)
+        if block
+            block
+
+//- 行
+mixin tr(status)
+    if status
+        - var c = status
+    else
+        - var c = ""
+    tr(class=c)
+        if block
+            block
+
+mixin td(status)
+    if status
+        - var c = status
+    else
+        - var c = ""
+    td(class=c)
+        if block
+            block
+
+//- 表单
+//- 表单
+mixin form(type,url)
+    form.form-horizontal(method=type,action=url,role='form',enctype='multipart/form-data')
+        if block
+            block
+
+//- 协助
+mixin help-block(help)
+    if help
+        span.help-block= help
+
+//- Input
+mixin input(type,name,title,value,help,status)
+    - var groupClass = "form-group"
+    - var inputId = "input-"+name
+    - var inputClass = "form-control input-sm input-"+name
+    if status
+        - groupClass += " has-" + status
+    div(class=groupClass)
+        label.col-sm-2.control-label(for=inputId)=title
+        div.col-sm-10
+            if type == 'disabled'
+                input(type='text',name=name,class=inputClass,id=inputId,placeholder=title,disabled,value=value)
+            else if type == 'static'
+                p.form-control-static(id=inputId)=value
+            else if type == 'file'
+                input(type=type,name=name,class=inputClass,id=inputId,placeholder=title)
+            else
+                input(type=type,name=name,class=inputClass,id=inputId,placeholder=title,value=value)
+            +help-block(help)
+
+//- Textarea
+mixin textarea(name,title,value,help,status)
+    - var groupClass = "form-group"
+    - var inputId = "input-"+name
+    - var inputClass = "form-control input-sm input-"+name
+    - var value = value ? value : ''
+    if status
+        - groupClass += " has-" + status
+    div(class=groupClass)
+        label.col-sm-2.control-label(for=inputId)=title
+        div.col-sm-10
+            textarea(type='text',name=name,class=inputClass,id=inputId,placeholder=title,status)= value
+            +help-block(help)
+
+//- Ckeditor
+mixin ckeditor(name,title,value,help)
+    - var groupClass = "form-group"
+    - var inputId = "input-"+name
+    - var inputClass = "form-control input-sm input-"+name
+    - var value = value ? value : ''
+    if status
+        - groupClass += " has-" + status
+    div(class=groupClass)
+        label.col-sm-2.control-label(for=inputId)=title
+        div.col-sm-10
+            textarea.ckeditor(type='text',name=name,class=inputClass,id=inputId,placeholder=title,status)= value
+            +help-block(help)
+
+//- radio
+mixin radio(name,title,data,value,help)
+    - var groupClass = "form-group"
+    - var inputId = "input-"+name
+    - var data = JSON.parse(data)
+    div(class=groupClass)
+        label.col-sm-2.control-label(for=inputId)=title
+        div.col-sm-10
+            each item in data
+                if typeof value != 'undefined' && typeof item.value != 'undefined'
+                    - var ischecked =  (item.value.toString() == value.toString())
+                else
+                    - var ischecked = false
+                label.radio-inline
+                    input(type='radio',id=inputId+'-'+item.key,name=name,value=item.value,checked=ischecked)
+                    = item.key
+            +help-block(help)
+
+mixin checkbox(name,title,data,value,help)
+    - var groupClass = "form-group"
+    - var inputId = "input-"+name
+    - var data = JSON.parse(data)
+    div(class=groupClass)
+        label.col-sm-2.control-label(for=inputId)=title
+        div.col-sm-10
+            each item in data
+                if _.isArray(value)
+                    - var ischecked =  ((value && value.indexOf(item.value)) || item.value == value) ? true : false
+                else if value && item.value
+                    - var ischecked =  (item.value.toString() == value.toString())
+                else
+                    - var ischecked = false
+                label.checkbox-inline
+                    input(type='checkbox',id=inputId+'-'+item.key,name=name,value=item.value,checked=ischecked)
+                    = item.key
+            +help-block(help)
+
+mixin select(name,title,data,value,help)
+    - var groupClass = "form-group"
+    - var inputId = "input-"+name
+    - var inputClass = "form-control input-sm input-"+name
+    - var data = (typeof data == 'object') ? data : JSON.parse(data)
+    div(class=groupClass)
+        label.col-sm-2.control-label(for=inputId)=title
+        div.col-sm-10
+            select(name=name,id=inputId,class=inputClass)
+                each item in data
+                    - var isselected =  (item.value == value) ? true : false
+                    option(type='checkbox',id=inputId+'-'+item.key,value=item.value,selected=isselected)= item.key
+            +help-block(help)
+
+//- Button
+mixin button(type,size,title,href)
+    - var inputClass = "btn btn-"+type+" btn-name-"+title
+    if size
+        - inputClass+= " btn-"+size
+    a(type="button",class=inputClass,class=attributes.class,href=href)= title
+
+//- Img
+mixin img(src,alt,type)
+    - var imgClass = (type) ? 'img-'+type : ''
+    img.img-responsive(src=src,alt=alt,class=imgClass)
+
+//- Close
+mixin close
+    button.close(type="button")
+        span(aria-hidden="true") &times;
+        span.sr-only 关闭
+
+//- Caret
+mixin caret
+    span.caret
+
+//- Components
+//- Icon
+mixin icon(name)
+    - var iconClass = "glyphicon glyphicon-"+name
+    span(class=iconClass)
+
+//- Dropdown
+mixin dropdown-toggle(title)
+    a.dropdown-toggle(href='#',data-toggle="dropdown")
+        =title
+        +caret
+
+mixin dropdown-menu
+    ul.dropdown-menu(role="menu")
+        if block
+            block
+
+mixin dropdown-item(title,href)
+    if title == divider
+        li.divider(role="presentation")
+    else
+        if href
+            li: a(href=href)= title
+        else
+            li.dropdown-header(role="presentation")= title
+
+//- Nav
+mixin nav
+    ul.nav.nav-pills(role="tablist",class=attributes.class)
+        if block
+            block
+mixin nav-item(title,href)
+    li(role="presentation",class=attributes.class)
+        a(href=href)= title
+
+
+//- Jumbotron
+mixin jumbotron
+    div.jumbotron
+        if block
+            block
+
+//- Well
+mixin well
+    div.well
+        if block
+            block

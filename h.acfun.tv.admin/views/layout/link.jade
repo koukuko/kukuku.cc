@@ -1,0 +1,14 @@
+//- Jade Mixin : LINK
+//- 简化链接类标签
+
+mixin css(path)
+    if block
+        style=block
+    else
+        link(href=path,rel="stylesheet")
+
+mixin js(path)
+    if block
+        script=block
+    else
+        script(src=path)

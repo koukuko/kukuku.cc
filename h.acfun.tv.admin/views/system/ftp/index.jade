@@ -1,0 +1,80 @@
+extends ../../layout/index
+
+//- 权限可视化
+mixin right(data)
+    - var result = ''
+    each item in data
+        if item.indexOf('r') >= 0
+            - result += 'r'
+        else
+            - result += '-'
+        if item.indexOf('w') >= 0
+            - result += 'w'
+        else
+            - result += '-'
+        if item.indexOf('x') >= 0
+            - result += 'x'
+        else
+            - result += '-'
+    = result
+
+block body
+    +row
+        +col('md',3)
+            +message
+            +well
+                +form('post','/system/ftp/put')
+                    input(type='hidden',name='path',value=path)
+                    +input('file','files','对象','','将会上传到: '+path)
+                    +button('default','sm','上传文件','javascript:document.forms[0].submit()').btn-block
+                hr
+                +form('post','/system/ftp/mkdir')
+                    +input('text','dirName','文件夹','','在 '+path+' 下创建一个文件夹')
+                    +button('default','sm','创建文件夹','javascript:document.forms[1].submit()').btn-block
+                hr
+                +button('danger','sm','删除指定文件','javascript:document.forms[2].withParent.value="false";document.forms[2].submit()').btn-block
+                +button('danger','sm','删除指定文件及其关联文件（请确信你知道这个功能的效果）','javascript:document.forms[2].withParent.value="true";document.forms[2].submit()').btn-block
+        +col('md',9)
+            +form('post','/system/ftp/remove')
+                input(type='hidden',name='withParent',value='false')
+                +table('striped hover condensed')
+                    thead
+                        tr
+                            td(width="50")
+                                a(href="#",onclick='')
+                            td(width="50")
+                            td 名称
+                            td(width="200") 日期
+                            td(width="150") 权限
+                            td(width="150") 大小
+                    tbody
+                        ol.breadcrumb
+                            - var tempPathString = '/'
+                            li: a(href='/system/ftp?path='+tempPathString) (root)
+                            each item in breadcrumb
+                                if item
+                                    - tempPathString += item + '/'
+                                    li: a(href='/system/ftp?path='+tempPathString)= item
+
+                        each item in data
+                            tr
+                                td
+                                    input(type="checkbox",name='files',value=path+item.name)
+                                td
+                                    if item.type == 'd'
+                                        span.glyphicon.glyphicon-folder-open
+                                    else
+                                        span.glyphicon.glyphicon-file
+                                td
+                                    if item.type == 'd'
+                                        a(href='/system/ftp?path='+path+item.name+'/')= item.name
+                                    else if item.name && /^.*?\.(jpg|jpeg|bmp|gif|png)$/g.test(item.name)
+                                        img.pull-left(style='max-width:150px;max-height:150px;',src=H.settings.siteCdnPath+path+item.name)
+                                        a(href=H.settings.siteCdnPath+path+item.name,target='_blank',style='margin-left:160px;display:block;')= item.name
+                                    else
+                                        a(href=H.settings.siteCdnPath+path+item.name,target='_blank')= item.name
+                                td
+                                    +time(item.date)
+                                td
+                                    +right(item.rights)
+                                td= item.size

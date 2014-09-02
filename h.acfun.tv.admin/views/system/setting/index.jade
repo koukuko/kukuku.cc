@@ -1,0 +1,33 @@
+extends ../../layout/index
+block body
+
+    - var config = H.settings
+
+    +row
+        +col('md',3)
+            +message
+            +well
+                +button('primary','sm','保存配置','javascript:document.forms[0].submit()').btn-block
+                +button('default','sm','重置页面','javascript:location.reload()').btn-block
+                br
+                p 注意事项
+                    ul
+                        li 配置将会优先从Redis中取出，如果你尝试使用了SQL语句修改了配置，如果需要生效需要手动清除缓存，或等待5分钟。
+                        li 开发者注意：修改本模板是一项危险行为，请确信你已经理解整个配置的保存机制再对模板进行修改。
+
+        +col('md',9)
+            +form('post','/system/setting/update')
+                h2 网站配置
+                +input('text','siteName','站点名称',config.siteName)
+                +radio('siteClose','站点关闭','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',config.siteClose)
+                +textarea('siteCloseMessage','站点关闭信息',config.siteCloseMessage,'站点关闭时显示的信息，允许使用HTML代码。')
+                +radio('siteCaptcha','使用验证码','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',config.siteCaptcha,'仅应用于发帖操作。忽略API方式，即API方式进行发帖操作依然无需验证码')
+                +input('number','sitePagesize','默认列表容量',config.sitePagesize,'默认为20。')
+                +input('text','siteCdnPath','CDN路径',config.siteCdnPath)
+                h2 META配置
+                +textarea('metaDescription','网站简介',config.metaDescription)
+                +textarea('metaKeyword','关键词',config.metaKeyword)
+                +input('text','metaRobot','机器人',config.metaRobot)
+                h2 Cookie配置
+                +radio('cookieSignup','发放Cookies','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',config.cookieSignup,'在系统处于发放Cookies状态下发帖就会获得一个Cookies，有效期如配置，如果用户在有效期内发帖，那么Cookies的有效期会随之重置。')
+                +input('text','cookieExpires','有效期',config.cookieExpires,'单位为秒。')

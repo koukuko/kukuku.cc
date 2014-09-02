@@ -1,0 +1,52 @@
+extends ../layout/index
+block body
+    +row
+        +col('md',3)
+            +message
+            +well
+                +button('primary','sm','创建用户','/user/create').btn-block
+                hr
+                +form('get','/user')
+                    - var pagesize = req.query.pagesize || 20
+                    - var pagenow = req.query.page || 1
+                    input(type='hidden',name='page',value=pagenow)
+                    +input('text','name','用户名',req.query.name,'不支持多个关键词注意。')
+                    +input('number','pagesize','页容量', pagesize)
+                    +button('primary','sm','筛选','javascript:document.forms[0].submit()').btn-block
+                    hr
+                    p.text-center
+                        +button('default','sm','上一页','javascript:document.forms[0].page.value = Number(document.forms[0].page.value) - 1;document.forms[1].submit()').pull-left
+                        = ' 共 '+page.count + ' 个对象 '+ pagenow + ' / ' + Math.round(page.count/pagesize) + '页 '
+                        +button('default','sm','下一页','javascript:document.forms[0].page.value = Number(document.forms[0].page.value) + 1;document.forms[1].submit();').pull-right
+                hr
+                +button('default','sm','删除选中配置','javascript:document.forms[1].submit();').btn-block
+
+        +col('md',9)
+            +form('get','/user/remove')
+                +table('striped hover condensed')
+                    thead
+                        tr
+                            td(width="50")
+                                a(href="#",onclick='')
+                            td(width="50") ID
+                            td(width="100") 类型
+                            td 用户名
+                            td(width="200") 创建时间/更新时间
+                            td(width="150") 操作
+                    tbody
+                        each item in data
+                            tr
+                                td
+                                    input(type="checkbox",name='ids',value=item.id)
+                                td= item.id
+                                td= item.access
+                                td= item.name
+                                td
+                                    +time(item.createdAt)
+                                    br
+                                    +time(item.updatedAt)
+                                td
+                                    a(href='/user/'+item.id+'/update') 编辑
+                                    | &nbsp;
+                                    a(href='/user/remove?ids='+item.id) 删除
+
