@@ -1,0 +1,28 @@
+//- 配置选项
+- var cdnPath = 'http://static.acfun.mm111.net/h'
+table(id=data.id,border="0"): tbody: tr
+    td(nowrap="" align="right" valign="top") …
+    td(bgcolor="#F0E0D6")
+        if data.image
+            a(href=cdnPath+data.image.toLocaleLowerCase(),, rel='_blank', target='_blank')
+                img(src=cdnPath+data.thumb.toLocaleLowerCase(),, align="left", border="0",hspace="20")
+        font(color="#cc1105",size="+1"): b=(data.title) ? data.title : '无标题'
+        | &nbsp;
+        if data.email
+            a(href='mailto:'+data.email)
+                font(color="#117743"): b=(data.name) ? data.name : '无名氏'
+        else
+            font(color="#117743"): b=(data.name) ? data.name : '无名氏'
+        | &nbsp;
+        span.posttime=data.createdAt
+        | &nbsp;
+        span!=' ID:'+data.uid+' '
+        | &nbsp;[
+        a.report(href='/值班室?r='+data.id) 举报
+        | ]&nbsp;
+        if data.parent
+            a.r(href='/t/'+data.parent+'?r='+data.id)= 'No.' + data.id
+        else
+            a.r(href='/t/'+data.id+'?r='+data.id)= 'No.' + data.id
+        br
+        blockquote.threadpost!=data.content

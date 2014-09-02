@@ -1,0 +1,41 @@
+/**
+ * AcFun 匿名版 样式
+ */
+html,
+body {
+  background-color: #ffe;
+  color: #800000;
+}
+body,
+tr,
+td,
+th {
+  font-size: 12pt;
+}
+a:hover {
+  color: #d00;
+}
+small {
+  font-size: 10pt;
+}
+.r {
+  text-decoration: none;
+}
+.report {
+  font-size: 12px;
+}
+#refView {
+  border: 1px solid #000;
+  position: absolute;
+}
+#refView td {
+  background: #f0c2a8;
+}
+.hide {
+  color: #707070;
+  font-size: 12pt;
+  cursor: pointer;
+}
+.hide_content {
+  display: none;
+}

@@ -1,0 +1,139 @@
+//- 生成分页
+mixin page(index,count,url,last)
+    if index < 1
+        - index = 1
+    if index > count
+        - index = count
+    table(align='left', border='1')
+        tbody
+            tr
+                td
+                    if index != 1
+                        a(href=url+'?page=1') 首页
+                    else
+                        span 首页
+                td
+                    if index = 1
+                        span 上一页
+                    else
+                        a(href=url+'?page='+(Number(index)-1)) 上一页
+                td
+                    - var start = index - 4
+                    if start < 1
+                        - start = 1
+                    - var end = start + 9
+                    if end > count
+                        - end = count
+                    - for(var i=start;i<=end;i++){
+                        if i == index
+                            | [
+                            span(href=url+'?page='+i)= i
+                            | ]
+                        else
+                            | [
+                            a(href=url+'?page='+i)= i
+                            | ]
+                    - }
+                td
+                    if index != count
+                        a(href=url+'?page='+(Number(index)+1)) 下一页
+                    else
+                        span 下一页
+                if last
+                    td
+                        if index != count
+                            a(href=url+'?page='+count) 末页
+                        else
+                            span 末页
+
+//- 管理员工具
+mixin adminTool(threads)
+    div.adminTool(style="display:none; font-size:12px")
+        if(threads.parent == 0)
+            if(threads.lock)
+                | &nbsp;[
+                a.btnr(href='/t/'+threads.id+'/set?key=lock&value=0') 解锁
+                | ]
+            else
+                | &nbsp;[
+                a.btnr(href='/t/'+threads.id+'/set?key=lock&value=1') 锁定
+                | ]
+            if(threads.sage)
+                | &nbsp;[
+                a.btnr(href='/t/'+threads.id+'/set?key=sage&value=0') AGE
+                | ]
+            else
+                | &nbsp;[
+                a.btnr(href='/t/'+threads.id+'/set?key=sage&value=1') SAGE
+                | ]
+        | &nbsp;[
+        a.btnr(href='/t/'+threads.id+'/ip') IP
+        | ]&nbsp;[
+        a.btnr(href='/t/'+threads.id+'/move') MOVE
+        | ]&nbsp;[
+        a.btnr(href='/t/'+threads.id+'/delImage') 删图
+        | ]&nbsp;[
+        a.btnr(href='/t/'+threads.id+'/del') 删串
+        | ]&nbsp;
+
+//- 发帖框
+mixin postForm(url,forumId,threadsId)
+    form#postform_main(action=url, method='post', enctype='multipart/form-data')
+        div(style='text-align: center;')
+            table#postform_tbl(cellpadding='1', cellspacing='1', style='margin: 0px auto; text-align: left;')
+                input(type='hidden', name='forum', value=forumId)
+                input(type='hidden', name='_csrf',id='_csrf')
+                if threadsId
+                    tr
+                        td(bgcolor="#eeaa88")
+                            b 回应模式
+                        td='No. '+threadsId
+                tr
+                    td(bgcolor="#eeaa88")
+                        b 名 称
+                    td
+                        input(type='text', name='name', size='28', value='', maxlength='100')
+                        label.adminTool(style="display:none")
+                            input(type='checkbox', name='isManager',value='true')
+                            | 管理员
+                tr
+                    td(bgcolor="#eeaa88")
+                        b E-mail
+                    td
+                        input(type='text', name='email', size='28', value='', maxlength='100')
+                tr
+                    td(bgcolor="#eeaa88")
+                        b 标 题
+                    td
+                        input(type='text', name='title', size='28', value='', maxlength='100')
+                        input(type='submit', name='sendbtn', value='送 出')
+                tr
+                    td(bgcolor="#eeaa88")
+                        b 颜文字
+                    td
+                        select#emotion(name='emotion',onchange='addEmot(this)')
+                            option(value='', selected='selected') 无
+                tr
+                    td(bgcolor="#eeaa88")
+                        b 正 文
+                    td
+                        textarea#content(name='content', cols='48', rows='4', style='width: 400px; height: 80px;', maxlength='10000')
+                tr
+                    td(bgcolor="#eeaa88")
+                        b 附加图片
+                    td
+                        input(type='file', name='image', size='25')
+                tr
+                    td(colspan='2')
+                        if forum.header
+                            small!= forum.header.replace(/\@Time/g,forum.cooldown)
+
+mixin threadsStatus(threads)
+    if threads
+        if threads.lock
+            font(color="#dd0000"): b … 本串已经被锁定
+            br
+
+        if threads.sage
+            font(color="#dd0000"): b … 本串已经被SAGE (<a href="http://wiki.acfun.tv/index.php/SAGE" target="_blank">?</a>)
+            br
