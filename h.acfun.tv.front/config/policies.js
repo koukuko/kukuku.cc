@@ -19,5 +19,8 @@
 
 module.exports.policies = {
 
+    ThreadsController:{
+        create:'userAuth'
+    }
 
 };

@@ -58,13 +58,6 @@ module.exports = {
         return deferred.promise;
     },
 
-    afterUpdate:function(updatedRecord, cb){
-        sails.models.filter.init()
-            .fin(function() {
-                cb();
-            });
-    },
-
     /**
      * 检查是否被过滤
      */
@@ -123,13 +116,13 @@ module.exports = {
         },
         word: function(data){
 
-            var ruleList = sails.models.filter.rulesList.userId;
+            var ruleList = sails.models.filter.rulesList.word;
 
             if(!data){
                 return false;
             }
 
-            var data = data.toString();
+            var data = data.toString().replace(/\s/g, "");
 
             if(!ruleList){
                 return false;
@@ -138,6 +131,7 @@ module.exports = {
             for(var i in ruleList){
 
                 var rule = ruleList[i];
+
                 if(data.indexOf(rule) >= 0){
                     return true;
                 }

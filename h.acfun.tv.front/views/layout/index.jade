@@ -1,5 +1,8 @@
 include ../layout/widget
 
+if H.settings.siteCdnPath
+    - var cdnPath = H.settings.siteCdnPath
+
 doctype html
 html
     head

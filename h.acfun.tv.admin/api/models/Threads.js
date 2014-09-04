@@ -75,6 +75,12 @@ module.exports = {
 
     },
 
+
+    /**
+     * 上传附件
+     * @param uploadError {Error} 上传文件产生的错误
+     * @param uploadedFiles {Object} 上传完后文件的信息
+     */
     uploadAttachment: function (uploadError, uploadedFiles) {
 
         var deferred = Q.defer();
@@ -135,7 +141,7 @@ module.exports = {
                 }
 
                 // 4. 已经确认是图片，上传原图到FTP
-                sails.controllers.ftp.ready()
+                sails.services.ftp.ready()
                     .then(function (ftpClient) {
                         // 尝试创建文件夹
                         ftpClient.mkdir(path.dirname(remoteImagePath), true, function (err) {
@@ -196,6 +202,12 @@ module.exports = {
         return deferred.promise;
     },
 
+
+    /**
+     * 检查父串状态
+     * @param parent
+     * @returns {*}
+     */
     checkParentThreads: function (parent) {
 
         var deferred = Q.defer();
@@ -229,6 +241,12 @@ module.exports = {
         return deferred.promise;
     },
 
+    /**
+     * 处理父串
+     * @param parentThreads
+     * @param newThreads
+     * @returns {*}
+     */
     handleParentThreads: function (parentThreads, newThreads) {
 
         var deferred = Q.defer();

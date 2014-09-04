@@ -51,19 +51,17 @@ module.exports = {
 
         sails.services.cache.version(key)
             .then(function (version) {
-                if (version || version == null) {
+
+                if(!version){
                     version = 1;
-                } else {
-                    version = Number(version) + 1;
                 }
 
-                if (_.isObject(value)){
+                if (_.isObject(value)) {
                     value = JSON.stringify(value);
                 }
 
                 redis.set(key + ':' + version, value);
                 redis.expire(key + ':' + version, 600);
-                redis.set(key + ':version', version);
 
             })
             .fail(function (err) {
@@ -104,11 +102,32 @@ module.exports = {
     },
 
     /**
+     * 预处理
+     * @param key
+     * @returns {*}
+     */
+    prehandleKey:function(rawKey){
+        // 如果是 forum: 或者 threads: 先去除页数
+        if (rawKey && (rawKey.indexOf('forum:') >= 0 || rawKey.indexOf('threads:') >= 0)) {
+            handledKey = /((threads|forum)\:\d+)/g.exec(rawKey);
+            if (handledKey != null) {
+                return handledKey[1]
+            } else {
+                return rawKey;
+            }
+        }
+
+        return rawKey;
+    },
+
+    /**
      * 获取版本
      */
     version: function (key) {
 
         var deferred = Q.defer();
+
+        key = sails.services.cache.prehandleKey(key);
 
         // 获取最新版本号
         redis.get(key + ':version', function (err, version) {
@@ -129,25 +148,23 @@ module.exports = {
     /**
      * 更新版本
      */
-    update: function(key){
+    update: function (key) {
 
         var deferred = Q.defer();
 
+        key = sails.services.cache.prehandleKey(key);
+
         sails.services.cache.version(key)
             .then(function (version) {
-                if (version || version == null) {
+                if (!version || version == null) {
                     version = 1;
                 } else {
                     version = Number(version) + 1;
                 }
 
-                if (_.isObject(value)){
-                    value = JSON.stringify(value);
-                }
-
-                redis.set(key + ':' + version, value);
-                redis.expire(key + ':' + version, 600);
                 redis.set(key + ':version', version);
+
+                deferred.resolve(null);
 
             })
             .fail(function (err) {

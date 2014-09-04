@@ -76,7 +76,7 @@ function syncSetting() {
 
 // 同步过滤器
 function syncFilter() {
-    sails.models.setting.exportToGlobal()
+    sails.models.filter.exportToGlobal()
         .fail(function (err) {
             sails.log.error(err);
         });

@@ -81,8 +81,6 @@ mixin postForm(url,forumId,threadsId)
     form#postform_main(action=url, method='post', enctype='multipart/form-data')
         div(style='text-align: center;')
             table#postform_tbl(cellpadding='1', cellspacing='1', style='margin: 0px auto; text-align: left;')
-                input(type='hidden', name='forum', value=forumId)
-                input(type='hidden', name='_csrf',id='_csrf')
                 if threadsId
                     tr
                         td(bgcolor="#eeaa88")
