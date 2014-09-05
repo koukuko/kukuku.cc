@@ -28,6 +28,7 @@ module.exports.routes = {
     '/':'HomepageController.index',
     '/homepage/menu.:format?':'HomepageController.menu',
     '/homepage/ref.:format?':'ThreadsController.ref',
+    '/homepage/isManager':'HomepageController.isManager',
 
     /**
      * 版块

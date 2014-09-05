@@ -54,11 +54,32 @@ module.exports = function badRequest(data, options) {
     return res.view(options.view, { data: data });
   }
 
+  // If no second argument provided, try to serve the default view,
+  // but fall back to sending JSON(P) if any errors occur.
+  else return res.view('400', { data: data }, function (err, html) {
+
+      // If a view error occured, fall back to JSON(P).
+      if (err) {
+          //
+          // Additionally:
+          // • If the view was missing, ignore the error but provide a verbose log.
+          if (err.code === 'E_VIEW_FAILED') {
+              sails.log.verbose('res.badRequest() :: Could not locate view for error page (sending JSON instead).  Details: ',err);
+          }
+          // Otherwise, if this was a more serious error, log to the console with the details.
+          else {
+              sails.log.warn('res.badRequest() :: When attempting to render error page view, an error occured (sending JSON instead).  Details: ', err);
+          }
+          return res.jsonx(data);
+      }
+
+      return res.send(html);
+  });
   // If no second argument provided, try to serve the implied view,
   // but fall back to sending JSON(P) if no view can be inferred.
-  else return res.guessView({ data: data }, function couldNotGuessView () {
-    return res.jsonx(data);
-  });
+//  else return res.guessView({ data: data }, function couldNotGuessView () {
+//    return res.jsonx(data);
+//  });
 
 };
 

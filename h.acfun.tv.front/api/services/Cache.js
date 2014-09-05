@@ -135,7 +135,8 @@ module.exports = {
             if (err) {
                 deferred.reject(err);
             } else if (version == null) {
-                deferred.resolve(null);
+                redis.set(key + ':version', 1);
+                deferred.resolve(1);
             } else {
                 deferred.resolve(version);
             }

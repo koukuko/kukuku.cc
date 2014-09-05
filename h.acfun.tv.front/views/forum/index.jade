@@ -1,11 +1,6 @@
 extends ../layout/index
-
 block body
     p(align="right")
-        span.adminTool(style='display:none')
-            | [
-            a(href='/manage/cache/flush?key=forum:'+forum.id+':*') 刷新缓存
-            | ]
         | [
         if forum.name
             a(href='/'+encodeURI(forum.name)) 版块首页
@@ -84,7 +79,7 @@ block body
                                 blockquote.threadpost!=reply.content
         div(style="clear:both")
         hr
-    +page(page.page,page.size,'/'+forum.name,false,page.isMobile)
+    +page(page.page,page.size,'/'+forum.name,false)
 
     include ../layout/footer
 

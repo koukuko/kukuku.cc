@@ -1,0 +1,27 @@
+extends layout/index
+block body
+    h4 200 - OK! ﾟ ∀ﾟ)ノ
+    if data
+        p= data
+    br
+    script.
+        var url = location.pathname;
+        if(/\/t\/(\d+)\/create/.test(url)){
+            var jump = '/t/' + /\/t\/(\d+)\/create/g.exec(url)[1] + '?page=last';
+        } else if(/\/(.*?)\/create/.test(url)) {
+            var jump = '/' + /\/(.*?)\/create/g.exec(url)[1];
+        } else {
+            var jump = null;
+        }
+        if(jump){
+            document.write('<a href="'+jump+'">5秒后自动返回<a>');
+        } else {
+            document.write('<a href="javascript:history.back();">5秒后自动返回<a>');
+        }
+        window.setTimeout(function(){
+            if(jump){
+                location.href = jump;
+            } else {
+                history.back();
+            }
+        },5000);

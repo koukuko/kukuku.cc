@@ -1,8 +1,10 @@
 //- 生成分页
-mixin page(index,count,url,last)
+mixin page(index,count,url,last,isMobile)
     if index < 1
         - index = 1
     if index > count
+        - index = count
+    if index == 'last'
         - index = count
     table(align='left', border='1')
         tbody
@@ -12,11 +14,6 @@ mixin page(index,count,url,last)
                         a(href=url+'?page=1') 首页
                     else
                         span 首页
-                td
-                    if index = 1
-                        span 上一页
-                    else
-                        a(href=url+'?page='+(Number(index)-1)) 上一页
                 td
                     - var start = index - 4
                     if start < 1

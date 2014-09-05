@@ -186,7 +186,7 @@ module.exports = {
             fs.unlink(uploadedFile.fd);
 
             // 1. 初次检查文件类型是否合法
-            if (!/^.*?\.(jpg|jpeg|bmp|gif|png)$/g.test(uploadedFile.filename)) {
+            if (!/^.*?\.(jpg|jpeg|bmp|gif|png)$/g.test(uploadedFile.filename.toLowerCase())) {
                 deferred.reject('只能上传 jpg|jpeg|bmp|gif|png 类型的文件');
                 return deferred.promise;
             }

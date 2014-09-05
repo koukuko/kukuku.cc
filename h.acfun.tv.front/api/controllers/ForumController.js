@@ -17,10 +17,7 @@ module.exports = {
         }
 
         // 翻页
-        var pageIndex = Number(req.query.page);
-        if (!pageIndex || isNaN(pageIndex) || pageIndex < 0) {
-            pageIndex = 1;
-        }
+        var pageIndex = Number(req.query.page) || 1;
 
         var pageCount = Math.ceil(sails.models.forum.list[forum.name]['topicCount'] / 10);
 

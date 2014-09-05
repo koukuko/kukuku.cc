@@ -103,6 +103,23 @@ module.exports = {
                 }
 
             });
+    },
+
+    /**
+     * /homepage/isManager
+     */
+    isManager:function(req,res){
+
+        var result = {
+            success: false
+        };
+
+        if (req.signedCookies.managerName) {
+            result.success= true;
+        }
+
+        res.json(result);
+
     }
 
 };

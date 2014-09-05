@@ -7,7 +7,7 @@ doctype html
 html
     head
         meta(http-equiv="content-type",content="text/html; charset=utf-8")
-        title=page.title + ' - ' + H.settings.siteName
+        title=((page) ? page.title + ' - ' : '' ) + H.settings.siteName
         link(rel="stylesheet",type="text/css",href="/styles/h.main.css")
     body
         div#menu(style='position: fixed; margin: 0px; padding: 0px 10px 10px; left: 0px; top: 0px; color: rgb(204, 0, 0); border-right-width: 1px; border-right-color: black; border-right-style: solid; overflow: auto; width: 125px; height: 895px; background-color: rgb(255, 255, 255);')

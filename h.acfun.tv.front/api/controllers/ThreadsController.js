@@ -24,10 +24,7 @@ module.exports = {
         }
 
         // 翻页
-        var pageIndex = Number(req.query.page);
-        if (!pageIndex || isNaN(pageIndex) || pageIndex < 0) {
-            pageIndex = 1;
-        }
+        var pageIndex =(req.query.page && req.query.page == 'last') ? 'last'  : ( Number(req.query.page) || 1 );
 
         // 缓存key
         var key = 'threads:' + threadsId + ':' + pageIndex;
@@ -66,7 +63,7 @@ module.exports = {
                                 pageCount = (!pageCount) ? 1 : pageCount;
 
                                 // 获取回复信息
-                                sails.models.threads.getReply(threadsId, pageIndex)
+                                sails.models.threads.getReply(threadsId, (pageIndex == 'last' && pageIndex == pageCount) ? pageCount : pageIndex)
                                     .then(function (replys) {
                                         var output = {
                                             threads: threads,
@@ -172,6 +169,12 @@ module.exports = {
                             // 饼干
                             data.uid = req.signedCookies.userId;
 
+                            // 管理员回复
+                            if (data.isManager == 'true' && req.signedCookies.managerId) {
+                                data.color = (data.color) ? data.color : 'red';
+                                data.uid = '<font color="' + data.color + '">' + req.signedCookies.managerId + '</font>';
+                            }
+
                             if (data.image && !data.content) {
                                 data.content = '无正文';
                             } else if (!data.image && (!data.content || data.content.toString().trim().length < 1)) {
@@ -186,7 +189,7 @@ module.exports = {
                                 .replace(/<[^>]+>/gi, '')
                                 .replace(/\r\n/g, "\n")
                                 .replace(/\r/g, "\n")
-                                .replace(/\r/g, "<br>")
+                                .replace(/\n/g, "<br>")
                                 .replace(/(\>\>No\.\d+)/g, "<font color=\"#789922\">$1</font>")
                                 .replace(/(\>\>\d+)/g, "<font color=\"#789922\">$1</font>");
 
@@ -236,6 +239,9 @@ module.exports = {
                                     sails.models.threads.handleParentThreads(parentThreads,newThreads)
                                         .then(function(){
 
+                                            // session CD时间更新
+                                            req.session.lastPostAt = new Date().getTime();
+
                                             //通知清除缓存
                                             if(data.parent){
                                                 sails.services.cache.update('threads:'+data.parent);
@@ -255,12 +261,47 @@ module.exports = {
 
                         })
                         .fail(function (replyThreadsError) {
-                            return res.serverError(replyThreadsError.toString());
+                            return res.badRequest(replyThreadsError.toString());
                         });
                 })
                 .fail(function (uploadAttachmentError) {
-                    return res.serverError(uploadAttachmentError.toString());
+                    return res.badRequest(uploadAttachmentError.toString());
                 });
         });
+    },
+
+    // 引用查看
+    ref: function (req, res) {
+
+        // API
+        var isAPI = (req.params.format) ? true : false;
+
+        var threadsId = Number(req.query.tid);
+        if (isNaN(threadsId)) {
+            return res.forbidden('贴子ID不合法');
+        }
+
+        sails.models.threads.findOneById(threadsId)
+            .exec(function (err, threads) {
+                if (err || threads == undefined) {
+                    return res.send(404, '');
+                } else {
+
+                    delete threads.ip;
+
+                    if (isAPI) {
+                        if (threads) {
+                            delete threads['ip'];
+                            threads['createdAt'] = (threads['createdAt']) ? new Date(threads['createdAt']).getTime() : null;
+                            threads['updatedAt'] = (threads['updatedAt']) ? new Date(threads['updatedAt']).getTime() : null;
+                        }
+                        return res.json(threads);
+                    }
+
+                    return res.view('threads/ref', {
+                        data: threads
+                    });
+                }
+            });
     }
-}
+};
