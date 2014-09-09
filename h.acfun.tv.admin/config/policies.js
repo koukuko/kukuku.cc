@@ -19,9 +19,8 @@
 
 module.exports.policies = {
 
-    //'*': 'adminAuth',
-
-    ThreadsController: {
-        'create': 'userAuth'
+    ThreadsController:{
+        create:'adminAuth'
     }
+
 };
