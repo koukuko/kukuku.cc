@@ -37,19 +37,19 @@ module.exports.bootstrap = function (cb) {
             .then(function(){
                 // PM2 进程间RPC通讯初始化
                 if (process.send) {
-                    ipm2.on('ready', function () {
 
-                        ipm2.bus.on('h:update:setting', function (data) {
-                            syncSetting();
-                        });
+                    sails.log.info('使用了PM2 RPC进行通讯，完成连接后将会自动启动程序。');
 
-                        ipm2.bus.on('h:update:filter', function (data) {
-                            syncFilter();
-                        });
-
-                        cb();
-
+                    ipm2.bus.on('h:update:setting', function (data) {
+                        syncSetting();
                     });
+
+                    ipm2.bus.on('h:update:filter', function (data) {
+                        syncFilter();
+                    });
+
+                    cb();
+
                 } else {
                     sails.log.info('没有通过PM2启动程序，如果采用了多进程启动方式，那么数据缓存和配置可能不会同步生效。');
                     cb();

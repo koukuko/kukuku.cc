@@ -37,7 +37,7 @@ module.exports = function serverError (data, options) {
 
   // If the user-agent wants JSON, always respond with JSON
   if (req.wantsJSON) {
-    return res.jsonx(data);
+    return res.jsonx({success:false,code:500,msg:data});
   }
 
   // If second argument is a string, we take that to mean it refers to a view.

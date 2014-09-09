@@ -1,3 +1,6 @@
+if req.params.format && req.params.format == 'json'
+    - return res.send({success:false,code:400,msg:data})
+
 extends layout/index
 block body
     h4 400 - 验证发生错误 ･ﾟ( ﾉд`ﾟ)
