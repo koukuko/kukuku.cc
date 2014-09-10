@@ -114,7 +114,7 @@ module.exports = {
             success: false
         };
 
-        if (req.signedCookies.managerName) {
+        if (req.signedCookies.managerId) {
             result.success= true;
         }
 

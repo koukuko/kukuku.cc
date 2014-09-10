@@ -45,33 +45,24 @@ mixin page(index,count,url,last,isMobile)
 
 //- 管理员工具
 mixin adminTool(threads)
+    script.
+        document.addEventListener('click', function(event) {
+          var target = event.target;
+          if (target.tagName.toLowerCase() == 'a')
+          {
+              var port = target.getAttribute('href').match(/^:(\d+)(.*)/);
+              if (port)
+              {
+                 target.href = port[2];
+                 target.port = port[1];
+              }
+          }
+        }, false);
     div.adminTool(style="display:none; font-size:12px")
-        if(threads.parent == 0)
-            if(threads.lock)
-                | &nbsp;[
-                a.btnr(href='/t/'+threads.id+'/set?key=lock&value=0') 解锁
-                | ]
-            else
-                | &nbsp;[
-                a.btnr(href='/t/'+threads.id+'/set?key=lock&value=1') 锁定
-                | ]
-            if(threads.sage)
-                | &nbsp;[
-                a.btnr(href='/t/'+threads.id+'/set?key=sage&value=0') AGE
-                | ]
-            else
-                | &nbsp;[
-                a.btnr(href='/t/'+threads.id+'/set?key=sage&value=1') SAGE
-                | ]
         | &nbsp;[
-        a.btnr(href='/t/'+threads.id+'/ip') IP
-        | ]&nbsp;[
-        a.btnr(href='/t/'+threads.id+'/move') MOVE
-        | ]&nbsp;[
-        a.btnr(href='/t/'+threads.id+'/delImage') 删图
-        | ]&nbsp;[
-        a.btnr(href='/t/'+threads.id+'/del') 删串
-        | ]&nbsp;
+        a.btnr(href=':1336./content/threads?parent='+threads.id) 编辑
+        | ]
+
 
 //- 发帖框
 mixin postForm(url,forumId,threadsId)
