@@ -23,6 +23,8 @@ module.exports.policies = {
 
     'HomepageController':{
         signin:true
-    }
+    },
+
+    'UserController':'9Auth'
 
 };
