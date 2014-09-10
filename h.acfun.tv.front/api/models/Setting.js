@@ -58,6 +58,14 @@ module.exports = {
      */
     afterUpdate: function(updatedRecord, cb) {
 
+        sails.models.setting.exportToGlobal()
+            .then(function (settings) {
+                H.settings = settings;
+            })
+            .fail(function (err) {
+                sails.log.error(err);
+            });
+
         if(process.send){
             process.send({type:"h:update:setting"})
         }

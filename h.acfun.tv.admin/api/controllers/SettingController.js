@@ -65,14 +65,7 @@ module.exports = {
                 return res.serverError(err);
             }
 
-            sails.models.setting.findAll()
-                .then(function(settings){
-                    H.settings = settings;
-                    return res.redirect('/system/setting');
-                })
-                .fail(function(err){
-                    return res.serverError(err);
-                });
+            return res.redirect('/system/setting');
 
         });
 

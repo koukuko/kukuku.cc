@@ -31,3 +31,7 @@ block body
                 h2 Cookie配置
                 +radio('cookieSignup','发放Cookies','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',config.cookieSignup,'在系统处于发放Cookies状态下发帖就会获得一个Cookies，有效期如配置，如果用户在有效期内发帖，那么Cookies的有效期会随之重置。')
                 +input('text','cookieExpires','有效期',config.cookieExpires,'单位为秒。')
+                h2 界面自定义
+                +js('/ckeditor/ckeditor.js')
+                +ckeditor('htmlFooter','页脚',config.htmlFooter)
+                +ckeditor('htmlBottom','底部公告',config.htmlBottom)
