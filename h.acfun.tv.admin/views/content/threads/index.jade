@@ -4,9 +4,6 @@ block body
         +col('md',3)
             +message
             +well
-                if parent
-                    +toList(parent)
-                    hr
                 +button('primary','sm','创建新的帖子','/content/threads/create').btn-block
                 hr
                 +form('get','/content/threads')
@@ -17,6 +14,8 @@ block body
                     +input('text','ip','IP',req.query.ip)
                     if req.query.ip
                         +button('default','sm','封禁这个IP？','/system/filter?type=ip&rule='+req.query.ip).btn-block
+                    if req.query.parent
+                        +input('number','parent','父串',req.query.parent)
                     +select('forum','版块',sails.models.forum.selectList,req.query.forum)
                     +checkbox('lock','锁定','[{"key":"已锁定","value":"true"}]',req.query.lock)
                     +checkbox('sage','SAGE','[{"key":"已SAGE","value":"true"}]',req.query.sage)
@@ -25,7 +24,7 @@ block body
                     hr
                     p.text-center
                         +button('default','sm','上一页','javascript:document.forms[0].page.value = Number(document.forms[0].page.value) - 1;document.forms[0].submit()').pull-left
-                        = ' 共 '+page.count + ' 个对象 '+ pagenow + ' / ' + Math.round(page.count/pagesize) + '页 '
+                        = ' 共 '+page.count + ' 个对象 '+ pagenow + ' / ' + Math.ceil(page.count/pagesize) + '页 '
                         +button('default','sm','下一页','javascript:document.forms[0].page.value = Number(document.forms[0].page.value) + 1;document.forms[0].submit();').pull-right
                 hr
                 +button('default','sm','删除选中贴子','javascript:document.forms[1].submit();').btn-block
@@ -42,8 +41,11 @@ block body
                             td(width="120") 更新时间/发布时间
                             td(width="150") 操作
                     tbody
+                        if Array.isArray(data) && parent
+                            - parent.isParent = true
+                            - data.unshift(parent)
                         each item in data
-                            tr
+                            tr(class=(item.isParent)?'info':false)
                                 td
                                     input(type="checkbox",name='ids',value=item.id)
                                 td
@@ -53,10 +55,17 @@ block body
                                         a(href='/content/threads'+'?parent='+item.parent)=item.parent
                                     else
                                         a(href='/content/threads'+'?parent='+item.id)= item.id
+                                    if item.isParent
+                                        br
+                                        font(color="#999") (主串)
                                 td
                                     p
                                         font(color="#999")
-                                            = '('+item.forum+'） '
+                                            - item.forumAttr = sails.models.forum.findForumById(item.forum)
+                                            if item.forumAttr
+                                                = '('+item.forumAttr.id+' : '+ item.forumAttr.name +'） '
+                                            else
+                                                = '('+item.forum+':UNKNOW） '
                                         font(color="#cc1105")
                                             if item.email
                                                 a(href='mailto:'+item.email)= item.name || '无名氏'
@@ -72,7 +81,8 @@ block body
                                             | &nbsp;
                                             span.label.label-danger 已锁定
                                     if item.thumb
-                                        img(src=H.settings.siteCdnPath+item.thumb,style="float:left;max-width: 150px;margin-right: 10px;")
+                                        a(href=H.settings.siteCdnPath+item.image,target='_blank')
+                                            img(src=H.settings.siteCdnPath+item.thumb,style="float:left;max-width: 150px;margin-right: 10px;")
                                     pre(style="white-space: pre-wrap;")!= item.content
                                 td
                                     a(href='/content/threads?keyword='+item.uid)!=item.uid

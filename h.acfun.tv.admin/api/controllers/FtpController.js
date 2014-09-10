@@ -11,33 +11,12 @@ var fs = require('fs');
 
 module.exports = {
 
-    ready: function () {
-
-        var deferred = Q.defer();
-
-        // Ftp 初始化
-        var ftpClient = new ftp();
-
-        ftpClient.on('ready', function () {
-            deferred.resolve(ftpClient);
-        });
-
-        ftpClient.on('error', function (err) {
-            sails.log.error(err);
-            ftpClient.end();
-        });
-
-        ftpClient.connect(H.ftpOptions);
-
-        return deferred.promise;
-    },
-
     // 浏览
     index: function (req, res) {
 
         var remoptePath = req.query.path || '/';
 
-        sails.controllers.ftp.ready()
+        sails.services.ftp.ready()
             .then(function (ftpClient) {
                 ftpClient.list(remoptePath, function (err, data) {
 
@@ -100,7 +79,7 @@ module.exports = {
                 var localPath = path.normalize(uploadedFiles[0].fd);
                 var remotePath = path.normalize(nowPath + '/' + uploadedFiles[0].filename);
 
-                sails.controllers.ftp.ready()
+                sails.services.ftp.ready()
                     .then(function (ftpClient) {
 
                         ftpClient.put(localPath, remotePath, function (err) {
@@ -158,7 +137,7 @@ module.exports = {
         var dirPath = nowPath + '/' + dirName;
         dirPath = path.normalize(dirPath);
 
-        sails.controllers.ftp.ready()
+        sails.services.ftp.ready()
             .then(function (ftpClient) {
 
                 ftpClient.mkdir(dirPath, true, function (err) {
@@ -223,7 +202,7 @@ module.exports = {
 
         req.flash('info', handledFiles);
 
-        sails.controllers.ftp.ready()
+        sails.services.ftp.ready()
             .then(function (ftpClient) {
 
                 function delFiles (remotePath,cb){

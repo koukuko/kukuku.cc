@@ -9,15 +9,8 @@ module.exports = {
     // 首页
     index: function (req, res) {
 
-//        var page = req.query.page || 1;
-//        var pagesize = req.query.pagesize || 20;
-
         var map = {};
         var sort = {};
-
-//        if (req.query.keyword) {
-//            map['type'] = req.query.type;
-//        }
 
         if (req.query.rule) {
             map['rule'] = {

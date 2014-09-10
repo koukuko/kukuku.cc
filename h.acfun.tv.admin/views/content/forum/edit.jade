@@ -9,7 +9,7 @@ block body
         +col('md',9)
             +form('post',req.url)
                 +input('text','name','版块名',data.name)
-                +ckeditor('header','缩略图',data.header,'支持html，填写@time将会倍替换为冷却时间，填写@name将会被替换为版块名。')
+                +ckeditor('header','简介',data.header,'支持html，填写@time将会倍替换为冷却时间，填写@name将会被替换为版块名。')
                 hr
                 +input('text','cooldown','冷却时间',data.cooldown)
                 +radio('lock','锁定','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',data.lock)

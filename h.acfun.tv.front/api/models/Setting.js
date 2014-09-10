@@ -51,5 +51,19 @@ module.exports = {
             }
         });
         return deferred.promise;
+    },
+
+    /**
+     * 通知集群版块已更新
+     */
+    afterUpdate: function(updatedRecord, cb) {
+
+        if(process.send){
+            process.send({type:"h:update:setting"})
+        }
+
+        cb();
     }
+
+
 };

@@ -54,6 +54,9 @@ module.exports = {
                         var forum = rawForums[i];
 
                         if (forum) {
+                            if(forum.header){
+                                forum.header = forum.header.replace('@time',forum.cooldown).replace('@name',forum.name);
+                            }
                             forum.version = _.random(100, 999);
                             handledForum[forum.name] = forum;
                             handledForumId[forum.id] = forum.name;
@@ -92,9 +95,19 @@ module.exports = {
 
     findForumByName: function (name) {
         return sails.models.forum.list[name];
+    },
+
+    /**
+     * 通知集群版块已更新
+     */
+    afterUpdate: function(updatedRecord, cb) {
+
+        if(process.send){
+            process.send({type:"h:update:forum"})
+        }
+
+        cb();
     }
-
-
 
 };
 

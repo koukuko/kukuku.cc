@@ -16,7 +16,7 @@ block body
                     hr
                     p.text-center
                         +button('default','sm','上一页','javascript:document.forms[0].page.value = Number(document.forms[0].page.value) - 1;document.forms[1].submit()').pull-left
-                        = ' 共 '+page.count + ' 个对象 '+ pagenow + ' / ' + Math.round(page.count/pagesize) + '页 '
+                        = ' 共 '+page.count + ' 个对象 '+ pagenow + ' / ' + Math.ceil(page.count/pagesize) + '页 '
                         +button('default','sm','下一页','javascript:document.forms[0].page.value = Number(document.forms[0].page.value) + 1;document.forms[1].submit();').pull-right
                 hr
                 +button('default','sm','删除选中配置','javascript:document.forms[1].submit();').btn-block

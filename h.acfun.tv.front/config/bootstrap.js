@@ -30,7 +30,7 @@ module.exports.bootstrap = function (cb) {
 
         // 配置与缓存初次同步
         syncSetting();
-        syncFilter();
+        sails.models.filter.exportToGlobal();
 
         // 版块列表同步
         sails.models.forum.initialize()
@@ -45,7 +45,11 @@ module.exports.bootstrap = function (cb) {
                     });
 
                     ipm2.bus.on('h:update:filter', function (data) {
-                        syncFilter();
+                        sails.models.filter.exportToGlobal()
+                    });
+
+                    ipm2.bus.on('h:update:forum', function (data) {
+                        sails.models.forum.initialize();
                     });
 
                     cb();
@@ -69,14 +73,6 @@ function syncSetting() {
         .then(function (settings) {
             H.settings = settings;
         })
-        .fail(function (err) {
-            sails.log.error(err);
-        });
-}
-
-// 同步过滤器
-function syncFilter() {
-    sails.models.filter.exportToGlobal()
         .fail(function (err) {
             sails.log.error(err);
         });

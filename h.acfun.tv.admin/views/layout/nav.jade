@@ -32,3 +32,8 @@ header#top.navbar.navbar-static-top.bs-docs-nav(role='banner')
                         +dropdown-item('缓存管理','/system/cache')
                         +dropdown-item('日志管理','/system/log')
                         +dropdown-item('FTP管理','/system/ftp')
+                if req.signedCookies.managerId
+                    li.dropdown
+                        +dropdown-toggle('当前登录：'+req.signedCookies.managerId)
+                        +dropdown-menu
+                            +dropdown-item('登出','/signout')

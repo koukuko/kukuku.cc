@@ -19,8 +19,10 @@
 
 module.exports.policies = {
 
-    ThreadsController:{
-        create:'adminAuth'
+    '*':'adminAuth',
+
+    'HomepageController':{
+        signin:true
     }
 
 };

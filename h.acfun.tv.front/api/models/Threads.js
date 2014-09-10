@@ -210,7 +210,6 @@ module.exports = {
             var remoteImagePath = '/image/' + now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + '/' + imageName;
             var remoteThumbPath = '/thumb/' + now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + '/' + imageName;
 
-
             var uploadedFileGm = gm(uploadedFileBuffer, imageName)
                 .autoOrient()
                 .noProfile();
@@ -359,6 +358,56 @@ module.exports = {
 
         return deferred.promise;
 
+
+    },
+
+    afterCreate:function(newlyInsertedRecord,cb){
+
+        //通知清除缓存
+        if(newlyInsertedRecord.parent != 0){
+            sails.services.cache.update('threads:'+newlyInsertedRecord.parent);
+        }
+        sails.services.cache.update('forum:'+newlyInsertedRecord.forum);
+
+        cb();
+    },
+
+    afterUpdate:function(updatedRecord, cb){
+
+        //通知清除缓存
+        if(updatedRecord.parent != 0){
+            sails.services.cache.update('threads:'+updatedRecord.parent);
+        }
+        if(updatedRecord.parent == 0){
+            sails.services.cache.update('threads:'+updatedRecord.id);
+        }
+        sails.services.cache.update('forum:'+updatedRecord.forum);
+
+        cb();
+
+    },
+
+    afterDestroy: function(destroyedRecords, cb){
+
+        if(!Array.isArray(destroyedRecords)){
+            destroyedRecords = [destroyedRecords]
+        }
+
+        for (var i in destroyedRecords){
+
+            var destroyedRecord = destroyedRecords[i];
+
+            //通知清除缓存
+            if(destroyedRecord.parent != 0){
+                sails.services.cache.update('threads:'+destroyedRecord.parent);
+            }
+            if(destroyedRecord.parent == 0){
+                sails.services.cache.update('threads:'+destroyedRecord.id);
+            }
+            sails.services.cache.update('forum:'+destroyedRecord.forum);
+        }
+
+        cb();
 
     }
 };

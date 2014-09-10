@@ -169,6 +169,18 @@ module.exports = {
 
             return false;
         }
+    },
+
+    /**
+     * 通知集群版块已更新
+     */
+    afterUpdate: function(updatedRecord, cb) {
+
+        if(process.send){
+            process.send({type:"h:update:filter"})
+        }
+
+        cb();
     }
 };
 

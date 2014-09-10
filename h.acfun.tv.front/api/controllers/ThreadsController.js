@@ -242,12 +242,6 @@ module.exports = {
                                             // session CD时间更新
                                             req.session.lastPostAt = new Date().getTime();
 
-                                            //通知清除缓存
-                                            if(data.parent){
-                                                sails.services.cache.update('threads:'+data.parent);
-                                            }
-                                            sails.services.cache.update('forum:'+forum.id);
-
                                             return res.ok('发帖成功');
                                         })
                                         .fail(function(err){

@@ -29,165 +29,61 @@ module.exports.routes = {
     '/signin': 'HomepageController.signin',
     '/signout': 'HomepageController.signout',
 
-//    /**
-//     * 内容
-//     */
-//
-//    // 版块
-//    '/content/forum': {
-//        controller: 'ForumController',
-//        action: 'index'
-//    },
-//
-//    '/content/forum/create': {
-//        controller: 'ForumController',
-//        action: 'create'
-//    },
-//
-//    '/content/forum/:id/update': {
-//        controller: 'ForumController',
-//        action: 'update'
-//    },
-//
-//    '/content/forum/remove': {
-//        controller: 'ForumController',
-//        action: 'remove'
-//    },
-//
-//    '/content/forum/:id/remove': {
-//        controller: 'ForumController',
-//        action: 'remove'
-//    },
-//
-//    '/content/forum/:id/set': {
-//        controller: 'ForumController',
-//        action: 'set'
-//    },
-//
-//    // 贴子
-//    '/content/threads': {
-//        controller: 'ThreadsController',
-//        action: 'index'
-//    },
-//
-//    '/content/threads/create': {
-//        controller: 'ThreadsController',
-//        action: 'create'
-//    },
-//
-//    '/content/threads/:id/update': {
-//        controller: 'ThreadsController',
-//        action: 'update'
-//    },
-//
-//    '/content/threads/:id/remove': {
-//        controller: 'ThreadsController',
-//        action: 'remove'
-//    },
-//
-//    '/content/threads/remove': {
-//        controller: 'ThreadsController',
-//        action: 'remove'
-//    },
-//
-//    '/content/threads/:id/removeImages': {
-//        controller: 'ThreadsController',
-//        action: 'remove'
-//    },
-//
-//    '/content/threads/:id/set': {
-//        controller: 'ThreadsController',
-//        action: 'set'
-//    },
-//
-//    /**
-//     * 系统
-//     */
-//    // 系统配置
-//    '/system/setting': {
-//        controller: 'SettingController',
-//        action: 'index'
-//    },
-//
-//    '/system/setting/update': {
-//        controller: 'SettingController',
-//        action: 'update'
-//    },
-//
-//    // 过滤配置
-//    '/system/filter': {
-//        controller: 'FilterController',
-//        action: 'index'
-//    },
-//
-//    '/system/filter/create': {
-//        controller: 'FilterController',
-//        action: 'create'
-//    },
-//
-//    '/system/filter/remove': {
-//        controller: 'FilterController',
-//        action: 'remove'
-//    },
-//
-//    // 缓存配置
-//    '/system/cache': {
-//        controller: 'CacheController',
-//        action: 'index'
-//    },
-//
-//    '/system/cache/flush': {
-//        controller: 'CacheController',
-//        action: 'flushCache'
-//    },
-//
-//    // FTP管理
-//    '/system/ftp': {
-//        controller: 'FtpController',
-//        action: 'index'
-//    },
-//
-//    '/system/ftp/put': {
-//        controller: 'FtpController',
-//        action: 'put'
-//    },
-//
-//    '/system/ftp/remove': {
-//        controller: 'FtpController',
-//        action: 'remove'
-//    },
-//
-//    '/system/ftp/mkdir': {
-//        controller: 'FtpController',
-//        action: 'mkdir'
-//    },
-//
-//
-//    // 用户
-//    '/user': {
-//        controller: 'UserController',
-//        action: 'index'
-//    },
-//
-//    '/user/create': {
-//        controller: 'UserController',
-//        action: 'create'
-//    },
-//
-//    '/user/:id/update': {
-//        controller: 'UserController',
-//        action: 'update'
-//    },
-//
-//    '/user/:id/remove': {
-//        controller: 'UserController',
-//        action: 'remove'
-//    },
-//
-//    '/user/remove': {
-//        controller: 'UserController',
-//        action: 'remove'
-//    }
+    /**
+     * 版块
+     */
+    '/content/forum': 'ForumController.index',
+    '/content/forum/create': 'ForumController.create',
+    '/content/forum/:id/update': 'ForumController.update',
+    '/content/forum/remove': 'ForumController.remove',
+    '/content/forum/:id/remove': 'ForumController.remove',
+    '/content/forum/:id/set': 'ForumController.set',
 
+    /**
+     * 帖子
+     */
+    '/content/threads':'ThreadsController.index',
+    '/content/threads/create':'ThreadsController.create',
+    '/content/threads/:id/update':'ThreadsController.update',
+    '/content/threads/remove':'ThreadsController.remove',
+    '/content/threads/:id/remove':'ThreadsController.remove',
+    '/content/threads/:id/removeImages':'ThreadsController.removeImages',
+    '/content/threads/:id/set':'ThreadsController.set',
+
+    /**
+     * 系统配置
+     */
+    '/system/setting': 'SettingController.index',
+    '/system/setting/update': 'SettingController.update',
+
+    /**
+     * 过滤配置
+     */
+    '/system/filter': 'FilterController.index',
+    '/system/filter/create': 'FilterController.create',
+    '/system/filter/remove': 'FilterController.remove',
+
+    /**
+     * 缓存配置
+     */
+    '/system/cache':'CacheController.index',
+    '/system/cache/flush':'CacheController.flushCache',
+
+    /**
+     * FTP
+     */
+    '/system/ftp': 'FtpController.index',
+    '/system/ftp/put':'FtpController.put',
+    '/system/ftp/remove':'FtpController.remove',
+    '/system/ftp/mkdir':'FtpController.mkdir',
+
+    /**
+     * 用户
+     */
+    '/user':'UserController.index',
+    '/user/create':'UserController.create',
+    '/user/:id/update':'UserController.update',
+    '/user/:id/remove':'UserController.remove',
+    '/user/remove':'UserController.remove'
 
 };

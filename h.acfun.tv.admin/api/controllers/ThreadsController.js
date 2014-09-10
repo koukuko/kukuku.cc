@@ -93,7 +93,7 @@ module.exports = {
                             return res.view('content/threads/index', {
                                 page: {
                                     name: '贴子管理',
-                                    desc: '全站通用式内容过滤器',
+                                    desc: '全站通用式内容管理',
                                     count: count
                                 },
                                 data: threads
@@ -130,6 +130,11 @@ module.exports = {
 
         req.flash('info', data);
 
+        // Skipper临时解决方案
+        if(req._fileparser.form.bytesExpected > 4194304){
+            return res.badRequest('文件大小不能超过4M (4,194,304 Byte)');
+        }
+
         req.file('file').upload(function (uploadError, uploadedFiles) {
 
             // 1. 附件处理
@@ -151,26 +156,16 @@ module.exports = {
                                 req.connection.socket.remoteAddress ||
                                 '0.0.0.0';
 
-                            // 注意1：uid在管理员模式下不会自动指定
-                            data.uid = data.uid || req.session.userId;
-
-                            if (data.image && !data.content) {
-                                data.content = '无正文';
-                            } else if (!data.image && (!data.content || data.content.toString().trim().length < 1)) {
-                                req.flash('danger', '没有附件的串正文至少1个字');
-                                return res.redirect('back');
-                            }
-
-                            if (sails.models.filter.test.word(data.content) || sails.models.filter.test.word(data.name) || sails.models.filter.test.word(data.title)) {
-                                req.flash('danger', '含有敏感词');
-                                return res.redirect('back');
-                            }
-
+//                            if (sails.models.filter.test.word(data.content) || sails.models.filter.test.word(data.name) || sails.models.filter.test.word(data.title)) {
+//                                req.flash('danger', '含有敏感词');
+//                                return res.redirect('back');
+//                            }
+                            data.content = data.content || '';
                             data.content = data.content
                                 .replace(/<[^>]+>/gi, '')
                                 .replace(/\r\n/g, "\n")
                                 .replace(/\r/g, "\n")
-                                .replace(/\r/g, "<br>")
+                                .replace(/\n/g, "<br>")
                                 .replace(/(\>\>No\.\d+)/g, "<font color=\"#789922\">$1</font>")
                                 .replace(/(\>\>\d+)/g, "<font color=\"#789922\">$1</font>");
 
@@ -188,13 +183,6 @@ module.exports = {
                             if (forum.lock) {
                                 req.flash('danger', '版块已经被锁定');
                                 return res.redirect('back');
-                            }
-
-                            if (req.session.lastPostAt && (new Date().getTime() - req.session.lastPostAt < forum.cooldown * 1000)) {
-                                if (!req.session.managerId) {
-                                    req.flash('danger', '发帖技能冷却中');
-                                    return res.redirect('back');
-                                }
                             }
 
                             sails.models.threads
@@ -280,14 +268,6 @@ module.exports = {
                             sails.models.threads.checkParentThreads(data.parent)
                                 .then(function (parentThreads) {
 
-                                    // 注意1：uid在管理员模式下不会自动指定
-                                    data.uid = data.uid || req.session.userId;
-
-                                    if (sails.models.filter.test.word(data.content) || sails.models.filter.test.word(data.name) || sails.models.filter.test.word(data.title)) {
-                                        req.flash('danger', '含有敏感词');
-                                        return res.redirect('back');
-                                    }
-
                                     if (parentThreads && parentThreads.forum) {
                                         data.forum = parentThreads.forum
                                     }
@@ -303,7 +283,6 @@ module.exports = {
                                         req.flash('danger', '版块已经被锁定');
                                         return res.redirect('back');
                                     }
-
                                     sails.models.threads
                                         .update({
                                             id: threads.id
@@ -367,29 +346,7 @@ module.exports = {
         sails.models.threads
             .destroy(map)
             .then(function () {
-                req.flash('success', '删除串 ['+map+'] 成功');
-                return res.redirect('back');
-            })
-            .fail(function(err){
-                req.flash('danger', err);
-                return res.redirect('back');
-            })
-    },
-
-    // 配置
-    set: function(req,res){
-
-        var map = {};
-        map[req.query.key] = req.query.value;
-
-        req.flash('info',map);
-
-        sails.models.threads
-            .update({
-                id: req.params.id
-            }, map)
-            .then(function(){
-                req.flash('success', '修改成功');
+                req.flash('success', '删除串 '+JSON.stringify(map)+' 成功');
                 return res.redirect('back');
             })
             .fail(function(err){

@@ -10,7 +10,12 @@ block body
         +col('md',9)
             +form('post',req.url)
                 hr
-                - var uid = data.uid || req.signedCookies.userId || ''
+                - if(req.signedCookies.managerId){
+                -    var uid = '<font color="red">'+req.signedCookies.managerId+'</font>';
+                - } else {
+                -    var uid = req.signedCookies.userId;
+                - }
+                - var uid = data.uid || uid || ''
                 +input('text','uid','ID',uid,'显示的ID，允许HTML。')
                 +select('forum','版块',sails.models.forum.selectList,data.forum)
                 hr
@@ -19,11 +24,11 @@ block body
                 +input('text','name','名称',data.name)
                 +input('text','email','E-mail',data.email)
                 +input('text','title','标题',data.title)
-                +textarea('content','正文',data.title)
+                +textarea('content','正文',data.content)
                 hr
-                +input('file','file','缩略图')
-                +input('text','image','大图',data.image)
-                +input('text','thumb','缩略图',data.thumb,'亦为点击缩略图所指向的超链接。')
+                +input('file','file','上传缩略图')
+                +input('text','image','大图链接',data.image,'亦为点击缩略图所指向的超链接。')
+                +input('text','thumb','缩略图',data.thumb)
                 hr
                 +radio('lock','锁定','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',data.lock)
                 +radio('sage','SAGE','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',data.sage)

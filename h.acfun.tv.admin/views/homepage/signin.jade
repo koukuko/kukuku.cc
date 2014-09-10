@@ -1,3 +1,13 @@
 extends ../layout/index
 block body
-    
+    +row
+        +col('md',4)
+            h2 登陆
+            form.form-horizontal(action="/signin" method="POST" onsubmit="return tou_submit.call(this)")
+                +input('text','name','账号','')
+                +input('password','password','密码','')
+                div.form-group
+                    label.col-sm-2.control-label 验证
+                    div.col-sm-10
+                        +js('http://api.geetest.com/get.php?gt=5f1ddab395a73faa68b76cff5302c030')
+                button.btn.btn-primary.btn-sm.btn-block(type="submit") 登陆
