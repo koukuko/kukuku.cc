@@ -41,7 +41,6 @@ module.exports.bootstrap = function (cb) {
                     sails.log.info('使用了PM2 RPC进行通讯，完成连接后将会自动启动程序。');
 
                     ipm2.bus.on('h:update:setting', function (data) {
-                        console.log('收到了要求更新配置的集群广播。');
                         syncSetting();
                     });
 
