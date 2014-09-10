@@ -32,7 +32,8 @@ module.exports = {
             host: '10.232.0.40',
             user: 'root',
             password: '',
-            database: 'h.acfun.tv'
+            database: 'h.acfun.tv',
+            timezone: 'Z'
         },
         redisServer: {
             host: '10.232.0.13',
