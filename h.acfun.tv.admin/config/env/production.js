@@ -32,8 +32,7 @@ module.exports = {
             host: 'localhost',
             user: 'hisland',
             password: 'hi_to_ri_de_i_you',
-            database: 'h_acfun_tv',
-            timezone: 'Z'
+            database: 'h_acfun_tv'
         },
         redisServer: {
             host: '127.0.0.1',

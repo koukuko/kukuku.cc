@@ -15,6 +15,11 @@ module.exports = {
 
         var deferred = Q.defer();
 
+        if(!sails.config.cache){
+            deferred.reject(null);
+            return deferred.promise;
+        }
+
         sails.services.cache.version(key)
             .then(function (version) {
 

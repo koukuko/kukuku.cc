@@ -12,6 +12,8 @@
 
 module.exports = {
 
+    cache : false,
+
     session: {
         host: '10.232.0.13'
     },
@@ -32,8 +34,7 @@ module.exports = {
             host: 'localhost',
             user: 'root',
             password: '',
-            database: 'h.acfun.tv',
-            timezone: 'Z'
+            database: 'h.acfun.tv'
         },
         redisServer: {
             host: '10.232.0.13',
