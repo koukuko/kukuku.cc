@@ -6,24 +6,6 @@ block body
             +well
                 +button('primary','sm','创建新的版块','/content/forum/create').btn-block
                 hr
-                //+form('get','/content/threads')
-                //    - var pagesize = req.query.pagesize || 20
-                //    - var pagenow = req.query.page || 1
-                //    input(type='hidden',name='page',value=pagenow)
-                //    +input('text','keyword','关键词',req.query.keyword,'包括正文，名称，邮箱。')
-                //    +input('text','ip','IP',req.query.ip)
-                //    if req.query.ip
-                //        +button('default','sm','封禁这个IP？','/system/filter?type=ip&rule='+req.query.ip).btn-block
-                //    +checkbox('lock','锁定','[{"key":"已锁定","value":"true"}]',req.query.lock)
-                //    +checkbox('sage','SAGE','[{"key":"已SAGE","value":"true"}]',req.query.sage)
-                //    +input('number','pagesize','页容量', pagesize)
-                //    +button('primary','sm','筛选','javascript:document.forms[0].submit()').btn-block
-                //    hr
-                //    p.text-center
-                //        +button('default','sm','上一页','javascript:document.forms[0].page.value = Number(document.forms[1].page.value) - 1;document.forms[1].submit()').pull-left
-                //        = ' 共 '+page.count + ' 个对象 '+ pagenow + ' / ' + Math.round(page.count/pagesize) + '页 '
-                //        +button('default','sm','下一页','javascript:document.forms[0].page.value = Number(document.forms[1].page.value) + 1;document.forms[1].submit();').pull-right
-                //hr
                 +button('default','sm','删除选中版块','javascript:document.forms[0].submit();').btn-block
         +col('md',9)
             +form('get','/content/forum/remove')
@@ -60,6 +42,8 @@ block body
                                     font(color="#999999")
                                         +time(item.createdAt)
                                 td
+                                    a(href='/system/cache/flush?key=forum:'+item.id+':*') 清除该版块缓存
+                                    | &nbsp;
                                     if item.lock
                                         a(href='/content/forum/'+item.id+'/set?key=lock&value=false') 解锁
                                     else
