@@ -45,22 +45,14 @@ mixin page(index,count,url,last,isMobile)
 
 //- 管理员工具
 mixin adminTool(threads)
-    script.
-        document.addEventListener('click', function(event) {
-          var target = event.target;
-          if (target.tagName.toLowerCase() == 'a')
-          {
-              var port = target.getAttribute('href').match(/^:(\d+)(.*)/);
-              if (port)
-              {
-                 target.href = port[2];
-                 target.port = port[1];
-              }
-          }
-        }, false);
+    - if (sails.config.environment === 'production') {
+    -   var adminHost = 'http://h.acfun.tv:1336';
+    - } else {
+    -   var adminHost = '/';
+    - }
     div.adminTool(style="display:none; font-size:12px")
         | &nbsp;[
-        a.btnr(href=':1336./content/threads?parent='+threads.id) 编辑
+        a.btnr(href=adminHost+'/content/threads?parent='+threads.id,target='_blank') 编辑
         | ]
 
 

@@ -235,10 +235,8 @@ module.exports = {
                                 }
 
                                 // 5. resize图片
-                                if (uploadedFileSize.width >= uploadedFileSize.height && uploadedFileSize.width > 250) {
-                                    uploadedFileGm = uploadedFileGm.resize(250);
-                                } else if (uploadedFileSize.height > uploadedFileSize.width && uploadedFileSize.height > 250) {
-                                    uploadedFileGm = uploadedFileGm.resize(null, 250);
+                                if(uploadedFileSize.width > 250 || uploadedFileSize.height > 250){
+                                    uploadedFileGm = uploadedFileGm.resize(250,250);
                                 }
 
                                 uploadedFileGm.toBuffer(function (thumbToBufferError, thumbBuffer) {
@@ -339,6 +337,7 @@ module.exports = {
 
         var map = {};
         map['recentReply'] = recentReply;
+        map['replyCount'] = Number(Number(parentThreads['replyCount'])+1);
 
         if (parentThreads.sage) {
             map['updatedAt'] = parentThreads.updatedAt;
