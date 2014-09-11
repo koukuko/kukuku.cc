@@ -1,10 +1,14 @@
 include  ./global
+
+if H.settings.siteCdnPath
+    - var cdnPath = H.settings.siteCdnPath
+
 doctype html
 html
     head
         meta(charset="utf-8")
         meta(name="viewport",content="width=device-width, initial-scale=1")
-        title= page.name + " - " + H.settings.siteName
+        title= ((page) ? page.name + ' - ' : '' ) + H.settings.siteName
         +css('/css/bootstrap.min.css')
         +css('/css/fm-dashborad.css')
         +js('/js/jquery.min.js')
@@ -13,7 +17,7 @@ html
         include ./nav
         div.bs-docs-header
             +container(true)
-                h1= page.name
-                p= page.desc
+                h1= ((page) ? page.name : '无标题' )
+                p= ((page) ? page.desc : '' )
         +container(true)
             block body
