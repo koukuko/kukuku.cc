@@ -20,7 +20,7 @@ module.exports = {
         // ThreadsId 有效性
         var threadsId = Number(req.params.tid);
         if (isNaN(threadsId)) {
-            return res.forbidden('贴子ID不合法');
+            return res.forbidden('ID不合法');
         }
 
         // 翻页
@@ -215,7 +215,7 @@ module.exports = {
 
                             if (req.session.lastPostAt && (new Date().getTime() - req.session.lastPostAt < forum.cooldown * 1000)) {
                                 if (!req.session.managerId) {
-                                    return res.badRequest('发帖技能冷却中');
+                                    return res.badRequest('技能冷却中');
                                 }
                             }
 
@@ -242,7 +242,7 @@ module.exports = {
                                             // session CD时间更新
                                             req.session.lastPostAt = new Date().getTime();
 
-                                            return res.ok('发帖成功');
+                                            return res.ok('成功');
                                         })
                                         .fail(function(err){
                                             // 事务回滚 删除之前创建的内容
@@ -272,7 +272,7 @@ module.exports = {
 
         var threadsId = Number(req.query.tid);
         if (isNaN(threadsId)) {
-            return res.forbidden('贴子ID不合法');
+            return res.forbidden('ID不合法');
         }
 
         sails.models.threads.findOneById(threadsId)
