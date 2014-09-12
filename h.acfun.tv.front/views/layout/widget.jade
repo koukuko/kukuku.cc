@@ -44,16 +44,31 @@ mixin page(index,count,url,last,isMobile)
                             span 末页
 
 //- 管理员工具
-mixin adminTool(threads)
+mixin adminTool(item)
     - if (sails.config.environment === 'production') {
     -   var adminHost = 'http://h.acfun.tv:1336';
     - } else {
     -   var adminHost = '/';
     - }
     div.adminTool(style="display:none; font-size:12px")
-        | &nbsp;[
-        a.btnr(href=adminHost+'/content/threads?parent='+threads.id,target='_blank') 编辑
-        | ]
+        if item.sage
+            a(href=adminHost+'/content/threads/'+item.id+'/set?key=sage&value=false') AGE
+        else
+            a(href=adminHost+'/content/threads/'+item.id+'/set?key=sage&value=true') SAGE
+        | &nbsp;
+        if item.lock
+            a(href=adminHost+'/content/threads/'+item.id+'/set?key=lock&value=false') 解锁
+        else
+            a(href=adminHost+'/content/threads/'+item.id+'/set?key=lock&value=true') 锁定
+        | &nbsp;
+        a(href=adminHost+'/content/threads/'+item.id+'/update') 编辑
+        | &nbsp;
+        a(href=adminHost+'/content/threads/'+item.id+'/removeImages') 删图
+        | &nbsp;
+        a(href=adminHost+'/content/threads/'+item.id+'/remove') 删串
+        | &nbsp;
+        a(href=adminHost+'/content/threads?parent='+item.id) 查询
+
 
 
 //- 发帖框
