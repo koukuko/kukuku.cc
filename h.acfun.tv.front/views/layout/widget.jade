@@ -51,15 +51,16 @@ mixin adminTool(item)
     -   var adminHost = '/';
     - }
     div.adminTool(style="display:none; font-size:12px")
-        if item.sage
-            a(href=adminHost+'/content/threads/'+item.id+'/set?key=sage&value=false') AGE
-        else
-            a(href=adminHost+'/content/threads/'+item.id+'/set?key=sage&value=true') SAGE
-        | &nbsp;
-        if item.lock
-            a(href=adminHost+'/content/threads/'+item.id+'/set?key=lock&value=false') 解锁
-        else
-            a(href=adminHost+'/content/threads/'+item.id+'/set?key=lock&value=true') 锁定
+        if item.parent && item.parent == 0
+            if item.sage
+                a(href=adminHost+'/content/threads/'+item.id+'/set?key=sage&value=false') AGE
+            else
+                a(href=adminHost+'/content/threads/'+item.id+'/set?key=sage&value=true') SAGE
+            | &nbsp;
+            if item.lock
+                a(href=adminHost+'/content/threads/'+item.id+'/set?key=lock&value=false') 解锁
+            else
+                a(href=adminHost+'/content/threads/'+item.id+'/set?key=lock&value=true') 锁定
         | &nbsp;
         a(href=adminHost+'/content/threads/'+item.id+'/update') 编辑
         | &nbsp;
