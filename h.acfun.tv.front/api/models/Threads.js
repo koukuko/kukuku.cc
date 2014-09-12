@@ -206,7 +206,7 @@ module.exports = {
 
             // 3. 准备好路径
             var now = new Date();
-            var imageName = path.basename(uploadedFile.fd);
+            var imageName = path.basename(uploadedFile.fd.toLowerCase());
             var remoteImagePath = '/image/' + now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + '/' + imageName;
             var remoteThumbPath = '/thumb/' + now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + '/' + imageName;
 
