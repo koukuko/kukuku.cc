@@ -51,7 +51,7 @@ mixin adminTool(item)
     -   var adminHost = '/';
     - }
     div.adminTool(style="display:none; font-size:12px")
-        if item.parent && item.parent == 0
+        if item.parent == 0
             if item.sage
                 a(href=adminHost+'/content/threads/'+item.id+'/set?key=sage&value=false') AGE
             else
