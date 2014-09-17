@@ -187,6 +187,7 @@ module.exports = {
 
                             data.content = data.content
                                 .replace(/<[^>]+>/gi, '')
+                                .replace(/<!--/g, "")
                                 .replace(/\r\n/g, "\n")
                                 .replace(/\r/g, "\n")
                                 .replace(/\n/g, "<br>")
