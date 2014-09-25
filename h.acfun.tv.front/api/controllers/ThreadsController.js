@@ -202,6 +202,10 @@ module.exports = {
                                 var forum = null;
                             }
 
+                            if(typeof data.email == 'string' && data.email.toLowerCase() == 'sage'){
+                                data.sage = true;
+                            }
+
                             if (parentThreads && parentThreads.id){
                                 data.parent = parentThreads.id;
                             }
