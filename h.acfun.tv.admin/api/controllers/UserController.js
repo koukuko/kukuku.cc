@@ -77,19 +77,20 @@ module.exports = {
         var salt = new Date().getTime() + '_' + new Date().getFullYear();
         body.salt = salt;
         body.password = md5(salt + body.password);
-        body.access = body.access.split(',');
+        body.access = body.access ? body.access.split(',') : [];
 
         var map = {
             name: body.name,
-            password: req.password,
-            salt: salt
+            password: body.password,
+            salt: body.salt,
+            access: body.access
         };
 
         req.flash('info', map);
 
         sails.models.user
             .create(map)
-            .then(function (rule) {
+            .then(function () {
                 req.flash('success', '创建成功。');
                 return res.redirect('/user');
             })
