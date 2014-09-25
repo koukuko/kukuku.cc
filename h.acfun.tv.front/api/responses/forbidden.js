@@ -36,7 +36,7 @@ module.exports = function forbidden (data, options) {
 //  }
 
   // If the user-agent wants JSON, always respond with JSON
-  if (req.wantsJSON) {
+  if (req.wantsJSON || (req.params.format && req.params.format == 'json')) {
     return res.jsonx({success:false,code:403,msg:data});
   }
 

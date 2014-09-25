@@ -24,7 +24,7 @@ module.exports = function sendOK(data, options) {
     res.status(200);
 
     // If appropriate, serve data as JSON(P)
-    if (req.wantsJSON) {
+    if (req.wantsJSON || (req.params.format && req.params.format == 'json')) {
         return res.jsonx({success:true,code:200,msg:data});
     }
 
