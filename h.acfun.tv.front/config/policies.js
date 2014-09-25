@@ -19,6 +19,8 @@
 
 module.exports.policies = {
 
+    '*':'siteStatus',
+
     ThreadsController:{
         create:'userAuth'
     }
