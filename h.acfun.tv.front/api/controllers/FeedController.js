@@ -39,8 +39,7 @@ module.exports = {
 
                 sails.models.feed.count()
                     .where({
-                        deviceToken: deviceToken,
-                        threadsId: threadsId
+                        deviceToken: deviceToken
                     })
                     .then(function(count){
                         return res.json({
