@@ -82,6 +82,10 @@ block body
         div(style="clear:both")
         hr
     +page(page.page,page.size,'/'+forum.name,false)
+    div(style="float:right;display:inline")
+        small: a(href='/func/removeLastPostThreads') 删除最后一次发的串
+        br
+        small （* 不能反悔）
 
     include ../layout/footer
 

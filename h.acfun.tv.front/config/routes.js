@@ -47,6 +47,11 @@ module.exports.routes = {
      * 版块
      */
     '/:forum.:format?':'ForumController.index',
-    '/:forum/create.:format?':'ThreadsController.create'
+    '/:forum/create.:format?':'ThreadsController.create',
+
+    /**
+     * 功能
+     */
+    '/func/removeLastPostThreads.:format?':'ThreadsController.removeLastThreads'
 
 };
