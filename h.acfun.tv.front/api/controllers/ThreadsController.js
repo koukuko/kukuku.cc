@@ -186,8 +186,12 @@ module.exports = {
                             }
 
                             data.content = data.content
-                                .replace(/<[^>]+>/gi, '')
-                                .replace(/<!--/g, "")
+                                .replace(/&/g, "&gt;")
+                                .replace(/</g, "&lt;")
+                                .replace(/>/g, "&gt;")
+                                .replace(/ /g, "&nbsp;")
+                                .replace(/\'/g, "&#39;")
+                                .replace(/\"/g, "&quot;")
                                 .replace(/\r\n/g, "\n")
                                 .replace(/\r/g, "\n")
                                 .replace(/\n/g, "<br>")
