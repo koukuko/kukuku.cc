@@ -37,7 +37,24 @@ module.exports = {
                     data['updatedAt'] = (data['updatedAt']) ? new Date(data['updatedAt']).getTime() : null;
                 }
 
-                return res.json(feedThreads);
+                sails.models.feed.count()
+                    .where({
+                        deviceToken: deviceToken,
+                        threadsId: threadsId
+                    })
+                    .then(function(count){
+                        return res.json({
+                            code:200,
+                            success:true,
+                            threads:feedThreads,
+                            total:count
+                        });
+                    })
+                    .fail(function(){
+                        return res.serverError(err);
+                    });
+
+
             }
         );
 
