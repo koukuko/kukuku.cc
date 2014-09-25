@@ -63,7 +63,7 @@ module.exports = {
                                 pageCount = (!pageCount) ? 1 : pageCount;
 
                                 // 获取回复信息
-                                sails.models.threads.getReply(threadsId, (pageIndex == 'last' && pageIndex == pageCount) ? pageCount : pageIndex)
+                                sails.models.threads.getReply(threadsId, (pageIndex == 'last') ? pageCount : pageIndex)
                                     .then(function (replys) {
                                         var output = {
                                             threads: threads,
