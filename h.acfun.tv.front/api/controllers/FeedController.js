@@ -8,8 +8,14 @@ module.exports = {
 
     index: function (req, res) {
 
+        var isAPI = (req.params.format) ? true : false;
+
         var page = parseInt(req.query.page) || 1;
         var pagesize = parseInt(req.query.pagesize) || 20;
+
+        if(req.query.deviceToken && req.query.deviceToken.length < 8){
+            return res.badRequest('参数错误:自定义令牌至少得9个字符');
+        }
 
         var deviceToken = req.query.deviceToken || req.signedCookies.userId;
 
@@ -30,24 +36,42 @@ module.exports = {
                     return res.serverError(err);
                 }
 
-                // 对订阅进行处理
-                for (var i in feedThreads) {
-                    var data = feedThreads[i];
-                    data['createdAt'] = (data['createdAt']) ? new Date(data['createdAt']).getTime() : null;
-                    data['updatedAt'] = (data['updatedAt']) ? new Date(data['updatedAt']).getTime() : null;
-                }
-
                 sails.models.feed.count()
                     .where({
                         deviceToken: deviceToken
                     })
                     .then(function(count){
-                        return res.json({
-                            code:200,
-                            success:true,
-                            threads:feedThreads,
-                            total:count
-                        });
+
+                        if(isAPI){
+
+                            // 对订阅进行处理
+                            for (var i in feedThreads) {
+                                var data = feedThreads[i];
+                                data['createdAt'] = (data['createdAt']) ? new Date(data['createdAt']).getTime() : null;
+                                data['updatedAt'] = (data['updatedAt']) ? new Date(data['updatedAt']).getTime() : null;
+                            }
+
+                            return res.json({
+                                code:200,
+                                success:true,
+                                threads:feedThreads,
+                                total:count
+                            });
+                        } else {
+                            return res.view(
+                                'feed/index',
+                                {
+                                    threads:feedThreads,
+                                    page: {
+                                        title: '订阅列表',
+                                        size: Math.ceil(count / pagesize),
+                                        page: page,
+                                        isAPI: isAPI
+                                    }
+                                }
+                            )
+                        }
+
                     })
                     .fail(function(){
                         return res.serverError(err);

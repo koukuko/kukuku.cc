@@ -33,6 +33,8 @@ block body
             | &nbsp;
             span!='ID:'+item.uid
             | &nbsp;[
+            a.report(href='/feed/create?id='+item.feedId) 订阅
+            | ]&nbsp;[
             a.report(href='/值班室?r='+item.id) 举报
             | ]&nbsp;
             a.r(href='/t/'+item.id+'?r='+item.id)= 'No.' + item.id

@@ -1,0 +1,45 @@
+extends ../layout/index
+block body
+    p(align="center")
+        font(color="#800000",size="5")
+            b: span=page.title + '（BETA）'
+            p: small 显示你所订阅的串，并按照最新回复时间进行排序。
+            p: smakk 使用订阅功能必须拥有饼干，你的订阅信息将会与你的饼干绑定。
+        hr(size="1")
+
+    each item in threads
+        if item.updatedAt
+            div(class='threads_'+item.threadsId,style='background:#F0E0D6;padding:5px 5px;margin-bottom:5px')
+                if item.image
+                    a(href=cdnPath+item.image.toLocaleLowerCase(), rel='_blank', target='_blank')
+                        img(src=cdnPath+item.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+                font(color="#cc1105",size="+1"): b=(item.title) ? item.title : '无标题'
+                | &nbsp;
+                if item.email
+                    a(href='mailto:'+item.email)
+                        font(color="#117743"): b=(item.name) ? item.name : '无名氏'
+                else
+                    font(color="#117743"): b=(item.name) ? item.name : '无名氏'
+                small
+                    | &nbsp; 更新于：
+                    span.posttime=item.updatedAt
+                    | &nbsp;
+                    span!='ID:'+item.uid
+                | &nbsp;[
+                a.report(href='/feed/remove?id='+item.feedId) 取消订阅
+                | ]&nbsp;[
+                a.report(href='/值班室?r='+item.threadsId) 举报
+                | ]&nbsp;
+                a.r(href='/t/'+item.threadsId+'?r='+item.threadsId)= 'No.' + item.threadsId
+                | &nbsp;[
+                a(href='/t/'+item.threadsId) 回应
+                | ]&nbsp;
+                br
+                blockquote.threadpost!=item.content
+
+                +threadsStatus(item)
+
+
+    +page(page.page,page.size,'/feed/',true)
+
+    include ../layout/footer
