@@ -31,15 +31,22 @@ module.exports.routes = {
     '/homepage/isManager':'HomepageController.isManager',
 
     /**
-     * 版块
-     */
-    '/:forum.:format?':'ForumController.index',
-    '/:forum/create.:format?':'ThreadsController.create',
-
-    /**
      * 串
      */
     '/t/:tid.:format?':'ThreadsController.index',
-    '/t/:tid/create.:format?':'ThreadsController.create'
+    '/t/:tid/create.:format?':'ThreadsController.create',
+
+    /**
+     * 订阅
+     */
+    '/feed.:format?':'FeedController.index',
+    '/feed/create.:format?':'FeedController.create',
+    '/feed/remove.:format?':'FeedController.remove',
+
+    /**
+     * 版块
+     */
+    '/:forum.:format?':'ForumController.index',
+    '/:forum/create.:format?':'ThreadsController.create'
 
 };
