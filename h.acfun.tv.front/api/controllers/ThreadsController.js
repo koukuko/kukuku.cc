@@ -195,8 +195,8 @@ module.exports = {
                                 .replace(/\r\n/g, "\n")
                                 .replace(/\r/g, "\n")
                                 .replace(/\n/g, "<br>")
-                                .replace(/(\>\>No\.\d+)/g, "<font color=\"#789922\">$1</font>")
-                                .replace(/(\>\>\d+)/g, "<font color=\"#789922\">$1</font>");
+                                .replace(/(&gt;&gt;No\.\d+)/g, "<font color=\"#789922\">$1</font>")
+                                .replace(/(&gt;&gt;\d+)/g, "<font color=\"#789922\">$1</font>");
 
                             if (parentThreads && parentThreads.forum) {
                                 var forum = sails.models.forum.findForumById(parentThreads.forum);
