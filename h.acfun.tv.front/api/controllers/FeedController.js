@@ -146,6 +146,40 @@ module.exports = {
                 return res.serverError(err);
             })
 
+    },
+
+    check: function(req,res){
+
+        var map = {};
+        var deviceToken = req.query.deviceToken || req.signedCookies.userId;
+
+        if (!deviceToken) {
+            return res.badRequest('缺少签名参数:没有饼干或者没有令牌');
+        }
+
+        map['deviceToken'] = deviceToken;
+
+        var threadsId = req.query.threadsId;
+
+        if (threadsId) {
+            map['threadsId'] = threadsId;
+        } else {
+            return res.badRequest('缺少必填项:串ID');
+        }
+
+        sails.models.feed
+            .findOne(map)
+            .then(function (data) {
+                if(data){
+                    return res.json({code:200,success:true,isChecked:true})
+                } else {
+                    return res.json({code:200,success:true,isChecked:false})
+                }
+            })
+            .fail(function (err) {
+                return res.serverError(err);
+            })
+
     }
 
 };

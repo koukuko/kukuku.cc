@@ -42,6 +42,7 @@ module.exports.routes = {
     '/feed.:format?':'FeedController.index',
     '/feed/create.:format?':'FeedController.create',
     '/feed/remove.:format?':'FeedController.remove',
+    '/feed/check.:format?':'FeedController.check',
 
     /**
      * 版块
@@ -53,5 +54,6 @@ module.exports.routes = {
      * 功能
      */
     '/func/removeLastPostThreads.:format?':'ThreadsController.removeLastThreads'
+    //'/func/generateUserId.:format?':'HomepageController.generateUserId'
 
 };
