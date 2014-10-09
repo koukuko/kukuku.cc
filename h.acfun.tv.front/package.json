@@ -7,6 +7,7 @@
   "dependencies": {
     "MD5": "^1.2.1",
     "connect-redis": "^1.4.5",
+    "cookie-signature": "^1.0.5",
     "ejs": "~0.8.4",
     "ftp": "^0.3.7",
     "gm": "^1.16.0",
