@@ -24,7 +24,7 @@ module.exports = {
         }
         sails.models.feed
             .query(
-            "select feed.`id` as `feedId`, threads.`id` as `threadsId`, threads.`uid` as `uid`, threads.`name` as `name`, threads.`email` as `email`, threads.`title` as `title`, threads.`content` as `content`, threads.`image` as `image`, threads.`thumb` as `thumb`, threads.`lock` as `lock`, threads.`sage` as `sage`, threads.`forum` as `forum`, threads.`parent` as `parent`, threads.`replyCount` as `replyCount`, threads.`createdAt` as `createdAt`, threads.`updatedAt` as `updatedAt` from feed left join threads on feed.`threadsId` = threads.`id` where feed.`deviceToken` = ? order by `updatedAt` desc limit ?,?",
+            "select feed.`id` as `feedId`, feed.`threadsId` as `threadsId`, threads.`uid` as `uid`, threads.`name` as `name`, threads.`email` as `email`, threads.`title` as `title`, threads.`content` as `content`, threads.`image` as `image`, threads.`thumb` as `thumb`, threads.`lock` as `lock`, threads.`sage` as `sage`, threads.`forum` as `forum`, threads.`parent` as `parent`, threads.`replyCount` as `replyCount`, threads.`createdAt` as `createdAt`, threads.`updatedAt` as `updatedAt` from feed left join threads on feed.`threadsId` = threads.`id` where feed.`deviceToken` = ? order by `updatedAt` desc limit ?,?",
             [
                 deviceToken,
                     (page - 1) * pagesize,
