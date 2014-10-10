@@ -13,7 +13,7 @@ module.exports = {
         deviceToken: {
             type: 'string',
             required: true,
-            max: 100
+            size: 100
         },
         threadsId: {
             model:'threads'

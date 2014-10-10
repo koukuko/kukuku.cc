@@ -5,6 +5,8 @@
  * @description    :: 首页
  */
 
+//var signature = require('cookie-signature');
+
 module.exports = {
 
     /**
@@ -120,6 +122,32 @@ module.exports = {
 
         res.json(result);
 
-    }
+    },
+
+    /**
+     * 生成饼干
+     */
+//    generateUserId: function(req,res){
+//        if (H.settings.cookieSignup == 'true' || (req.signedCookies && req.signedCookies.managerId)) {
+//
+//            // 生成饼干
+//            var char = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+//            var seed = new Date().getTime();
+//            var userId = "";
+//            for (var i = 0; i < 8; i++) {
+//                userId += char.charAt(Math.ceil(Math.random() * seed) % char.length);
+//            }
+//            userId = 's:' + signature.sign(userId,req.secret);
+//            res.cookie('userId', userId, { maxAge: Number(H.settings.cookieExpires), signed: true });
+//            return res.json({code:200,success:true,userId:userId});
+//
+//
+//        } else {
+//
+//            // 没有饼干
+//            return res.json({code:403,success:false});
+//
+//        }
+//    }
 
 };
