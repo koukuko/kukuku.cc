@@ -41,5 +41,14 @@ module.exports = {
             port: 6379,
             database: 7
         }
+    },
+
+    http:{
+        middleware:{
+            poweredBy: function xPoweredBy(req, res, next) {
+                res.header('X-Powered-By', 'Akino Mizuho.Koukuko <koukuko.com>');
+                next();
+            }
+        }
     }
 };
