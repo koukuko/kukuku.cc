@@ -19,7 +19,8 @@ module.exports = {
 
         // ThreadsId 有效性
         var threadsId = Number(req.params.tid);
-        if (isNaN(threadsId)) {
+
+        if (!threadsId) {
             return res.forbidden('ID不合法');
         }
 
@@ -284,11 +285,12 @@ module.exports = {
      */
     removeLastThreads: function (req, res) {
 
-        if (!req.session.lastPostThreadsId) {
+        if (!req.session.lastPostThreadsId || !parseInt(req.session.lastPostThreadsId)) {
             return res.badRequest('没有找到可以删除的串');
         }
 
         var threadsId = req.session.lastPostThreadsId;
+
         sails.models.threads.findOneById(threadsId)
             .then(function (threads) {
 
@@ -330,7 +332,7 @@ module.exports = {
         var isAPI = (req.params.format) ? true : false;
 
         var threadsId = Number(req.query.tid);
-        if (isNaN(threadsId)) {
+        if (!threadsId) {
             return res.forbidden('ID不合法');
         }
 

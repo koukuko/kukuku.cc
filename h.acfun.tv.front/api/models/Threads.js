@@ -88,8 +88,7 @@ module.exports = {
         page = Math.ceil(page);
 
         sails.models.threads.find()
-            .where({ forum: forumId})
-            .where({ parent: 0 })
+            .where({ forum: forumId, parent: 0 })
             .sort('updatedAt DESC')
             .paginate(({ page: page, limit: 10 }))
             .then(function (threads) {
@@ -235,8 +234,8 @@ module.exports = {
                                 }
 
                                 // 5. resize图片
-                                if(uploadedFileSize.width > 250 || uploadedFileSize.height > 250){
-                                    uploadedFileGm = uploadedFileGm.resize(250,250);
+                                if (uploadedFileSize.width > 250 || uploadedFileSize.height > 250) {
+                                    uploadedFileGm = uploadedFileGm.resize(250, 250);
                                 }
 
                                 uploadedFileGm.toBuffer(function (thumbToBufferError, thumbBuffer) {
@@ -337,7 +336,7 @@ module.exports = {
 
         var map = {};
         map['recentReply'] = recentReply;
-        map['replyCount'] = Number(Number(parentThreads['replyCount'])+1);
+        map['replyCount'] = Number(Number(parentThreads['replyCount']) + 1);
 
         if (parentThreads.sage) {
             map['updatedAt'] = parentThreads.updatedAt;
@@ -360,50 +359,50 @@ module.exports = {
 
     },
 
-    afterCreate:function(newlyInsertedRecord,cb){
+    afterCreate: function (newlyInsertedRecord, cb) {
 
         //通知清除缓存
-        if(newlyInsertedRecord.parent != 0){
-            sails.services.cache.update('threads:'+newlyInsertedRecord.parent);
+        if (newlyInsertedRecord.parent != 0) {
+            sails.services.cache.update('threads:' + newlyInsertedRecord.parent);
         }
-        sails.services.cache.update('forum:'+newlyInsertedRecord.forum);
+        sails.services.cache.update('forum:' + newlyInsertedRecord.forum);
 
         cb();
     },
 
-    afterUpdate:function(updatedRecord, cb){
+    afterUpdate: function (updatedRecord, cb) {
 
         //通知清除缓存
-        if(updatedRecord.parent != 0){
-            sails.services.cache.update('threads:'+updatedRecord.parent);
+        if (updatedRecord.parent != 0) {
+            sails.services.cache.update('threads:' + updatedRecord.parent);
         }
-        if(updatedRecord.parent == 0){
-            sails.services.cache.update('threads:'+updatedRecord.id);
+        if (updatedRecord.parent == 0) {
+            sails.services.cache.update('threads:' + updatedRecord.id);
         }
-        sails.services.cache.update('forum:'+updatedRecord.forum);
+        sails.services.cache.update('forum:' + updatedRecord.forum);
 
         cb();
 
     },
 
-    afterDestroy: function(destroyedRecords, cb){
+    afterDestroy: function (destroyedRecords, cb) {
 
-        if(!Array.isArray(destroyedRecords)){
+        if (!Array.isArray(destroyedRecords)) {
             destroyedRecords = [destroyedRecords]
         }
 
-        for (var i in destroyedRecords){
+        for (var i in destroyedRecords) {
 
             var destroyedRecord = destroyedRecords[i];
 
             //通知清除缓存
-            if(destroyedRecord.parent != 0){
-                sails.services.cache.update('threads:'+destroyedRecord.parent);
+            if (destroyedRecord.parent != 0) {
+                sails.services.cache.update('threads:' + destroyedRecord.parent);
             }
-            if(destroyedRecord.parent == 0){
-                sails.services.cache.update('threads:'+destroyedRecord.id);
+            if (destroyedRecord.parent == 0) {
+                sails.services.cache.update('threads:' + destroyedRecord.id);
             }
-            sails.services.cache.update('forum:'+destroyedRecord.forum);
+            sails.services.cache.update('forum:' + destroyedRecord.forum);
         }
 
         cb();
