@@ -64,7 +64,7 @@ module.exports = {
                                     threads:feedThreads,
                                     page: {
                                         title: '订阅列表',
-                                        size: Math.ceil(count / pagesize),
+                                        size: Math.ceil(count / pagesize) || 0,
                                         page: page,
                                         isAPI: isAPI
                                     }
