@@ -174,7 +174,25 @@ module.exports = {
     /**
      * 通知集群版块已更新
      */
+    afterCreate: function(newlyInsertedRecord, cb) {
+
+        if(process.send){
+            process.send({type:"h:update:filter"})
+        }
+
+        cb();
+    },
+
     afterUpdate: function(updatedRecord, cb) {
+
+        if(process.send){
+            process.send({type:"h:update:filter"})
+        }
+
+        cb();
+    },
+
+    afterDestroy: function(destroyedRecords, cb) {
 
         if(process.send){
             process.send({type:"h:update:filter"})
