@@ -24,6 +24,7 @@ block body
                 +radio('siteCaptcha','使用验证码','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',config.siteCaptcha,'仅应用于发帖操作。忽略API方式，即API方式进行发帖操作依然无需验证码')
                 +input('number','sitePagesize','默认列表容量',config.sitePagesize,'默认为20。')
                 +input('text','siteCdnPath','CDN路径',config.siteCdnPath)
+                +radio('allowUpload','允许上传文件','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',config.allowUpload)
                 h2 META配置
                 +textarea('metaDescription','网站简介',config.metaDescription)
                 +textarea('metaKeyword','关键词',config.metaKeyword)
