@@ -24,7 +24,7 @@ module.exports = {
 
     connections: {
         ftpServer:{
-            host: '192.168.233.5',
+            host: '192.168.241.35',
             port: 21,
             user: 'h',
             password: 'h@acfun@tv'
