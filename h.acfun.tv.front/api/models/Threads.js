@@ -176,6 +176,11 @@ module.exports = {
             deferred.resolve({image: '', thumb: ''});
             return deferred.promise;
         }
+        
+        if (H.settings.allowUpload && H.settings.allowUpload == 'false'){
+            deferred.reject('系统暂时禁止了上传图片，请取消附件再重新发串。');
+            return deferred.promise;
+        }
 
         var uploadedFile = uploadedFiles[0];
 
