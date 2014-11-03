@@ -187,7 +187,7 @@ module.exports = {
                             }
 
                             data.content = data.content
-                                .replace(/&/g, "&gt;")
+                                .replace(/&/g, "&amp;")
                                 .replace(/</g, "&lt;")
                                 .replace(/>/g, "&gt;")
                                 .replace(/ /g, "&nbsp;")
