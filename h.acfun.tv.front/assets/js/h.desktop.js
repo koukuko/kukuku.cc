@@ -237,6 +237,13 @@ function initAll(){
 
     initContent();
 
+    $.get('/homepage/isManager')
+        .done(function(data){
+            if(data && typeof data == 'object' && data.success){
+                $('.h-admin-tool').fadeIn(100);
+            }
+        });
+
 }
 
 $(document).ready(function () {
