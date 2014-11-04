@@ -7,6 +7,7 @@ AC匿名版
   - Node.js
   - Mysql
   - Redis
+  - ImageMagick
 
 Version
 ----
