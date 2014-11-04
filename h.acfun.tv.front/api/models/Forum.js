@@ -76,12 +76,13 @@ module.exports = {
                                 if (handledForum[handledForumId[threadsCount.forum]])
                                     handledForum[handledForumId[threadsCount.forum]]['topicCount'] = threadsCount.count;
                             }
-                        }
 
-                        sails.models.forum.list = handledForum;
-                        sails.models.forum.idList = handledForumId;
-                        sails.models.forum.selectList = forumSelectList;
-                        deferred.resolve(handledForum);
+
+                            sails.models.forum.list = handledForum;
+                            sails.models.forum.idList = handledForumId;
+                            sails.models.forum.selectList = forumSelectList;
+                            deferred.resolve(handledForum);
+                        }
                     });
                 }
             });

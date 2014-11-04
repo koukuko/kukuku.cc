@@ -1,0 +1,10 @@
+extends ../layout/index
+
+block content
+    div.uk-container
+        hr
+        h2.h-title.uk-text-left 403 - 访问了错误的地址 ⊂彡☆))∀`)
+        if data
+            p= data
+        a(href='javascript:history.back()') 5秒后自动返回
+        script window.setTimeout(function(){history.back();},5000);

@@ -15,71 +15,64 @@
  * ```
  */
 
-module.exports = function badRequest(data, options) {
+module.exports = function badRequest(data) {
 
-  // Get access to `req`, `res`, & `sails`
-  var req = this.req;
-  var res = this.res;
-  var sails = req._sails;
+    // Get access to `req`, `res`, & `sails`
+    var req = this.req;
+    var res = this.res;
+    var sails = req._sails;
 
-  // Set status code
-  res.status(400);
+    req.wantType = sails.services.utility.checkWantType(req.params.format);
 
-  // Log error to console
-  if (data !== undefined) {
-    sails.log.verbose('Sending 400 ("Bad Request") response: \n',data);
-  }
-  else sails.log.verbose('Sending 400 ("Bad Request") response');
+    // Set status code
+    res.status(400);
 
-  // Only include errors in response if application environment
-  // is not set to 'production'.  In production, we shouldn't
-  // send back any identifying information about errors.
-//  if (sails.config.environment === 'production') {
-//    data = undefined;
-//  }
+    // Log error to console
+    if (data !== undefined) {
+        sails.log.verbose('Sending 400 ("Bad Request") response: \n', data);
+    }
+    else sails.log.verbose('Sending 400 ("Bad Request") response');
 
-  // If the user-agent wants JSON, always respond with JSON
-  if (req.wantsJSON || (req.params.format && req.params.format == 'json')) {
-    return res.jsonx({success:false,code:400,msg:data});
-  }
+    var data = {
+        data: data,
+        success: false,
+        code: 400
+    };
 
-  // If second argument is a string, we take that to mean it refers to a view.
-  // If it was omitted, use an empty object (`{}`)
-  options = (typeof options === 'string') ? { view: options } : options || {};
+    switch (req.wantType.param) {
 
-  // If a view was provided in options, serve it.
-  // Otherwise try to guess an appropriate view, or if that doesn't
-  // work, just send JSON.
-  if (options.view) {
-    return res.view(options.view, { data: data });
-  }
+        case 'xml':
+            var html = json2xml(data);
+            console.log(html);
+            html = '<?xml version="1.0" encoding="UTF-8"?><root>' + html + '</root>';
+            res.set('Content-Type', 'text/xml');
+            res.send(200, html);
+            break;
 
-  // If no second argument provided, try to serve the default view,
-  // but fall back to sending JSON(P) if any errors occur.
-  else return res.view('400', { data: data }, function (err, html) {
+        case 'json':
+            sails.services.cache.set(req.cacheKey, data);
+            sails.config.jsonp ? res.jsonp(data) : res.json(data);
+            break;
 
-      // If a view error occured, fall back to JSON(P).
-      if (err) {
-          //
-          // Additionally:
-          // • If the view was missing, ignore the error but provide a verbose log.
-          if (err.code === 'E_VIEW_FAILED') {
-              sails.log.verbose('res.badRequest() :: Could not locate view for error page (sending JSON instead).  Details: ',err);
-          }
-          // Otherwise, if this was a more serious error, log to the console with the details.
-          else {
-              sails.log.warn('res.badRequest() :: When attempting to render error page view, an error occured (sending JSON instead).  Details: ', err);
-          }
-          return res.jsonx(data);
-      }
+        case 'mobile':
+            res.render('mobile/code/400', data, function (err, html) {
+                if (err) {
+                    return res.serverError(err);
+                }
+                res.send(200, html);
+            });
+            break;
 
-      return res.send(html);
-  });
-  // If no second argument provided, try to serve the implied view,
-  // but fall back to sending JSON(P) if no view can be inferred.
-//  else return res.guessView({ data: data }, function couldNotGuessView () {
-//    return res.jsonx(data);
-//  });
+        case 'desktop':
+        default :
+            res.render('desktop/code/400', data, function (err, html) {
+                if (err) {
+                    return res.serverError(err);
+                }
+                res.send(200, html);
+            });
+            break;
+    }
 
 };
 

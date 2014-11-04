@@ -1,0 +1,48 @@
+extends ../layout/index
+
+block content
+    div.uk-container
+        div#h-content-top-nav
+            ul.uk-breadcrumb
+                li: a(href='/')= H.settings.siteName
+                li: span 我的订阅
+        h2.h-title= page.title + '（BETA）'
+        p: small 显示你所订阅的串，并按照最新回复时间进行排序。
+        p: small 使用订阅功能必须拥有饼干，你的订阅信息将会与你的饼干绑定。
+        hr
+        //- 列表
+        div.h-threads-list
+            each item in threads
+                div.h-threads-item.uk-clearfix(data-threads-id=item.id)
+                    //- 主串
+                    div.h-threads-item-main
+                        +image(item.thumb,item.image)
+                        div.h-threads-info
+                            span.h-threads-info-title=(item.title) ? item.title : '无标题'
+                            if item.email
+                                a.h-threads-info-email(href='mailto:'+item.email)= (item.name) ? item.name : '无名氏'
+                            else
+                                span.h-threads-info-email= (item.name) ? item.name : '无名氏'
+                            span.h-threads-info-createdat=sails.services.utility.unix_to_datetime(item.createdAt)
+                            span.h-threads-info-uid!='ID:'+item.uid
+                            span.h-threads-info-report-btn
+                                | [
+                                a(href='/值班室?r='+item.id) 举报
+                                | ]
+                            a.h-threads-info-id(href='/t/'+item.id + '?r='+item.id)='No.'+item.id
+                            span.h-threads-info-reply-btn
+                                | [
+                                a(href='/t/'+item.id) 回应
+                                | ]
+                            +admin(item)
+                        div.h-threads-content!=item.content
+                    //- 状态
+                    if item.lock
+                        div.h-threads-tips.uk-text-danger.uk-text-bold
+                            i.uk-icon-lock
+                            | &nbsp;本串已经被锁定 (<abbr data-uk-tooltip="{pos:'right'}" title="该串不允许被回复">?</abbr>)
+                    if item.sage
+                        div.h-threads-tips.uk-text-danger.uk-text-bold
+                            i.uk-icon-thumbs-down
+                            | &nbsp;本串已经被SAGE (<abbr data-uk-tooltip="{pos:'right'}" title="该串不会因为新回应而被顶到页首">?</abbr>)
+        +page(page.page,page.size,'/feed/',true)

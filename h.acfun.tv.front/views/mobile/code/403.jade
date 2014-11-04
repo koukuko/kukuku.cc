@@ -1,0 +1,14 @@
+extends ../layout/index
+
+//-
+    AcFun匿名版 - 手机版 - 403
+
+block content
+    div.uk-container
+        h4.h-forum-subtitle 403 - 访问了错误的地址 ⊂彡☆))∀`)
+        if data
+            p= data
+        br
+        div.uk-from-row
+            a.uk-button.uk-width-1-1.uk-button-primary(href='javascript:history.back()') 5秒后自动返回
+        script window.setTimeout(function(){history.back();},5000);

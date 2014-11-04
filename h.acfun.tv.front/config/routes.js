@@ -25,10 +25,12 @@ module.exports.routes = {
     /**
      * 首页
      */
-    '/':'HomepageController.index',
+    '/.:format?':'HomepageController.index',
+    '/index.:format?':'HomepageController.index',
     '/homepage/menu.:format?':'HomepageController.menu',
     '/homepage/ref.:format?':'ThreadsController.ref',
     '/homepage/isManager':'HomepageController.isManager',
+    '/search.:format?':'HomepageController.search',
 
     /**
      * 串
@@ -53,7 +55,14 @@ module.exports.routes = {
     /**
      * 功能
      */
-    '/func/removeLastPostThreads.:format?':'ThreadsController.removeLastThreads'
+    '/func/removeLastPostThreads.:format?':'ThreadsController.removeLastThreads',
     //'/func/generateUserId.:format?':'HomepageController.generateUserId'
+
+    /**
+     * 测试专用
+     */
+//    '/code/200':{
+//        views:'desktop/code/200.jade'
+//    }
 
 };

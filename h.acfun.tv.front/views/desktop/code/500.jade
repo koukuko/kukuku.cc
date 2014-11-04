@@ -1,0 +1,15 @@
+extends ../layout/index
+
+block content
+    div.uk-container
+        hr
+        h2.h-title.uk-text-left 500 - Server Error
+        p 服务器发生错误
+        if (typeof data !== 'undefined')
+            code
+                - _.each(data, function (d) {
+                    = d
+                - });
+        br
+        br
+        a(href='javascript:history.back()') 返回

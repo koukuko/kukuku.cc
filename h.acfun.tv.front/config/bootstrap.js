@@ -17,6 +17,7 @@ module.exports.bootstrap = function (cb) {
     global.Q = require("q");
     global.md5 = require('MD5');
     global.ipm2 = require('pm2-interface')();
+    global.json2xml = require('json2xml');
 
     global.H = {};
 

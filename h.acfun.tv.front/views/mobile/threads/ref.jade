@@ -1,0 +1,22 @@
+//- 配置选项
+- var imagesPath = H.settings.siteCdnPath || 'http://static.acfun.mm111.net/h'
+
+- var item = data
+- console.log(data)
+
+div.h-threads-container(id='threads_'+item.id,style='padding:0')
+    p.h-threads-first-col(style='margin:0')
+        span.h-threads-title=(item.title) ? item.title : '无标题'
+        span.h-threads-name=(item.name) ? item.name : '无名氏'
+        a.h-threads-id(href='/t/'+item.id+'.mobile?r='+item.id)= 'No.' + item.id
+        if item.sage
+            span.h-badge.uk-badge.uk-badge-warning 已SAGE
+        if item.lock
+            span.h-badge.uk-badge.uk-badge-danger 已锁定
+        | &nbsp;
+        span.h-threads-time=sails.services.utility.unix_to_datetime(item.createdAt)
+        span.h-threads-uid!='ID: '+item.uid
+    if item.image
+        a(href=imagesPath+item.image.toLocaleLowerCase(), rel='_blank', target='_blank')
+            img.h-threads-image(src=imagesPath+item.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+    p.h-threads-content!=item.content

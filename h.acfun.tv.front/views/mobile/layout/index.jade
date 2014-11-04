@@ -1,0 +1,60 @@
+//-
+    AcFun 匿名讨论版 - 前台 - 手机版
+    @module Layout
+    @author Akino Mizuho.Koukuko<9@acfun.tv>
+
+include ../../global/settings
+include widget
+
+doctype html
+html
+    head
+        meta(http-equiv="content-type",content="text/html; charset=utf-8")
+        meta(name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width")
+        title=((page) ? page.title + ' - ' : '' ) + H.settings.siteName
+        link(rel="stylesheet",type="text/css",href="/css/uikit.min.css")
+        link(rel="stylesheet",type="text/css",href="/css/uikit.almost-flat.min.css")
+        link(rel="stylesheet",type="text/css",href="/css/h.mobile.css")
+        script(src="/js/jquery.min.js")
+        script(src="/js/uikit.min.js")
+        script(src="/js/h.mobile.js")
+    body
+        // 顶部导航栏
+        nav.h-navbar.uk-navbar.uk-navbar-attached
+            div.uk-navbar-nav
+                a.uk-navbar-toggle(href="#h-offcanvas" data-uk-offcanvas="")
+            div.uk-navbar-flip
+                ul.h-navbar-nav.uk-navbar-nav
+                    block navbar-flip
+            div.h-navbar-content.uk-navbar-content.uk-navbar-center=((page) ? page.title + ' - ' : '' ) + H.settings.siteName
+
+        // 主体内容
+        div.h-middle
+            block content
+
+        // OFF-CANVAS
+        div#h-offcanvas.uk-offcanvas
+            div.uk-offcanvas-bar
+                ul.uk-nav.uk-nav-offcanvas.uk-nav-parent-icon(data-uk-nav="{multiple:true}")
+                    - var forumList = JSON.parse(H.settings.htmlForumList)
+                    - for (var i in forumList){
+                        li.uk-nav-header=i
+                        - if(_.isArray(forumList[i])) {
+                        -   for (var j in forumList[i]){
+                        -       if (_.isArray(forumList[i][j])){
+                                    li: a(href=forumList[i][j][1])= forumList[i][j][0]
+                        -       }
+                        -   }
+                        - } else if (_.isObject(forumList[i])){
+                                - for (var j in forumList[i]){
+                                    li.uk-parent
+                                        a(href='#')=j
+                                        - if (_.isArray(forumList[i][j])){
+                                            ul.t-nav-sub.uk-nav-sub
+                                                - for(var n in forumList[i][j]){
+                                                    li: a(href=forumList[i][j][n][1]+'.mobile')!=forumList[i][j][n][0]
+                                                - }
+                                        - }
+                                - }
+                        - }
+                    - }

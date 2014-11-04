@@ -1,0 +1,55 @@
+extends ../layout/index
+
+block content
+    div.uk-container
+        div#h-content-top-nav
+            ul.uk-breadcrumb
+                li: a(href='/')= H.settings.siteName
+                li: span 搜索
+        h2.h-title 搜索（BETA）
+        hr
+        form.uk-form(method='get')
+            div.uk-grid.uk-grid-small
+                div.uk-width-2-6
+                    input.uk-width-1-1(type='text',placeholder='关键词',name='q')
+                div.uk-width-1-6
+                    select(name='forum')
+                        each item in sails.models.forum.selectList
+                            - var isselected =  (item.value == value) ? true : false
+                            option(type='checkbox',id=inputId+'-'+item.key,value=item.value,selected=isselected)= item.key
+                div.uk-width-1-6
+                    button.uk-button 搜索
+        hr
+        div.h-loading
+            div.uk-progress.uk-progress-striped.uk-active
+                div.uk-progress-bar(style='width:100%')
+            div.uk-text-center 正在载入...
+        div.h-threads-list(style='display:none')
+            div.h-threads-item.uk-clearfix(data-threads-id='%id%')
+                //- 主串
+                div.h-threads-item-main
+                    +image('%thumb%','%image%')
+                    div.h-threads-info
+                        span.h-threads-info-title '%title%'
+                        span.h-threads-info-email '%name'
+                        span.h-threads-info-createdat '%createdAt%'
+                        span.h-threads-info-uid ID:%uid%
+                        span.h-threads-info-report-btn
+                            | [
+                            a(href='/值班室?r='+'%id%') 举报
+                            | ]
+                        a.h-threads-info-id(href='/t/%parent%?r=%id%') No.%id%
+                        span.h-threads-info-reply-btn
+                            | [
+                            a(href='/t/%id%') 回应
+                            | ]
+                    div.h-threads-tips.uk-text-danger.uk-text-bold
+                        i.uk-icon-lock
+                        | &nbsp;本串已经被锁定 (<abbr data-uk-tooltip="{pos:'right'}" title="该串不允许被回复">?</abbr>)
+                    div.h-threads-tips.uk-text-danger.uk-text-bold
+                        i.uk-icon-thumbs-down
+                        | &nbsp;本串已经被SAGE (<abbr data-uk-tooltip="{pos:'right'}" title="该串不会因为新回应而被顶到页首">?</abbr>)
+                    div.h-threads-content %content%
+        script(src='/js/h.desktop.search.js')
+    include ../layout/footer
+

@@ -1,0 +1,23 @@
+include ../../global/settings
+include ../layout/widget
+
+- var reply = data
+div.h-threads-item
+    div.h-threads-item-reply.h-threads-item-ref(data-threads-id=reply.id)
+        div.h-threads-item-reply-main
+            +image(reply.thumb,reply.image)
+            div.h-threads-info
+                span.h-threads-info-title=(reply.title) ? reply.title : '无标题'
+                if reply.email
+                    a.h-threads-info-email(href='mailto:'+reply.email)= (reply.name) ? reply.name : '无名氏'
+                else
+                    span.h-threads-info-email= (reply.name) ? reply.name : '无名氏'
+                span.h-threads-info-createdat=sails.services.utility.unix_to_datetime(reply.createdAt)
+                span.h-threads-info-uid!='ID:'+reply.uid
+                span.h-threads-info-report-btn
+                    | [
+                    a(href='/值班室?r='+reply.id) 举报
+                    | ]
+                a.h-threads-info-id(href='/t/'+reply.parent +'?r='+reply.id)='No.'+reply.id
+                +admin(reply)
+            div.h-threads-content!=reply.content

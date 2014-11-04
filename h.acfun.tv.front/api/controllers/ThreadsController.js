@@ -27,22 +27,20 @@ module.exports = {
         // 翻页
         var pageIndex = (req.query.page && req.query.page == 'last') ? 'last' : ( Number(req.query.page) || 1 );
 
-        // 缓存key
-        var key = 'threads:' + threadsId + ':' + pageIndex;
+        req.wantType = sails.services.utility.checkWantType(req.params.format);
+        req.cacheKey = 'threads:' + threadsId + ':' + pageIndex + ':' + req.wantType.suffix;
 
-        // API
-        var isAPI = (req.params.format) ? true : false;
-
-        if (isAPI) {
-            key += ':api';
-        }
-
-        sails.services.cache.get(key)
+        sails.services.cache.get(req.cacheKey)
             .then(function (cache) {
-                if (isAPI) {
-                    return res.json(JSON.parse(cache));
+
+                if(req.wantType.param == 'json'){
+                    return sails.config.jsonp ? res.jsonp(JSON.parse(cache)) : res.json(JSON.parse(cache));
+                } else if(req.wantType.param == 'xml'){
+                    res.set('Content-Type','text/xml');
                 }
+
                 res.send(200, cache);
+
             })
             .fail(function () {
 
@@ -73,51 +71,37 @@ module.exports = {
                                             page: {
                                                 title: 'No.' + threads.id,
                                                 size: pageCount,
-                                                page: pageIndex,
-                                                isAPI: isAPI
-                                            }
+                                                page: pageIndex
+                                            },
+                                            code: 200,
+                                            success: true
                                         };
 
-                                        if (isAPI) {
-
-                                            output['success'] = true;
-
-                                            // 删除不需要的数据 & 转换时间戳
-
-                                            if (forum) {
-                                                forum['createdAt'] = (forum['createdAt']) ? new Date(forum['createdAt']).getTime() : null;
-                                                forum['updatedAt'] = (forum['updatedAt']) ? new Date(forum['updatedAt']).getTime() : null;
-                                            }
-
-                                            if (threads) {
-                                                delete threads['ip'];
-                                                threads['createdAt'] = (threads['createdAt']) ? new Date(threads['createdAt']).getTime() : null;
-                                                threads['updatedAt'] = (threads['updatedAt']) ? new Date(threads['updatedAt']).getTime() : null;
-                                            }
-
-
-                                            for (var i in replys) {
-                                                if (replys[i]) {
-                                                    delete replys[i]['ip'];
-                                                    delete replys[i]['parent'];
-                                                    delete replys[i]['recentReply'];
-                                                    replys[i]['createdAt'] = (replys[i]['createdAt']) ? new Date(replys[i]['createdAt']).getTime() : null;
-                                                    replys[i]['updatedAt'] = (replys[i]['updatedAt']) ? new Date(replys[i]['updatedAt']).getTime() : null;
-                                                }
-                                            }
-
-                                            sails.services.cache.set(key, output);
-                                            return res.json(output);
-
+                                        if (forum) {
+                                            forum['createdAt'] = (forum['createdAt']) ? new Date(forum['createdAt']).getTime() : null;
+                                            forum['updatedAt'] = (forum['updatedAt']) ? new Date(forum['updatedAt']).getTime() : null;
                                         }
 
-                                        return res.render('threads/index', output, function (err, html) {
-                                            if (err) {
-                                                return res.serverError(err);
-                                            } else {
-                                                sails.services.cache.set(key, html);
-                                                res.send(200, html);
+                                        if (threads) {
+                                            delete threads['ip'];
+                                            threads['createdAt'] = (threads['createdAt']) ? new Date(threads['createdAt']).getTime() : null;
+                                            threads['updatedAt'] = (threads['updatedAt']) ? new Date(threads['updatedAt']).getTime() : null;
+                                        }
+
+
+                                        for (var i in replys) {
+                                            if (replys[i]) {
+                                                delete replys[i]['ip'];
+                                                delete replys[i]['parent'];
+                                                delete replys[i]['recentReply'];
+                                                replys[i]['createdAt'] = (replys[i]['createdAt']) ? new Date(replys[i]['createdAt']).getTime() : null;
+                                                replys[i]['updatedAt'] = (replys[i]['updatedAt']) ? new Date(replys[i]['updatedAt']).getTime() : null;
                                             }
+                                        }
+
+                                        return res.generateResult(output,{
+                                            desktopView: 'desktop/threads/index',
+                                            mobileView: 'mobile/threads/index'
                                         });
 
                                     }).fail(function (err) {
@@ -197,7 +181,8 @@ module.exports = {
                                 .replace(/\r/g, "\n")
                                 .replace(/\n/g, "<br>")
                                 .replace(/&gt;&gt;No\.(\d+)/g, "<font color=\"#789922\">>>No.$1</font>")
-                                .replace(/&gt;&gt;(\d+)/g, "<font color=\"#789922\">>>$1</font>");
+                                .replace(/&gt;&gt;(\d+)/g, "<font color=\"#789922\">>>$1</font>")
+                                .replace(/&gt;(.*?)\<br\>/g, "<font color=\"#789922\">>$1</font><br>");
 
                             if (parentThreads && parentThreads.forum) {
                                 var forum = sails.models.forum.findForumById(parentThreads.forum);
@@ -246,14 +231,14 @@ module.exports = {
                                     updatedAt: new Date()
                                 })
                                 .then(function (newThreads) {
+                                    // 对父串进行处理
                                     sails.models.threads.handleParentThreads(parentThreads, newThreads)
                                         .then(function () {
-
                                             // session CD时间更新
                                             req.session.lastPostAt = new Date().getTime();
                                             req.session.lastPostThreadsId = newThreads.id;
 
-                                            return res.ok('成功');
+                                            return res.ok('成功',{threadsId:newThreads.id});
                                         })
                                         .fail(function (err) {
                                             // 事务回滚 删除之前创建的内容
@@ -264,7 +249,6 @@ module.exports = {
                                 }).fail(function (err) {
                                     return res.serverError(err);
                                 });
-
                         })
                         .fail(function (replyThreadsError) {
                             return res.badRequest(replyThreadsError.toString());
@@ -328,8 +312,7 @@ module.exports = {
     // 引用查看
     ref: function (req, res) {
 
-        // API
-        var isAPI = (req.params.format) ? true : false;
+        req.wantType = sails.services.utility.checkWantType(req.params.format);
 
         var threadsId = Number(req.query.tid);
         if (!threadsId) {
@@ -337,26 +320,30 @@ module.exports = {
         }
 
         sails.models.threads.findOneById(threadsId)
-            .exec(function (err, threads) {
-                if (err || threads == undefined) {
-                    return res.send(404, '');
-                } else {
+            .then(function (threads) {
 
-                    delete threads.ip;
-
-                    if (isAPI) {
-                        if (threads) {
-                            delete threads['ip'];
-                            threads['createdAt'] = (threads['createdAt']) ? new Date(threads['createdAt']).getTime() : null;
-                            threads['updatedAt'] = (threads['updatedAt']) ? new Date(threads['updatedAt']).getTime() : null;
-                        }
-                        return res.json(threads);
-                    }
-
-                    return res.view('threads/ref', {
-                        data: threads
-                    });
+                if (threads) {
+                    delete threads['ip'];
+                    threads['createdAt'] = (threads['createdAt']) ? new Date(threads['createdAt']).getTime() : null;
+                    threads['updatedAt'] = (threads['updatedAt']) ? new Date(threads['updatedAt']).getTime() : null;
                 }
-            });
+
+                var data = {
+                    data: threads,
+                    code: 200,
+                    success: true
+                };
+
+                return res.generateResult(data,{
+                    desktopView: 'desktop/threads/ref',
+                    mobileView: 'mobile/threads/ref'
+                });
+
+            })
+            .fail(function(err){
+                if (err) {
+                    return res.send(404, '');
+                }
+            })
     }
 };

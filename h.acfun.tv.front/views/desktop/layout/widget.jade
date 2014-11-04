@@ -1,0 +1,80 @@
+//- 图片
+mixin image(thumb,image)
+    if thumb && image
+        div.h-threads-img-box
+            div.h-threads-img-tool.uk-animation-slide-top
+                span.h-threads-img-tool-btn.h-threads-img-tool-small.uk-button-link
+                    i.uk-icon-minus
+                    | 收起
+                a.h-threads-img-tool-btn.uk-button-link(href=imagesPath+image.toLocaleLowerCase(),target='_blank')
+                    i.uk-icon-search-plus
+                    | 查看大图
+                span.h-threads-img-tool-btn.h-threads-img-tool-left.uk-button-link
+                    i.uk-icon-reply
+                    | 向左旋转
+                span.h-threads-img-tool-btn.h-threads-img-tool-right.uk-button-link
+                    i.uk-icon-share
+                    | 向右旋转
+            a.h-threads-img-a(href=imagesPath+image.toLocaleLowerCase(), rel='_blank', target='_blank')
+                img.h-threads-img(data-src=imagesPath+thumb.toLocaleLowerCase(), src=imagesPath+thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+
+//- 管理工具
+mixin admin(item)
+    - var adminRoot = H.settings.adminRoot || 'http://h.acfun.tv:1335/'
+    span.h-admin-tool.uk-button-dropdown(data-uk-dropdown)
+        a.uk-button.uk-button-link.uk-button-small(href='#') 管理
+        div.uk-dropdown.uk-dropdown-small
+            ul.uk-nav.uk-nav-dropdown
+                li.uk-nav-header='管理 -> No.'+item.id
+                if item.sage
+                    li: a(href=adminRoot+'content/threads/'+item.id+'/set?key=sage&value=false') AGE
+                else
+                    li: a(href=adminRoot+'content/threads/'+item.id+'/set?key=sage&value=true') SAGE
+                if item.lock
+                    li: a(href=adminRoot+'content/threads/'+item.id+'/set?key=lock&value=false') 解锁
+                else
+                    li: a(href=adminRoot+'content/threads/'+item.id+'/set?key=lock&value=true') 锁定
+                li.uk-nav-divider
+                li: a(href=adminRoot+'content/threads/'+item.id+'/removeImages') 删图
+                li: a(href=adminRoot+'content/threads/'+item.id+'/remove') 删串
+                li.uk-nav-divider
+                li: a(href=adminRoot+'content/threads/'+item.id+'/update') 编辑
+                li: a(href=adminRoot+'content/threads?parent='+item.id) 查询
+
+//- 生成分页
+mixin page(index,count,url,last,isMobile)
+    if index < 1
+        - index = 1
+    if index > count
+        - index = count
+    if index == 'last'
+        - index = count
+    ul.uk-pagination.uk-pagination-left.h-pagination
+        if index != 1
+            li: a(href=url+'?page=1') 首页
+        else
+            li.uk-disabled: span 首页
+
+        - var start = index - 4
+        if start < 1
+            - start = 1
+        - var end = start + 9
+        if end > count
+            - end = count
+        - for(var i=start;i<=end;i++){
+            if i == index
+                li.uk-active: span(href=url+'?page='+i)= i
+            else
+                li: a(href=url+'?page='+i)= i
+        - }
+
+        if index != count
+            li: a(href=url+'?page='+(Number(index)+1)) 下一页
+        else
+            li.uk-disabled: span 下一页
+
+        if last
+            if index != count
+                li: a(href=url+'?page='+count) 末页
+            else
+                li.uk-disabled: span 末页

@@ -1,0 +1,9 @@
+extends ../layout/index
+block content
+    div.uk-container
+        hr
+        h2.h-title.uk-text-left 400 - 验证发生错误 ･ﾟ( ﾉд`ﾟ)
+        if data
+            p= data
+        a(href='javascript:history.back()') 5秒后自动返回
+        script window.setTimeout(function(){history.back();},5000);

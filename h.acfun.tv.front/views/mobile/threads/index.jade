@@ -1,0 +1,83 @@
+extends ../layout/index
+
+//-
+    AcFun匿名版 - 手机版 - 主串页
+
+block navbar-flip
+    li: a(href='#',data-uk-toggle="{target:'#h-post-form'}") 发表回应
+
+block content
+    div#h-post-form.uk-container.uk-animation-slide-right.uk-hidden
+        h4.h-forum-subtitle= '回应模式 - No.'+threads.id
+        form.uk-form(action='/t/'+ threads.id +'/create.mobile',method="post" enctype="multipart/form-data")
+            div.uk-form-row.uk-grid
+                div.uk-width-2-3
+                    label.uk-form-label 名称
+                    div.uk-form-controls
+                        input.uk-width-1-1(type="text",name="name",size="28",maxlength="100",placeholder='名称')
+                div.uk-width-1-3
+                    label.uk-form-label E-mail
+                    div.uk-form-controls
+                        input.uk-width-1-1(type="text",name="email",size="28",maxlength="100",placeholder='E-mail')
+            div.uk-form-row.uk-grid
+                div.uk-width-2-3
+                    label.uk-form-label 标题
+                    div.uk-form-controls
+                        input.uk-width-1-1(type="text",name="title",size="28",maxlength="100",placeholder='标题')
+                div.uk-width-1-3
+                    label.uk-form-label 颜文字
+                    div.uk-form-controls
+                        select#h-emot-select.uk-width-1-1
+            div.uk-form-row
+                label.uk-form-label 附件
+                div.uk-form-controls
+                    input.uk-width-1-1(type="file",name="image")
+            div.uk-form-row
+                label.uk-form-label 正文
+                div.uk-form-controls
+                    textarea.uk-width-1-1(name="content",placeholder='正文')
+            div.uk-form-row
+                button.uk-button.uk-width-1-1.uk-button-primary(type='submit') 发送
+        hr
+    div.uk-container.uk-container-center
+        h4.h-forum-subtitle
+            = 'No.' + threads.id + ' - '
+            a(href='/'+forum.name+'.mobile')=forum.name
+        hr
+    - var item = threads
+    div.uk-container.h-threads-container(id='threads_'+item.id)
+        p.h-threads-first-col
+            span.h-threads-title=(item.title) ? item.title : '无标题'
+            span.h-threads-name=(item.name) ? item.name : '无名氏'
+            a.h-threads-id(href='/t/'+item.id+'.mobile?r='+item.id)= 'No.' + item.id
+            if item.sage
+                span.h-badge.uk-badge.uk-badge-warning 已SAGE
+            if item.lock
+                span.h-badge.uk-badge.uk-badge-danger 已锁定
+        p.h-threads-second-col
+            span.h-threads-time=sails.services.utility.unix_to_datetime(item.createdAt)
+            span.h-threads-uid!='ID: '+item.uid
+        if item.image
+            a(href=imagesPath+item.image.toLocaleLowerCase(), rel='_blank', target='_blank')
+                img.h-threads-image(src=imagesPath+item.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+        p.h-threads-content!=item.content
+        //- 最近的5条回复
+        div.h-threads-replylist
+            each reply in replys
+                if reply
+                    div.uk-container.h-threads-reply-container(id='threads_'+reply.id)
+                        p.h-threads-first-col
+                            span.h-threads-title=(item.title) ? reply.title : '无标题'
+                            span.h-threads-name=(item.name) ? reply.name : '无名氏'
+                            a.h-threads-id(href='/t/'+item.id+'.mobile?r='+reply.id)= 'No.' + reply.id
+                        p.h-threads-second-col
+                            span.h-threads-time=sails.services.utility.unix_to_datetime(reply.createdAt)
+                            span.h-threads-uid!='ID: '+reply.uid
+                        if item.image
+                            a(href=imagesPath+reply.image.toLocaleLowerCase(), rel='_blank', target='_blank')
+                                img.h-threads-image(src=imagesPath+reply.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+                        p.h-threads-content!=reply.content
+        hr
+    div#h-threads-pagination.uk-container
+        +page(page.page,page.size,'/t/'+threads.id + '.mobile',true)
+    include ../layout/footer

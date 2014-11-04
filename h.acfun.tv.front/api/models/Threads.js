@@ -343,7 +343,7 @@ module.exports = {
         map['recentReply'] = recentReply;
         map['replyCount'] = Number(Number(parentThreads['replyCount']) + 1);
 
-        if (parentThreads.sage) {
+        if (parentThreads.sage || newThreads.sage) {
             map['updatedAt'] = parentThreads.updatedAt;
         } else {
             map['updatedAt'] = new Date();

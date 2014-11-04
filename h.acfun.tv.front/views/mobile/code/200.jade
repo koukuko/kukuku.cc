@@ -1,0 +1,33 @@
+extends ../layout/index
+
+//-
+    AcFun匿名版 - 手机版 - 200
+
+block content
+    div.uk-container
+        h4.h-forum-subtitle 200 - OK! ﾟ ∀ﾟ)ノ
+        if data
+            p= data
+        br
+        div.uk-from-row
+        script.
+            var url = location.pathname;
+            if(/\/t\/(\d+)\/create/.test(url)){
+                var jump = '/t/' + /\/t\/(\d+)\/create/g.exec(url)[1] + '.mobile?page=last';
+            } else if(/\/(.*?)\/create/.test(url)) {
+                var jump = '/' + /\/(.*?)\/create/g.exec(url)[1]+ '.mobile';
+            } else {
+                var jump = 'http://h.acfun.tv';
+            }
+            if(jump){
+                document.write('<a class="uk-button uk-width-1-1 uk-button-primary" href="'+jump+'">5秒后自动返回<a>');
+            } else {
+                document.write('<a class="uk-button uk-width-1-1 uk-button-primary" href="javascript:history.back();">5秒后自动返回<a>');
+            }
+            window.setTimeout(function(){
+                if(jump){
+                    location.href = jump;
+                } else {
+                    history.back();
+                }
+            },5000);

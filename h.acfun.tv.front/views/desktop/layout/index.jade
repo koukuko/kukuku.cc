@@ -1,0 +1,45 @@
+//-
+    AcFun 匿名讨论版 - 前台 - 桌面
+    @module Layout
+    @author Akino Mizuho.Koukuko<9@acfun.tv>
+
+include ../../global/settings
+include widget
+
+doctype html
+html
+    head
+        meta(http-equiv="content-type",content="text/html; charset=utf-8")
+        title=((page) ? page.title + ' - ' : '' ) + H.settings.siteName
+        link(rel="stylesheet",type="text/css",href="/css/uikit.min.css")
+        link(rel="stylesheet",type="text/css",href="/css/uikit.almost-flat.min.css")
+        link(rel="stylesheet",type="text/css",href="/css/h.desktop.css")
+        script(src="/js/jquery.min.js")
+        script(src="/js/uikit.min.js")
+        script(src="/js/h.desktop.js")
+    body
+        div#h-menu
+            include menu
+        div#h-bottom-nav
+            include bottom
+        div#h-tool
+            a.h-tool-btn(href='#h-content' title='前往顶部' data-uk-smooth-scroll)
+                i.uk-icon-chevron-up
+            span.h-tool-btn(href='#' title='刷新' onclick='location.reload()')
+                i.uk-icon-refresh
+            a.h-tool-btn(href='#h-footer' title='前往底部' data-uk-smooth-scroll)
+                i.uk-icon-chevron-down
+        div#h-content
+            block content
+        div#h-ref-view
+        div#h-acfun-preview
+            div.h-acfun-preview-container
+                img.h-acfun-preview-cover
+                div.h-acfun-preview-info
+                    a.h-acfun-preview-title
+                    p.h-acfun-preview-desc
+                div.h-acfun-preview-etc
+                    | UP主：
+                    a.h-acfun-preivew-user
+                    a.h-acfun-preview-href.uk-float-right
+

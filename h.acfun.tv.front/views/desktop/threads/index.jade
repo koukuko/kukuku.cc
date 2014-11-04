@@ -1,0 +1,126 @@
+extends ../layout/index
+block content
+    div.uk-container
+        div#h-content-top-nav
+            ul.uk-breadcrumb
+                li: a(href='/')= H.settings.siteName
+                li: a(href='/'+encodeURI(forum.name))= forum.name
+                li: a(href='/t/'+threads.id)= 'No.'+threads.id
+                li: span= '第' + ((page.page == 'last') ? page.size : page.page ) + ' 页'
+        h2.h-title= 'No.'+threads.id+' - '+((threads.title)?threads.title:'无标题') + ' - '+ forum.name
+        hr
+        //- 回应框
+        div#h-post-form.uk-container-center.uk-width-small-8-10.uk-width-medium-4-10.uk-width-large-4-10
+            form(action='/t/'+threads.id+'/create', method='post', enctype='multipart/form-data')
+                div.uk-grid.uk-grid-small.h-post-form-grid
+                    div.uk-width-1-5
+                        div.h-post-form-title 回应模式
+                    div.h-post-form-input.uk-width-3-5
+                        = 'No.'+threads.id
+                div.uk-grid.uk-grid-small.h-post-form-grid
+                    div.uk-width-1-5
+                        div.h-post-form-title 名 称
+                    div.h-post-form-input.uk-width-3-5
+                        input(type="text" name="name" size="28" value="" maxlength="100")
+                    div.h-post-form-option.uk-width-1-5
+                        label.h-admin-tool
+                            input(type="checkbox" name="isManager" value="true")
+                            | 管理员
+                div.uk-grid.uk-grid-small.h-post-form-grid
+                    div.uk-width-1-5
+                        div.h-post-form-title E-mail
+                    div.h-post-form-input.uk-width-3-5
+                        input(type="text" name="email" size="28" value="" maxlength="100")
+                div.uk-grid.uk-grid-small.h-post-form-grid
+                    div.uk-width-1-5
+                        div.h-post-form-title 标题
+                    div.h-post-form-input.uk-width-3-5
+                        input(type="text" name="title" size="28" value="" maxlength="100")
+                    div.h-post-form-option.uk-width-1-5
+                        input(type='submit' value='送出')
+                div.uk-grid.uk-grid-small.h-post-form-grid
+                    div.uk-width-1-5
+                        div.h-post-form-title 颜文字
+                    div.h-post-form-input.uk-width-1-5
+                        select#h-emot-select()
+                div.uk-grid.uk-grid-small.h-post-form-grid
+                    div.uk-width-1-5
+                        div.h-post-form-title.h-post-form-textarea-title 正文
+                    div.h-post-form-input.uk-width-4-5
+                        textarea.h-post-form-textarea(name="content" maxlength="10000")
+                div.uk-grid.uk-grid-small.h-post-form-grid
+                    div.uk-width-1-5
+                        div.h-post-form-title 附加图片
+                    div.h-post-form-input.uk-width-3-5
+                        input(type="file" name="image")
+            div.h-forum-header!=forum.header.replace('@Time',forum.cooldown)
+        hr
+        //- 列表
+        div.h-threads-list
+            - var item = threads
+            div.h-threads-item.uk-clearfix(data-threads-id=item.id)
+                //- 主串
+                div.h-threads-item-main
+                    +image(item.thumb,item.image)
+                    div.h-threads-info
+                        span.h-threads-info-title=(item.title) ? item.title : '无标题'
+                        if item.email
+                            a.h-threads-info-email(href='mailto:'+item.email)= (item.name) ? item.name : '无名氏'
+                        else
+                            span.h-threads-info-email= (item.name) ? item.name : '无名氏'
+                        span.h-threads-info-createdat=sails.services.utility.unix_to_datetime(item.createdAt)
+                        span.h-threads-info-uid!='ID:'+item.uid
+                        span.h-threads-info-report-btn
+                            | [
+                            a(href='/值班室?r='+item.id) 举报
+                            | ]
+                        a.h-threads-info-id(href='/t/'+item.id + '?r='+item.id)='No.'+item.id
+                        span.h-threads-info-reply-btn
+                            | [
+                            a(href='/t/'+item.id) 回应
+                            | ]
+                        +admin(item)
+                    div.h-threads-content!=item.content
+                //- 状态
+                if item.lock
+                    div.h-threads-tips.uk-text-danger.uk-text-bold
+                        i.uk-icon-lock
+                        | &nbsp;本串已经被锁定 (<abbr data-uk-tooltip="{pos:'right'}" title="该串不允许被回复">?</abbr>)
+                if item.sage
+                    div.h-threads-tips.uk-text-danger.uk-text-bold
+                        i.uk-icon-thumbs-down
+                        | &nbsp;本串已经被SAGE (<abbr data-uk-tooltip="{pos:'right'}" title="该串不会因为新回应而被顶到页首">?</abbr>)
+                //- 最近五个回帖
+                div.h-threads-item-replys
+                    each reply in replys
+                        if reply
+                            div.h-threads-item-reply(data-threads-id=reply.id)
+                                div.h-threads-item-reply-icon …
+                                div.h-threads-item-reply-main
+                                    +image(reply.thumb,reply.image)
+                                    div.h-threads-info
+                                        span.h-threads-info-title=(reply.title) ? reply.title : '无标题'
+                                        if reply.email
+                                            a.h-threads-info-email(href='mailto:'+reply.email)= (reply.name) ? reply.name : '无名氏'
+                                        else
+                                            span.h-threads-info-email= (reply.name) ? reply.name : '无名氏'
+                                        span.h-threads-info-createdat=sails.services.utility.unix_to_datetime(reply.createdAt)
+                                        span.h-threads-info-uid!='ID:'+reply.uid
+                                        if item.uid == reply.uid
+                                            span.uk-text-primary.uk-text-small (PO主)
+                                        span.h-threads-info-report-btn
+                                            | [
+                                            a(href='/值班室?r='+reply.id) 举报
+                                            | ]
+                                        a.h-threads-info-id(href='/t/'+item.id+'?r='+reply.id)='No.'+reply.id
+                                        +admin(reply)
+                                    div.h-threads-content!=reply.content
+            hr
+        //- 翻页
+        +page(page.page,page.size,'/t/'+threads.id,true)
+        div.uk-float-right
+            small: a(href='/func/removeLastPostThreads') 删除最后一次发的串
+            br
+            small （* 不能反悔）
+    script#forum-info!='var forum = ' + JSON.stringify(forum)
+    include ../layout/footer

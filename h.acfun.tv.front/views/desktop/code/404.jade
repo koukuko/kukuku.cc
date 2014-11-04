@@ -1,0 +1,9 @@
+extends ../layout/index
+
+block content
+    div.uk-container
+        hr
+        h2.h-title.uk-text-left 404 - Not Found
+        p 页面没有被找到！
+        a(href='javascript:history.back()') 5秒后自动返回
+        script window.setTimeout(function(){history.back();},5000);

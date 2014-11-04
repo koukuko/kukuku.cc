@@ -14,6 +14,8 @@ module.exports = {
 
     cache: true,
 
+    jsonp: true,
+
     session: {
         host: '127.0.0.1'
     },

@@ -11,34 +11,46 @@ module.exports = {
 
     /**
      * 首页
+     * @key homepage:index:{$format}
      */
     index: function (req, res) {
 
-        var key ='homepage:index';
+        req.wantType = sails.services.utility.checkWantType(req.params.format);
+        req.cacheKey ='homepage:index:' + req.wantType.suffix;
 
-        sails.services.cache.get(key)
+        sails.services.cache.get(req.cacheKey)
             .then(function (cache) {
+
+                if(req.wantType.param == 'json'){
+                    return sails.config.jsonp ? res.jsonp(JSON.parse(cache)) : res.json(JSON.parse(cache));
+                } else if(req.wantType.param == 'xml'){
+                    res.set('Content-Type','text/xml');
+                }
+
                 res.send(200, cache);
+
             })
             .fail(function () {
-                res.render('homepage/index', {
+
+                var data = {
                     page: {
                         title: '首页'
-                    }
-                }, function (err, html) {
-                    if (err) {
-                        return res.serverError(err);
-                    }
+                    },
+                    code: 200,
+                    success: true
+                };
 
-                    sails.services.cache.set(key, html);
-                    res.send(200, html);
-
+                return res.generateResult(data,{
+                    desktopView: 'desktop/homepage/index',
+                    mobileView: 'mobile/homepage/index'
                 });
+
             });
     },
 
     /**
      * 版块列表
+     * TODO：需要修改
      */
     menu: function (req, res) {
 
@@ -123,6 +135,22 @@ module.exports = {
         res.json(result);
 
     },
+
+    /**
+     * 搜索
+     */
+    search:function(req,res){
+
+
+        req.wantType = sails.services.utility.checkWantType(req.params.format);
+        req.cacheKey ='homepage:index:' + req.wantType.suffix;
+
+        return res.generateResult({},{
+            desktopView: 'desktop/homepage/search',
+            mobileView: 'mobile/homepage/search'
+        });
+
+    }
 
     /**
      * 生成饼干

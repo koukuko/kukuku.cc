@@ -1,0 +1,13 @@
+extends ../layout/index
+
+//-
+    AcFun匿名版 - 手机版 - 404
+
+block content
+    div.uk-container
+        h4.h-forum-subtitle 404 - Not Found
+        p 页面没有被找到！
+        br
+        div.uk-from-row
+            a.uk-button.uk-width-1-1.uk-button-primary(href='javascript:history.back()') 5秒后自动返回
+        script window.setTimeout(function(){history.back();},5000);

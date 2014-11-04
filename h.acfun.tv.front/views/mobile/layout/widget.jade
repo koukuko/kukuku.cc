@@ -1,0 +1,41 @@
+//- 生成分页
+mixin page(index,count,url,last,isMobile)
+    if index < 1
+        - index = 1
+    if index > count
+        - index = count
+    if index == 'last'
+        - index = count
+    ul.uk-pagination
+
+        if index != 1
+            li.uk-pagination-previous: a(href=url+'?page=1') 首页
+            li.uk-pagination-previous: a(href=url+'?page='+(Number(index)-1)) 上一页
+        else
+            li.uk-pagination-previous.uk-disabled: span 首页
+
+        - var start = index - 2
+        if start < 1
+            - start = 1
+        - var end = start + 5
+        if end > count
+            - end = count
+        - for(var i=start;i<=end;i++){
+            if i == index
+                | [
+                li.uk-active: span(href=url+'?page='+i)= i
+                | ]
+            else
+                | [
+                li: a(href=url+'?page='+i)= i
+                | ]
+        - }
+        if last
+            if index != count
+                li.uk-pagination-next: a(href=url+'?page='+count) 末页
+            else
+                li.uk-pagination-next.uk-disabled: span 末页
+        if index != count
+            li.uk-pagination-next: a(href=url+'?page='+(Number(index)+1)) 下一页
+        else
+            li.uk-pagination-next.uk-disabled: span 下一页

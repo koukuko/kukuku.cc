@@ -34,5 +34,7 @@ block body
                 +input('text','cookieExpires','有效期',config.cookieExpires,'单位为秒。')
                 h2 界面自定义
                 +js('/ckeditor/ckeditor.js')
-                +ckeditor('htmlFooter','页脚',config.htmlFooter)
+                +textarea('htmlIndex','首页',config.htmlIndex)
+                +textarea('htmlForumList','版块列表',config.htmlForumList)
+                +textarea('htmlFooter','页脚',config.htmlFooter)
                 +textarea('htmlBottom','底部公告',config.htmlBottom)

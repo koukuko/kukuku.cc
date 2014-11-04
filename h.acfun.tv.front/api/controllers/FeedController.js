@@ -8,7 +8,7 @@ module.exports = {
 
     index: function (req, res) {
 
-        var isAPI = (req.params.format) ? true : false;
+        req.wantType = sails.services.utility.checkWantType(req.params.format);
 
         var page = parseInt(req.query.page) || 1;
         var pagesize = parseInt(req.query.pagesize) || 20;
@@ -41,36 +41,29 @@ module.exports = {
                         deviceToken: deviceToken
                     })
                     .then(function(count){
-
-                        if(isAPI){
-
-                            // 对订阅进行处理
-                            for (var i in feedThreads) {
-                                var data = feedThreads[i];
-                                data['createdAt'] = (data['createdAt']) ? new Date(data['createdAt']).getTime() : null;
-                                data['updatedAt'] = (data['updatedAt']) ? new Date(data['updatedAt']).getTime() : null;
-                            }
-
-                            return res.json({
-                                code:200,
-                                success:true,
-                                threads:feedThreads,
-                                total:count
-                            });
-                        } else {
-                            return res.view(
-                                'feed/index',
-                                {
-                                    threads:feedThreads,
-                                    page: {
-                                        title: '订阅列表',
-                                        size: Math.ceil(count / pagesize) || 0,
-                                        page: page,
-                                        isAPI: isAPI
-                                    }
-                                }
-                            )
+                        // 对订阅进行处理
+                        for (var i in feedThreads) {
+                            var data = feedThreads[i];
+                            data['createdAt'] = (data['createdAt']) ? new Date(data['createdAt']).getTime() : null;
+                            data['updatedAt'] = (data['updatedAt']) ? new Date(data['updatedAt']).getTime() : null;
                         }
+
+                        var output = {
+                            code:200,
+                            success:true,
+                            threads:feedThreads,
+                            total:count,
+                            page: {
+                                title: '我的订阅',
+                                size: Math.ceil(count/ pagesize),
+                                page: page
+                            }
+                        };
+
+                        return res.generateResult(output, {
+                            desktopView: 'desktop/feed/index',
+                            mobileView: 'mobile/feed/index'
+                        });
 
                     })
                     .fail(function(){

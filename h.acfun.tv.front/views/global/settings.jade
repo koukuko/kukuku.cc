@@ -1,0 +1,21 @@
+//-
+    AcFun 匿名讨论版
+    @module Setting
+    @author Akino Mizuho.Koukuko<9@acfun.tv>
+
+//- 图片链接
+- var imagesPath = H.settings.siteCdnPath || 'http://static.acfun.mm111.net/h'
+
+//- 辅助元素
+- var assetsPath = H.settings.assetsPath || '/'
+
+//- 统计代码
+mixin webAnalytics
+    script.
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?bb974f8cd93ce4345eb376c9c4dea232";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();

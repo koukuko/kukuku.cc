@@ -22,14 +22,14 @@ module.exports = {
 
     connections: {
         ftpServer:{
-            host:'10.232.0.40',
+            host:'10.232.0.38',
             port:21,
             user:'root',
             password:'123456'
         },
         mysqlServer: {
             adapter: 'sails-mysql',
-            host: '10.232.0.40',
+            host: '10.232.0.38',
             user: 'root',
             password: '',
             database: 'h.acfun.tv'
