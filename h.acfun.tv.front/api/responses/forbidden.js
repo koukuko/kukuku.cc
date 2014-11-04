@@ -32,6 +32,7 @@ module.exports = function forbidden(data) {
 
     var data = {
         data: data,
+        msg:data,
         success: false,
         code: 403
     };

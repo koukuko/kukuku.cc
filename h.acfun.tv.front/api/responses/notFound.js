@@ -37,6 +37,7 @@ module.exports = function notFound(data) {
 
     var data = {
         data: data,
+        msg:data,
         success: false,
         code: 404
     };

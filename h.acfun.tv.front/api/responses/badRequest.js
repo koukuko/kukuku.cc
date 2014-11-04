@@ -35,6 +35,7 @@ module.exports = function badRequest(data) {
 
     var data = {
         data: data,
+        msg:data,
         success: false,
         code: 400
     };

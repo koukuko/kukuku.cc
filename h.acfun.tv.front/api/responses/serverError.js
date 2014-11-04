@@ -32,6 +32,7 @@ module.exports = function serverError(data) {
 
     var data = {
         data: data,
+        msg:data,
         success: false,
         code: 500
     };
