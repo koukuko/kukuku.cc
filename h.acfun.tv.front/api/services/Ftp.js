@@ -28,6 +28,7 @@ module.exports = {
 
         ftpClient.on('error', function (err) {
             sails.log.error(err);
+            deferred.reject(err);
             ftpClient.end();
         });
 

@@ -167,7 +167,7 @@ module.exports = {
         var deferred = Q.defer();
 
         if (uploadError) {
-            deferred.reject(err);
+            deferred.reject(uploadError);
             return deferred.promise;
         }
 
@@ -251,7 +251,7 @@ module.exports = {
                                     }
 
                                     // 6.流程结束 上传到ftp后返回
-                                    ftpClient.mkdir(path.dirname(remoteThumbPath), true, function (err) {
+                                    ftpClient.mkdir(path.dirname(remoteThumbPath), true, function (mkdirError) {
                                         ftpClient.put(thumbBuffer, remoteThumbPath, function (uploadThumbError) {
 
                                             ftpClient.end();
