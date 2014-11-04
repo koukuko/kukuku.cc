@@ -1,16 +1,17 @@
-extends ../layout/index
-//-
-    AcFun匿名版 - 手机版 - 500
-block content
-    div.uk-container
-        h4.h-forum-subtitle 500 - Server Error
+doctype html
+html
+    head
+        title 服务器发生错误 - AC匿名版
+    body
+        div.uk-container
+        hr
+        h2.h-title.uk-text-left 500 - Server Error
         p 服务器发生错误
         if (typeof data !== 'undefined')
-        pre.error
             code
                 - _.each(data, function (d) {
                     = d
                 - });
         br
-        div.uk-from-row
-            a.uk-button.uk-width-1-1.uk-button-primary(href='javascript:history.back()') 返回
+        br
+        a(href='javascript:history.back()') 返回
