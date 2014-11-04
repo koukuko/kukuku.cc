@@ -29,7 +29,7 @@ module.exports = {
         },
         mysqlServer: {
             adapter: 'sails-mysql',
-            host: 'localhost',
+            host: '192.168.241.40',
             user: 'hisland',
             password: 'hi_to_ri_de_i_you',
             database: 'h_acfun_tv'
