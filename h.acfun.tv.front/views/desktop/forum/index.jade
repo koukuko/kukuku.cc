@@ -69,6 +69,10 @@ block content
                                 | [
                                 a(href='/值班室?r='+item.id) 举报
                                 | ]
+                            span.h-threads-info-report-btn
+                                | [
+                                a(href='/feed/create?threadsId='+item.id) 订阅
+                                | ]
                             a.h-threads-info-id(href='/t/'+item.id + '?r='+item.id)='No.'+item.id
                             span.h-threads-info-reply-btn
                                 | [

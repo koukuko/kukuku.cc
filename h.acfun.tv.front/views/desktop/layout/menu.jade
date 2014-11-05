@@ -4,11 +4,15 @@ div#h-menu-top
     a#h-menu-top-sitename=H.settings.siteName
 
 div#h-menu-search
-    form(method='get' active='/search')
+    form(method='get' action='/search')
         input#h-menu-search-keyword(type='text' name='q' placeholder='搜索')
 
 ul#h-menu-content.uk-nav.uk-nav-parent-icon.uk-nav-side(data-uk-nav="{multiple:true}")
-    - var forumList = JSON.parse(H.settings.htmlForumList)
+    - try {
+        - var forumList = JSON.parse(H.settings.htmlForumList)
+    - } catch(e) {
+        - var forumList = {}
+    - }
     - for (var i in forumList){
         - if(i == '版块列表'){
             - for (var j in forumList[i]){
