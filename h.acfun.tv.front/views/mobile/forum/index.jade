@@ -74,13 +74,13 @@ block content
                         if reply
                             div.uk-container.h-threads-reply-container(id='threads_'+reply.id)
                                 p.h-threads-first-col
-                                    span.h-threads-title=(item.title) ? reply.title : '无标题'
-                                    span.h-threads-name=(item.name) ? reply.name : '无名氏'
+                                    span.h-threads-title=(reply.title) ? reply.title : '无标题'
+                                    span.h-threads-name=(reply.name) ? reply.name : '无名氏'
                                     a.h-threads-id(href='/t/'+item.id+'.mobile?r='+reply.id)= 'No.' + reply.id
                                 p.h-threads-second-col
                                     span.h-threads-time=sails.services.utility.unix_to_datetime(reply.createdAt)
                                     span.h-threads-uid!='ID: '+reply.uid
-                                if item.image
+                                if reply.image
                                     a(href=imagesPath+reply.image.toLocaleLowerCase(), rel='_blank', target='_blank')
                                         img.h-threads-image(src=imagesPath+reply.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
                                 p.h-threads-content!=reply.content

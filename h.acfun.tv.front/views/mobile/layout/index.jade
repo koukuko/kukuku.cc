@@ -36,7 +36,11 @@ html
         div#h-offcanvas.uk-offcanvas
             div.uk-offcanvas-bar
                 ul.uk-nav.uk-nav-offcanvas.uk-nav-parent-icon(data-uk-nav="{multiple:true}")
-                    - var forumList = JSON.parse(H.settings.htmlForumList)
+                    - try {
+                        - var forumList = JSON.parse(H.settings.htmlForumList)
+                    - } catch (e) {
+                        - var forumList = {}
+                    - }
                     - for (var i in forumList){
                         li.uk-nav-header=i
                         - if(_.isArray(forumList[i])) {
