@@ -30,6 +30,10 @@ module.exports = function serverError(data) {
     }
     else sails.log.error('Sending empty 500 ("Server Error") response');
 
+    if (sails.config.environment === 'production') {
+        data = undefined;
+    }
+
     var data = {
         data: data,
         msg:data,
