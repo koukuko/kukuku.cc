@@ -120,6 +120,46 @@ $(document).ready(function () {
 
             $('.h-threads-list').html(html).slideDown(100);
 
+            var page = '<ul class="uk-pagination uk-pagination-left h-pagination">';
+            var pageIndex = result.data.pageNo;
+            var pageSize = result.data.pageSize;
+            var pageCount = Math.ceil(result.data.totalCount/result.data.pageSize);
+            var pageUrl = '/search?'+keyword+forum;
+
+            if(pageIndex < 1) pageIndex = 1;
+            if(pageIndex > pageCount) pageIndex = pageCount;
+
+            if(pageIndex == 1){
+                page += '<li class="uk-disabled"><span>首页</span></li>';
+            } else {
+                page += '<li><a href="'+pageUrl+'&page=1">首页</a></li>';
+            }
+
+            var pageStart = pageIndex - 4;
+            if(pageStart < 1) pageStart = 1;
+            var pageEnd = pageStart + 9;
+            if(pageEnd > pageCount) pageEnd = pageCount;
+
+            for(var i=pageStart;i<=pageEnd;i++){
+                if(i == pageIndex){
+                    page += '<li class="uk-active"><span href="'+pageUrl+'&page='+i+'">'+i+'</span></li>';
+                } else {
+                    page += '<li><a href="'+pageUrl+'&page='+i+'">'+i+'</a></li>';
+                }
+            }
+
+            if(pageIndex == pageCount){
+                page += '<li class="uk-disabled"><span>下一页</span></li>';
+                page += '<li class="uk-disabled"><span>末页</span></li>';
+            } else {
+                page += '<li><a href="'+pageUrl+'&page='+(pageIndex+1)+'">下一页</a></li>';
+                page += '<li><a href="'+pageUrl+'&page='+pageCount+'">末页</a></li>';
+            }
+
+            page += '</ul>';
+
+            $('.h-threads-list').after(page);
+
             initImageBox();
             initContent();
 

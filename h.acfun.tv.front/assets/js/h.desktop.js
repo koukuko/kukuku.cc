@@ -199,13 +199,10 @@ function initContent(){
             html = html.replace(codeRegExp,'<code>$1</code>');
         }
 
-        if(hideenRegExp.test(html)){
+        if(hideenRegExp.test(html) && typeof forum == 'object' && ['动画','漫画'].indexOf(forum.name) >= 0){
             isChanged = true;
             html = html.replace(hideenRegExp,'<span class="h-hidden-text">$1</span>');
         }
-
-
-
 
         if(isChanged){
             $(this).html(html);
