@@ -41,7 +41,16 @@ function initPostForm(){
                 })
                 .html(html);
         }
+
+        if(location.href.match(/r\=(\d+)/g)){
+            var r = /r\=(\d+)/g.exec(location.href);
+            if(r[1]){
+                $('#h-post-form textarea').val('>>No.'+r[1]+"\r\n");
+            }
+        }
     }
+
+
 }
 
 function initImageBox(){
@@ -158,6 +167,11 @@ function initContent(){
             var tid = /\d+/.exec($(this).text())[0];
             $.get('/homepage/ref?tid='+tid)
                 .done(function(data){
+
+                    if(data.indexOf('<!DOCTYPE html><html><head>')>=0){
+                        return false;
+                    }
+
                     $("#h-ref-view").off().html(data).css({
                         top:$(self).offset().top,
                         left:$(self).offset().left
@@ -214,7 +228,7 @@ function initContent(){
                     $('.h-acfun-preview-cover').attr('src',data.cover);
                     $('.h-acfun-preview-title').text(data.title).attr('href','http://www.acfun.tv/v/ac'+data.contentId);
                     $('.h-acfun-preview-desc').text(data.description);
-                    $('.h-acfun-preivew-user').text(data.user.username).attr('href','http：//www.acfun.tv/u/'+data.user.userId+'.aspx');
+                    $('.h-acfun-preivew-user').text(data.user.username).attr('href','http://www.acfun.tv/u/'+data.user.userId+'.aspx');
                     $('.h-acfun-preview-href').text('http://www.acfun.tv/v/ac'+data.contentId).attr('href','http://www.acfun.tv/v/ac'+data.contentId);
 
                     $("#h-acfun-preview").off().css({
@@ -243,6 +257,7 @@ function initAll(){
                 $('.h-admin-tool').fadeIn(100);
             }
         });
+
 
 }
 

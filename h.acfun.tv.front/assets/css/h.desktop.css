@@ -213,6 +213,8 @@ html {
   margin: 0 2px;
 }
 .h-threads-item .h-threads-content {
+  font-size: 16px;
+  line-height: 22px;
   margin: 15px 40px;
 }
 .h-threads-item .h-threads-item-replys .h-threads-item-reply {
@@ -251,6 +253,9 @@ html {
   background: #f0e0d6;
   border: 1px solid #000;
   margin-top: 20px;
+}
+#h-ref-view .uk-container {
+  background: #f0e0d6;
 }
 .h-hidden-text {
   background: #666;
