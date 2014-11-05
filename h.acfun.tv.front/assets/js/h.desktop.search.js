@@ -22,7 +22,7 @@ function unix_to_datetime(time) {
 
 $(document).ready(function () {
 
-    var template = $('.h-threads-item').html();
+    var template = $('.h-threads-list').html();
     var encodedStr = function (char) {
         return char.replace(/[\u00A0-\u9999<>\&]/gim, function (i) {
             return '&#' + i.charCodeAt(0) + ';';
@@ -80,17 +80,26 @@ $(document).ready(function () {
                 var item = result.data.list[i];
 
                 var tempHtml = template
+                    .replace(/\%tid\%/g, item.id)
                     .replace('%uid%', item.uid)
                     .replace('%name%', item.name ? encodedStr(item.name) : '无名氏')
                     .replace('%email%', item.email == 'sage' ? '' : item.email)
                     .replace('%title%', item.title ? encodedStr(item.title) : '无标题')
                     .replace('%content%', item.content)
-                    .replace('%updatedAt%', unix_to_datetime(item.updatedAt))
-                    .replace('%id%', item.id);
+                    .replace('%createdAt%', item.createdAt);
+
+                if(item.parent) {
+                    tempHtml = tempHtml
+                        .replace('%parent%', item.parent)
+                } else {
+                    tempHtml = tempHtml
+                        .replace('%parent%', item.id)
+                }
+
                 if (item.image && item.thumb) {
                     tempHtml = tempHtml
-                        .replace('%image%', item.image)
-                        .replace('%thumb%', item.thumb)
+                        .replace(/\%image\%/g, item.image)
+                        .replace(/\%thumb\%/g, item.thumb)
                 } else {
                     tempHtml = tempHtml
                         .replace(/\<div class=\"h\-threads\-img\-box\"\>(.*?)class\=\"h\-threads\-img\"\>\<\/a\>\<\/div\>/g, '');
@@ -106,7 +115,7 @@ $(document).ready(function () {
                         .replace('<div class="h-threads-tips uk-text-danger uk-text-bold"><i class="uk-icon-thumbs-down"></i>&nbsp;本串已经被SAGE (<abbr data-uk-tooltip="{pos:\'right\'}" title="该串不会因为新回应而被顶到页首">?</abbr>)</div>', '');
                 }
 
-                html += tempHtml;
+                html += tempHtml +'<hr>';
             }
 
             $('.h-threads-list').html(html).slideDown(100);

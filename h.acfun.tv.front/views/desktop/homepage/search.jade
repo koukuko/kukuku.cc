@@ -19,29 +19,29 @@ block content
                             option(type='checkbox',id=inputId+'-'+item.key,value=item.value,selected=isselected)= item.key
                 div.uk-width-1-6
                     button.uk-button 搜索
-        hr
         div.h-loading
             div.uk-progress.uk-progress-striped.uk-active
                 div.uk-progress-bar(style='width:100%')
             div.uk-text-center 正在载入...
+        hr
         div.h-threads-list(style='display:none')
-            div.h-threads-item.uk-clearfix(data-threads-id='%id%')
+            div.h-threads-item.uk-clearfix(data-threads-id='%tid%')
                 //- 主串
                 div.h-threads-item-main
                     +image('%thumb%','%image%')
                     div.h-threads-info
-                        span.h-threads-info-title '%title%'
-                        span.h-threads-info-email '%name'
-                        span.h-threads-info-createdat '%createdAt%'
+                        span.h-threads-info-title %title%
+                        span.h-threads-info-email %name%
+                        span.h-threads-info-createdat %createdAt%
                         span.h-threads-info-uid ID:%uid%
                         span.h-threads-info-report-btn
                             | [
-                            a(href='/值班室?r='+'%id%') 举报
+                            a(href='/值班室?r='+'%tid%') 举报
                             | ]
-                        a.h-threads-info-id(href='/t/%parent%?r=%id%') No.%id%
+                        a.h-threads-info-id(href='/t/%parent%?r=%tid%') No.%tid%
                         span.h-threads-info-reply-btn
                             | [
-                            a(href='/t/%id%') 回应
+                            a(href='/t/%tid%') 回应
                             | ]
                     div.h-threads-tips.uk-text-danger.uk-text-bold
                         i.uk-icon-lock
