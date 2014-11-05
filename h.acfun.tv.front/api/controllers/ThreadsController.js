@@ -326,6 +326,8 @@ module.exports = {
                     delete threads['ip'];
                     threads['createdAt'] = (threads['createdAt']) ? new Date(threads['createdAt']).getTime() : null;
                     threads['updatedAt'] = (threads['updatedAt']) ? new Date(threads['updatedAt']).getTime() : null;
+                } else {
+                    return res.send(404, '');
                 }
 
                 var data = {
