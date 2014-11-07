@@ -41,16 +41,24 @@ module.exports.bootstrap = function (cb) {
 
                     sails.log.info('使用了PM2 RPC进行通讯，完成连接后将会自动启动程序。');
 
-                    ipm2.bus.on('h:update:setting', function (data) {
-                        syncSetting();
-                    });
+                    process.on('message',function(meesgae){
+                        if(message && _.isObject(meesgae)){
+                            switch(message.type){
 
-                    ipm2.bus.on('h:update:filter', function (data) {
-                        sails.models.filter.exportToGlobal();
-                    });
+                                case 'h:update:setting':
+                                    syncSetting();
+                                    break;
 
-                    ipm2.bus.on('h:update:forum', function (data) {
-                        sails.models.forum.initialize();
+                                case 'h:update:filter':
+                                    sails.models.filter.exportToGlobal();
+                                    break;
+
+                                case 'h:update:forum':
+                                    sails.models.forum.initialize();
+                                    break;
+
+                            }
+                        }
                     });
 
                     cb();

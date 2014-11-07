@@ -66,8 +66,13 @@ module.exports = {
                 sails.log.error(err);
             });
 
-        if(process.send){
-            process.send({type:"h:update:setting"})
+        if(ipm2.rpc.msgProcess){
+            sails.log.silly('try send message to process(h.acfun.tv.front) - setting');
+            ipm2.rpc.msgProcess({name:"h.acfun.tv.front", msg:{type:"h:update:setting"}}, function (err, res) {
+                if(err){
+                    sails.log.error(err);
+                }
+            });
         }
 
         cb();

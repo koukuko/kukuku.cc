@@ -101,13 +101,36 @@ module.exports = {
     /**
      * 通知集群版块已更新
      */
-    afterUpdate: function(updatedRecord, cb) {
+    afterCreate: function(newlyInsertedRecord, cb) {
 
-        if(process.send){
-            process.send({type:"h:update:forum"})
-        }
+        sails.models.forum.noticeUpdate();
 
         cb();
+    },
+
+    afterUpdate: function(updatedRecord, cb) {
+
+        sails.models.forum.noticeUpdate();
+
+        cb();
+    },
+
+    afterDestroy: function(destroyedRecords, cb) {
+
+        sails.models.forum.noticeUpdate();
+
+        cb();
+    },
+
+    noticeUpdate:function(){
+        if(ipm2.rpc.msgProcess){
+            sails.log.silly('try send message to process(h.acfun.tv.front) - forum');
+            ipm2.rpc.msgProcess({name:"h.acfun.tv.front", msg:{type:"h:update:forum"}}, function (err, res) {
+                if(err){
+                    sails.log.error(err);
+                }
+            });
+        }
     }
 
 };

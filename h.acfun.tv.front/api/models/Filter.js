@@ -176,29 +176,34 @@ module.exports = {
      */
     afterCreate: function(newlyInsertedRecord, cb) {
 
-        if(process.send){
-            process.send({type:"h:update:filter"})
-        }
+        sails.models.filter.noticeUpdate();
 
         cb();
     },
 
     afterUpdate: function(updatedRecord, cb) {
 
-        if(process.send){
-            process.send({type:"h:update:filter"})
-        }
+        sails.models.filter.noticeUpdate();
 
         cb();
     },
 
     afterDestroy: function(destroyedRecords, cb) {
 
-        if(process.send){
-            process.send({type:"h:update:filter"})
-        }
+        sails.models.filter.noticeUpdate();
 
         cb();
+    },
+
+    noticeUpdate:function(){
+        if(ipm2.rpc.msgProcess){
+            sails.log.silly('try send message to process(h.acfun.tv.front)');
+            ipm2.rpc.msgProcess({name:"h.acfun.tv.front", msg:{type:"h:update:filter"}}, function (err, res) {
+                if(err){
+                    sails.log.error(err);
+                }
+            });
+        }
     }
 };
 
