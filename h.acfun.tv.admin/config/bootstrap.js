@@ -53,3 +53,23 @@ module.exports.bootstrap = function (cb) {
     });
 
 };
+
+
+// 同步配置
+function syncSetting() {
+    sails.models.setting.exportToGlobal()
+        .then(function (settings) {
+            H.settings = settings;
+        })
+        .fail(function (err) {
+            sails.log.error(err);
+        });
+}
+
+// 同步过滤器
+function syncFilter() {
+    sails.models.filter.exportToGlobal()
+        .fail(function (err) {
+            sails.log.error(err);
+        });
+}
