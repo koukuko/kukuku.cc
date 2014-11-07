@@ -33,7 +33,6 @@ module.exports = function generateResult(data, option) {
 
         case 'xml':
             var html = json2xml(data);
-            console.log(html);
             html = '<?xml version="1.0" encoding="UTF-8"?><root>' + html + '</root>';
             sails.services.cache.set(req.cacheKey, html);
             res.set('Content-Type','text/xml');
