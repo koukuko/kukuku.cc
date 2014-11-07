@@ -41,8 +41,8 @@ module.exports.bootstrap = function (cb) {
 
                     sails.log.info('使用了PM2 RPC进行通讯，完成连接后将会自动启动程序。');
 
-                    process.on('message',function(meesgae){
-                        if(message && _.isObject(meesgae)){
+                    process.on('message',function(message){
+                        if(message && _.isObject(message)){
                             switch(message.type){
 
                                 case 'h:update:setting':
