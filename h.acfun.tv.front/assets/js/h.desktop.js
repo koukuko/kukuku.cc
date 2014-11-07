@@ -194,7 +194,7 @@ function initContent(){
             html = html.replace(contentIdRegExp,'<a href="http://www.acfun.tv/v/ac$1" data-acfun-contentId="$1" target="_blank">ac$1</a>');
         }
 
-        if(codeRegExp.test(html)){
+        if(codeRegExp.test(html)  && typeof forum == 'object' && ['技术宅'].indexOf(forum.name) >= 0){
             isChanged = true;
             html = html.replace(codeRegExp,'<code>$1</code>');
         }
