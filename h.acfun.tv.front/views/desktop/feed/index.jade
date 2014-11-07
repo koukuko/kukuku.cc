@@ -13,7 +13,7 @@ block content
         //- 列表
         div.h-threads-list
             each item in threads
-                div.h-threads-item.uk-clearfix(data-threads-id=item.id)
+                div.h-threads-item.uk-clearfix(data-threads-id=item.threadsId)
                     //- 主串
                     div.h-threads-item-main
                         +image(item.thumb,item.image)
@@ -27,12 +27,19 @@ block content
                             span.h-threads-info-uid!='ID:'+item.uid
                             span.h-threads-info-report-btn
                                 | [
-                                a(href='/值班室?r='+item.id) 举报
+                                a(href='/值班室?r='+item.threadsId) 举报
                                 | ]
-                            a.h-threads-info-id(href='/t/'+item.id + '?r='+item.id)='No.'+item.id
+                            span.h-threads-info-report-btn
+                                | [
+                                a(href='/feed/remove?id='+item.feedId) 取消订阅
+                                | ]
+                            if item.parent
+                                a.h-threads-info-id(href='/t/'+item.parent + '?r='+item.threadsId)='No.'+item.threadsId
+                            else
+                                a.h-threads-info-id(href='/t/'+item.threadsId + '?r='+item.threadsId)='No.'+item.threadsId
                             span.h-threads-info-reply-btn
                                 | [
-                                a(href='/t/'+item.id) 回应
+                                a(href='/t/'+item.threadsId) 回应
                                 | ]
                             +admin(item)
                         div.h-threads-content!=item.content
@@ -46,3 +53,4 @@ block content
                             i.uk-icon-thumbs-down
                             | &nbsp;本串已经被SAGE (<abbr data-uk-tooltip="{pos:'right'}" title="该串不会因为新回应而被顶到页首">?</abbr>)
         +page(page.page,page.size,'/feed/',true)
+        include ../layout/footer
