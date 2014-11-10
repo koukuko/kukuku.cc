@@ -59,7 +59,8 @@ module.exports.bootstrap = function (cb) {
 
                                 case 'h:update:forum:topicCount':
                                     if(message.forum){
-                                        sails.models.forum.list[sails.models.forum.findForumById(message.forum)]['topicCount'] ++;
+                                        if(sails.models.forum.list[sails.models.forum.findForumById(message.forum)])
+                                            sails.models.forum.list[sails.models.forum.findForumById(message.forum)]['topicCount']++;
                                     }
                                     break;
 
