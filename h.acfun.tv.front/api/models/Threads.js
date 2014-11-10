@@ -372,7 +372,9 @@ module.exports = {
         }
         sails.services.cache.update('forum:' + newlyInsertedRecord.forum);
 
-        sails.models.threads.noticeUpdate(newlyInsertedRecord.forum);
+        if(newlyInsertedRecord.parent == 0){
+            sails.models.threads.noticeUpdate(newlyInsertedRecord.forum);
+        }
 
         cb();
     },
