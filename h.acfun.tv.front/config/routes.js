@@ -55,7 +55,7 @@ module.exports.routes = {
     /**
      * 功能
      */
-    '/func/removeLastPostThreads.:format?':'ThreadsController.removeLastThreads',
+    '/func/removeLastPostThreads.:format?':'ThreadsController.removeLastThreads'
     //'/func/generateUserId.:format?':'HomepageController.generateUserId'
 
     /**
