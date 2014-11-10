@@ -46,7 +46,6 @@ module.exports = function notFound(data) {
 
         case 'xml':
             var html = json2xml(data);
-            console.log(html);
             html = '<?xml version="1.0" encoding="UTF-8"?><root>' + html + '</root>';
             res.set('Content-Type', 'text/xml');
             res.send(200, html);
