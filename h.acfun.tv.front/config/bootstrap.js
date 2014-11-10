@@ -57,6 +57,12 @@ module.exports.bootstrap = function (cb) {
                                     sails.models.forum.initialize();
                                     break;
 
+                                case 'h:update:forum:topicCount':
+                                    if(message.forum){
+                                        sails.models.forum.list[sails.models.forum.findForumById(message.forum)]['topicCount'] ++;
+                                    }
+                                    break;
+
                             }
                         }
                     });

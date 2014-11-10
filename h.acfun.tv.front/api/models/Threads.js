@@ -372,6 +372,8 @@ module.exports = {
         }
         sails.services.cache.update('forum:' + newlyInsertedRecord.forum);
 
+        sails.models.threads.noticeUpdate(newlyInsertedRecord.forum);
+
         cb();
     },
 
@@ -412,6 +414,17 @@ module.exports = {
 
         cb();
 
+    },
+
+    noticeUpdate:function(forum){
+        if(ipm2.rpc.msgProcess){
+            sails.log.silly('try send message to process(h.acfun.tv.front) - threads++ ');
+            ipm2.rpc.msgProcess({name:"h.acfun.tv.front", msg:{type:"h:update:forum:topicCount",forum:forum}}, function (err, res) {
+                if(err){
+                    sails.log.error(err);
+                }
+            });
+        }
     }
 };
 
