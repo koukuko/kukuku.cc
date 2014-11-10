@@ -18,7 +18,10 @@ div.h-threads-item
                     | [
                     a(href='/值班室?r='+reply.id) 举报
                     | ]
-                a.h-threads-info-id(href='/t/'+reply.parent +'?r='+reply.id)='No.'+reply.id
+                if reply.parent
+                    a.h-threads-info-id(href='/t/'+reply.parent +'?r='+reply.id)='No.'+reply.id
+                else
+                    a.h-threads-info-id(href='/t/'+reply.id +'?r='+reply.id)='No.'+reply.id
                 +admin(reply)
             div.h-threads-content!=reply.content
             div.uk-clearfix
