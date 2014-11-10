@@ -113,14 +113,13 @@ module.exports = {
         sails.models.filter
             .create(map)
             .then(function (rule) {
-                req.flash('success', '创建成功。')
+                req.flash('success', '创建成功。');
+                return res.redirect('/system/filter');
             })
             .fail(function (err) {
                 req.flash('danger', err);
-            })
-            .fin(function () {
                 return res.redirect('/system/filter');
-            })
+            });
 
     },
 
