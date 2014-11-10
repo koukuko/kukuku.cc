@@ -31,13 +31,13 @@ module.exports = function generateResult(data, option) {
 
     switch (req.wantType.param) {
 
-        case 'xml':
-            var html = json2xml(data);
-            html = '<?xml version="1.0" encoding="UTF-8"?><root>' + html + '</root>';
-            sails.services.cache.set(req.cacheKey, html);
-            res.set('Content-Type','text/xml');
-            res.send(200, html);
-            break;
+//        case 'xml':
+//            var html = json2xml(data);
+//            html = '<?xml version="1.0" encoding="UTF-8"?><root>' + html + '</root>';
+//            sails.services.cache.set(req.cacheKey, html);
+//            res.set('Content-Type','text/xml');
+//            res.send(200, html);
+//            break;
 
         case 'json':
             sails.services.cache.set(req.cacheKey, data);
