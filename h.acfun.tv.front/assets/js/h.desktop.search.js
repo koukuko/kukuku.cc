@@ -101,10 +101,10 @@ $(document).ready(function () {
 
                 if(item.parent) {
                     tempHtml = tempHtml
-                        .replace('%parent%', item.parent)
+                        .replace(/\%parent\%/g, item.parent)
                 } else {
                     tempHtml = tempHtml
-                        .replace('%parent%', item.id)
+                        .replace(/\%parent\%/g, item.id)
                 }
 
                 if (item.image && item.thumb) {
