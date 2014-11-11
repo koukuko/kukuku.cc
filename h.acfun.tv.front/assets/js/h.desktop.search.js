@@ -50,16 +50,27 @@ $(document).ready(function () {
         $('.h-loading .uk-text-center').text('没有结果');
     }
 
-    var keyword = '&q=' + urlParams.q;
+    var keyword = '&q=' + (urlParams.q || '');
     var pageNo = (urlParams.page) ? ('&pageNo=' + urlParams.page) : '&pageNo=1';
     var forum = (urlParams.forum) ? ('&forum=' + urlParams.forum) : '';
+    var sortField = (urlParams.sortField) ? ('&sortField=' + urlParams.sortField) : '';
+    var sortType = (urlParams.sortType) ? ('&sortType=' + urlParams.sortType) : '';
 
     $('[name="q"]').val(urlParams.q);
+
+    if(sortField){
+        $('[name="sortField"]').val(urlParams.sortField);
+    }
+
+    if(sortType){
+        $('[name="sortType"]').val(urlParams.sortType);
+    }
+
     if (forum) {
         $('[name="forum"]').val(urlParams.forum);
     }
 
-    $.getScript('http://search.acfun.tv/h?pageSize=20&cd=1&format=result' + pageNo + forum + keyword)
+    $.getScript('http://search.acfun.tv/h?pageSize=20&cd=1&format=result' + pageNo + forum + keyword + sortField + sortType)
         .done(function () {
 
             $('.h-loading .uk-progress').slideUp(100);

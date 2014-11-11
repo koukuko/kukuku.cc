@@ -16,9 +16,17 @@ block content
                     select(name='forum')
                         each item in sails.models.forum.selectList
                             - var isselected =  (item.value == value) ? true : false
-                            option(type='checkbox',id=inputId+'-'+item.key,value=item.value,selected=isselected)= item.key
+                            option(value=item.value,selected=isselected)= item.key
                 div.uk-width-1-6
-                    button.uk-button 搜索
+                    select(name='sortField').uk-width-1-1
+                        option(value=1) 按照相关度
+                        option(value=-1) 按照发串时间
+                div.uk-width-1-6
+                    select(name='sortType')
+                        option(value=-1) 降序
+                        option(value=1) 升序
+                div.uk-width-1-6
+                    button.uk-button(type='submit').uk-width-1-1 搜索
         div.h-loading
             div.uk-progress.uk-progress-striped.uk-active
                 div.uk-progress-bar(style='width:100%')
