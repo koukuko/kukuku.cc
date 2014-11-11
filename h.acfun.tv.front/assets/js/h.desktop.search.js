@@ -109,8 +109,8 @@ $(document).ready(function () {
 
                 if (item.image && item.thumb) {
                     tempHtml = tempHtml
-                        .replace(/\%image\%/g, item.image)
-                        .replace(/\%thumb\%/g, item.thumb)
+                        .replace(/\%image\%/g, item.image.toLowerCase())
+                        .replace(/\%thumb\%/g, item.thumb.toLowerCase())
                 } else {
                     tempHtml = tempHtml
                         .replace(/\<div class=\"h\-threads\-img\-box\"\>(.*?)class\=\"h\-threads\-img\"\>\<\/a\>\<\/div\>/g, '');
