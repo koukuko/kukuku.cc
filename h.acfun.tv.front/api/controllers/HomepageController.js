@@ -18,6 +18,30 @@ module.exports = {
         req.wantType = sails.services.utility.checkWantType(req.params.format);
         req.cacheKey ='homepage:index:' + req.wantType.suffix;
 
+        // 0.1 确认是否需要跳转
+
+        if(req.query.switch){
+            if(req.query.switch == 'true'){
+                req.session.wantMobile = 'true';
+                return res.redirect('/.mobile');
+            } else if(req.query.switch == 'false'){
+                req.session.wantMobile = 'false';
+            }
+        }
+
+        // 提前判断mobile/desktop
+        if(
+            req.wantType.isDesktop &&
+            sails.services.utility.isMobile(req.headers['user-agent']) &&
+            typeof req.session.wantMobile == 'undefined'
+        ){
+            if(req.session.wantMobile == 'true'){
+                return res.redirect('/.mobile');
+            } else {
+                return res.redirect('/homepage/switchType');
+            }
+        }
+
         sails.services.cache.get(req.cacheKey)
             .then(function (cache) {
 
@@ -46,6 +70,27 @@ module.exports = {
                 });
 
             });
+    },
+
+    /**
+     * 切换版本
+     * @param req
+     * @param res
+     */
+    switchType: function(req,res) {
+
+
+        return res.render('mobile/homepage/switch', {
+            page:{
+                title:'切换'
+            }
+        }, function (err, html) {
+            if (err) {
+                return res.serverError(err);
+            }
+            res.send(200, html);
+        });
+
     },
 
     /**

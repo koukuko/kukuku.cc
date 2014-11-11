@@ -31,6 +31,7 @@ module.exports.routes = {
     '/homepage/ref.:format?':'ThreadsController.ref',
     '/homepage/isManager':'HomepageController.isManager',
     '/search.:format?':'HomepageController.search',
+    '/homepage/switchType':'HomepageController.switchType',
 
     /**
      * 串
