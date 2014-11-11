@@ -50,6 +50,10 @@ $(document).ready(function () {
         $('.h-loading .uk-text-center').text('没有结果');
     }
 
+    urlParams.page = urlParams.page || 1;
+
+    urlParams.page =  urlParams.page < 100 ? urlParams.page : 99;
+
     var keyword = '&q=' + (urlParams.q || '');
     var pageNo = (urlParams.page) ? ('&pageNo=' + urlParams.page) : '&pageNo=1';
     var forum = (urlParams.forum) ? ('&forum=' + urlParams.forum) : '';
@@ -77,7 +81,7 @@ $(document).ready(function () {
 
             if (typeof result == 'object' && result.status == '200') {
                 var data = result.data;
-                $('.h-loading .uk-text-center').text('搜索完成，共有 ' + result.data.totalCount + ' 个结果。').removeClass('uk-text-center');
+                $('.h-loading .uk-text-center').text('搜索完成，共有 ' + result.data.totalCount + ' 个结果。' +(Math.ceil(result.data.totalCount/result.data.pageSize)? ' 但是最多只会返回99页结果。': '') ).removeClass('uk-text-center');
             } else if (typeof result == 'object') {
                 return $('.h-loading .uk-text-center').text('搜索失败:' + result.msg);
             } else {
@@ -135,7 +139,8 @@ $(document).ready(function () {
             var pageIndex = result.data.pageNo;
             var pageSize = result.data.pageSize;
             var pageCount = Math.ceil(result.data.totalCount/result.data.pageSize);
-            var pageUrl = '/search?'+keyword+forum;
+            pageCount = (pageCount < 100) ? pageCount : 99;
+            var pageUrl = '/search?' + keyword + forum + keyword + sortField + sortType;
 
             if(pageIndex < 1) pageIndex = 1;
             if(pageIndex > pageCount) pageIndex = pageCount;
