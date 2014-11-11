@@ -19,8 +19,8 @@ block content
                             option(value=item.value,selected=isselected)= item.key
                 div.uk-width-1-6
                     select(name='sortField').uk-width-1-1
-                        option(value=1) 按照相关度
-                        option(value=-1) 按照发串时间
+                        option(value='score') 按照相关度
+                        option(value='createdAt') 按照发串时间
                 div.uk-width-1-6
                     select(name='sortType')
                         option(value=-1) 降序
