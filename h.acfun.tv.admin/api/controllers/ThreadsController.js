@@ -347,6 +347,12 @@ module.exports = {
             .destroy(map)
             .then(function () {
                 req.flash('success', '删除串 '+JSON.stringify(map)+' 成功');
+
+                // 暂时让删除单个链接的先通知搜索
+                if(req.params.id){
+                    request.get('http://182.18.54.35:5001/Shaymin/del?id='+map['id']);
+                }
+
                 return res.redirect('back');
             })
             .fail(function(err){

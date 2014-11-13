@@ -16,6 +16,7 @@ module.exports.bootstrap = function (cb) {
     // 将常用依赖导入全局
     global.Q = require("q");
     global.md5 = require('MD5');
+    global.request = require('request');
     global.ipm2 = require('pm2-interface')();
 
     global.H = {};
