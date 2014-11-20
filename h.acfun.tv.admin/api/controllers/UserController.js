@@ -180,11 +180,10 @@ module.exports = {
                 .destroy(map)
                 .then(function () {
                     req.flash('success', '删除成功。');
+                    return res.redirect('/user');
                 })
                 .fail(function (err) {
                     req.flash('danger', err);
-                })
-                .fin(function () {
                     return res.redirect('/user');
                 });
 
