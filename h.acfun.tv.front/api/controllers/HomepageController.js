@@ -32,13 +32,12 @@ module.exports = {
         // 提前判断mobile/desktop
         if(
             req.wantType.isDesktop &&
-            sails.services.utility.isMobile(req.headers['user-agent']) &&
-            typeof req.session.wantMobile == 'undefined'
+            sails.services.utility.isMobile(req.headers['user-agent'])
         ){
-            if(req.session.wantMobile == 'true'){
-                return res.redirect('/.mobile');
-            } else {
+            if(typeof req.session.wantMobile == 'undefined'){
                 return res.redirect('/homepage/switchType');
+            } else if(req.session.wantMobile == 'true') {
+                return res.redirect('/.mobile');
             }
         }
 
