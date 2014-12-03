@@ -23,8 +23,11 @@ block body
                 +textarea('siteCloseMessage','站点关闭信息',config.siteCloseMessage,'站点关闭时显示的信息，允许使用HTML代码。')
                 +radio('siteCaptcha','使用验证码','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',config.siteCaptcha,'仅应用于发帖操作。忽略API方式，即API方式进行发帖操作依然无需验证码')
                 +input('number','sitePagesize','默认列表容量',config.sitePagesize,'默认为20。')
+                h2 附件配置
                 +input('text','siteCdnPath','CDN路径',config.siteCdnPath)
                 +radio('allowUpload','允许上传文件','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',config.allowUpload)
+                +radio('allowThumb','允许显示缩略图','[{"key":"是","value":"true"},{"key":"否","value":"false"}]',config.allowThumb)
+                +input('text','thumbPlaceholderPath','图片占位符',config.thumbPlaceholderPath,'当缩略图显示关闭时显示的图片路径，注意这个路径必须是相对与CDN的路径。如果留空则代表不显示占位符。这个选项不会影响API。')
                 h2 META配置
                 +textarea('metaDescription','网站简介',config.metaDescription)
                 +textarea('metaKeyword','关键词',config.metaKeyword)
