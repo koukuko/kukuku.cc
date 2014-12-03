@@ -42,9 +42,9 @@ mixin page(index,count,url,last,isMobile)
 
 //- 缩略图
 mixin image(thumb,image)
-    if H.settings.allowThumb && H.settings.allowThumb == 'true'
-        if thumb && image
+    if thumb && image
+        if H.settings.allowThumb && H.settings.allowThumb == 'true'
             a(href=imagesPath+image.toLocaleLowerCase(), rel='_blank', target='_blank')
                 img.h-threads-image(src=imagesPath+thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
-    else if H.settings.thumbPlaceholderPath
-        img.h-threads-image(src=imagesPath+H.settings.thumbPlaceholderPath, align="left", border="0",hspace="20")
+        else if H.settings.thumbPlaceholderPath
+            img.h-threads-image(src=imagesPath+H.settings.thumbPlaceholderPath, align="left", border="0",hspace="20")

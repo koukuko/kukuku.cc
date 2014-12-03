@@ -1,26 +1,26 @@
 //- 图片
 mixin image(thumb,image)
-    if H.settings.allowThumb && H.settings.allowThumb == 'true'
-        if thumb && image
+    if thumb && image
+        if H.settings.allowThumb && H.settings.allowThumb == 'true'
+                div.h-threads-img-box
+                    div.h-threads-img-tool.uk-animation-slide-top
+                        span.h-threads-img-tool-btn.h-threads-img-tool-small.uk-button-link
+                            i.uk-icon-minus
+                            | 收起
+                        a.h-threads-img-tool-btn.uk-button-link(href=imagesPath+image.toLocaleLowerCase(),target='_blank')
+                            i.uk-icon-search-plus
+                            | 查看大图
+                        span.h-threads-img-tool-btn.h-threads-img-tool-left.uk-button-link
+                            i.uk-icon-reply
+                            | 向左旋转
+                        span.h-threads-img-tool-btn.h-threads-img-tool-right.uk-button-link
+                            i.uk-icon-share
+                            | 向右旋转
+                    a.h-threads-img-a(href=imagesPath+image.toLocaleLowerCase(), rel='_blank', target='_blank')
+                        img.h-threads-img(data-src=imagesPath+thumb.toLocaleLowerCase(), src=imagesPath+thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+        else if H.settings.thumbPlaceholderPath
             div.h-threads-img-box
-                div.h-threads-img-tool.uk-animation-slide-top
-                    span.h-threads-img-tool-btn.h-threads-img-tool-small.uk-button-link
-                        i.uk-icon-minus
-                        | 收起
-                    a.h-threads-img-tool-btn.uk-button-link(href=imagesPath+image.toLocaleLowerCase(),target='_blank')
-                        i.uk-icon-search-plus
-                        | 查看大图
-                    span.h-threads-img-tool-btn.h-threads-img-tool-left.uk-button-link
-                        i.uk-icon-reply
-                        | 向左旋转
-                    span.h-threads-img-tool-btn.h-threads-img-tool-right.uk-button-link
-                        i.uk-icon-share
-                        | 向右旋转
-                a.h-threads-img-a(href=imagesPath+image.toLocaleLowerCase(), rel='_blank', target='_blank')
-                    img.h-threads-img(data-src=imagesPath+thumb.toLocaleLowerCase(), src=imagesPath+thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
-    else if H.settings.thumbPlaceholderPath
-        div.h-threads-img-box
-            img.h-threads-img(src=imagesPath+H.settings.thumbPlaceholderPath, align="left", border="0",hspace="20")
+                img.h-threads-img(src=imagesPath+H.settings.thumbPlaceholderPath, align="left", border="0",hspace="20")
 
 
 //- 管理工具
