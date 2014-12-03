@@ -11,6 +11,12 @@ html
     head
         meta(http-equiv="content-type",content="text/html; charset=utf-8")
         title=((page) ? page.title + ' - ' : '' ) + H.settings.siteName
+        if H.settings.metaDescription
+            meta(name="description" content=H.settings.metaDescription)
+        if H.settings.metaKeyword
+            meta(name="keyword" content=H.settings.metaKeyword)
+        if H.settings.metaRobot
+            meta(name="robot" content=H.settings.metaRobot)
         link(rel="stylesheet",type="text/css",href="/css/uikit.min.css")
         link(rel="stylesheet",type="text/css",href="/css/uikit.almost-flat.min.css")
         link(rel="stylesheet",type="text/css",href="/css/h.desktop.css")
@@ -42,4 +48,5 @@ html
                     | UP主：
                     a.h-acfun-preivew-user
                     a.h-acfun-preview-href.uk-float-right
+        +webAnalytics
 

@@ -39,3 +39,12 @@ mixin page(index,count,url,last,isMobile)
             li.uk-pagination-next: a(href=url+'?page='+(Number(index)+1)) 下一页
         else
             li.uk-pagination-next.uk-disabled: span 下一页
+
+//- 缩略图
+mixin image(thumb,image)
+    if H.settings.allowThumb && H.settings.allowThumb == 'true'
+        if thumb && image
+            a(href=imagesPath+item.image.toLocaleLowerCase(), rel='_blank', target='_blank')
+                img.h-threads-image(src=imagesPath+item.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+    else if H.settings.thumbPlaceholderPath
+        img.h-threads-image(src=H.settings.thumbPlaceholderPath, align="left", border="0",hspace="20")
