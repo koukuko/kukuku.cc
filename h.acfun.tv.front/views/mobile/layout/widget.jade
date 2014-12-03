@@ -47,4 +47,4 @@ mixin image(thumb,image)
             a(href=imagesPath+item.image.toLocaleLowerCase(), rel='_blank', target='_blank')
                 img.h-threads-image(src=imagesPath+item.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
     else if H.settings.thumbPlaceholderPath
-        img.h-threads-image(src=H.settings.thumbPlaceholderPath, align="left", border="0",hspace="20")
+        img.h-threads-image(src=imagesPath+H.settings.thumbPlaceholderPath, align="left", border="0",hspace="20")

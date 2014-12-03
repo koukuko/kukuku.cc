@@ -20,7 +20,7 @@ mixin image(thumb,image)
                     img.h-threads-img(data-src=imagesPath+thumb.toLocaleLowerCase(), src=imagesPath+thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
     else if H.settings.thumbPlaceholderPath
         div.h-threads-img-box
-            img.h-threads-img(src=H.settings.thumbPlaceholderPath, align="left", border="0",hspace="20")
+            img.h-threads-img(src=imagesPath+H.settings.thumbPlaceholderPath, align="left", border="0",hspace="20")
 
 
 //- 管理工具
