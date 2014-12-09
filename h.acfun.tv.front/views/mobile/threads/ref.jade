@@ -15,7 +15,5 @@ div.h-threads-container(id='threads_'+item.id,style='padding:0')
         | &nbsp;
         span.h-threads-time=sails.services.utility.unix_to_datetime(item.createdAt)
         span.h-threads-uid!='ID: '+item.uid
-    if item.image
-        a(href=imagesPath+item.image.toLocaleLowerCase(), rel='_blank', target='_blank')
-            img.h-threads-image(src=imagesPath+item.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+    +image(item.thumb,item.image)
     p.h-threads-content!=item.content

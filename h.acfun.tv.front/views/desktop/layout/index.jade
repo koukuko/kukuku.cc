@@ -11,12 +11,16 @@ html
     head
         meta(http-equiv="content-type",content="text/html; charset=utf-8")
         title=((page) ? page.title + ' - ' : '' ) + H.settings.siteName
+        if H.settings.metaDescription
+            meta(name="description" content=H.settings.metaDescription)
+        if H.settings.metaKeyword
+            meta(name="keyword" content=H.settings.metaKeyword)
+        if H.settings.metaRobot
+            meta(name="robot" content=H.settings.metaRobot)
         link(rel="stylesheet",type="text/css",href="/css/uikit.min.css")
         link(rel="stylesheet",type="text/css",href="/css/uikit.almost-flat.min.css")
         link(rel="stylesheet",type="text/css",href="/css/h.desktop.css")
-        link(rel="stylesheet",type="text/css",href="/css/theme/h.desktop.night.css")
         script(src="/js/jquery.min.js")
-        script(src="/js/jstorage.min.js")
         script(src="/js/uikit.min.js")
         script(src="/js/h.desktop.js")
     body
@@ -29,15 +33,10 @@ html
                 i.uk-icon-chevron-up
             span.h-tool-btn(href='#' title='刷新' onclick='location.reload()')
                 i.uk-icon-refresh
-            a.h-tool-btn(href='#h-settings' title='系统配置' data-uk-offcanvas)
-                i.uk-icon-cog
             a.h-tool-btn(href='#h-footer' title='前往底部' data-uk-smooth-scroll)
                 i.uk-icon-chevron-down
         div#h-content
             block content
-        div#h-settings.uk-offcanvas
-            div.uk-offcanvas-bar.uk-offcanvas-bar-flip
-                include settings
         div#h-ref-view
         div#h-acfun-preview
             div.h-acfun-preview-container
@@ -50,3 +49,4 @@ html
                     a.h-acfun-preivew-user
                     a.h-acfun-preview-href.uk-float-right
         +webAnalytics
+

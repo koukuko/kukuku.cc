@@ -189,7 +189,15 @@ module.exports = {
         req.wantType = sails.services.utility.checkWantType(req.params.format);
         req.cacheKey ='homepage:search:' + req.wantType.suffix;
 
-        return res.generateResult({},{
+        var data = {
+            page: {
+                title: '搜索'
+            },
+            code: 200,
+            success: true
+        };
+
+        return res.generateResult(data,{
             desktopView: 'desktop/homepage/search',
             mobileView: 'mobile/homepage/search'
         });

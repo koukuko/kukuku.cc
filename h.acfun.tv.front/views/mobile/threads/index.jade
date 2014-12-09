@@ -57,9 +57,7 @@ block content
         p.h-threads-second-col
             span.h-threads-time=sails.services.utility.unix_to_datetime(item.createdAt)
             span.h-threads-uid!='ID: '+item.uid
-        if item.image
-            a(href=imagesPath+item.image.toLocaleLowerCase(), rel='_blank', target='_blank')
-                img.h-threads-image(src=imagesPath+item.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+        +image(item.thumb,item.image)
         p.h-threads-content!=item.content
         //- 最近的5条回复
         div.h-threads-replylist
@@ -73,9 +71,7 @@ block content
                         p.h-threads-second-col
                             span.h-threads-time=sails.services.utility.unix_to_datetime(reply.createdAt)
                             span.h-threads-uid!='ID: '+reply.uid
-                        if reply.image
-                            a(href=imagesPath+reply.image.toLocaleLowerCase(), rel='_blank', target='_blank')
-                                img.h-threads-image(src=imagesPath+reply.thumb.toLocaleLowerCase(), align="left", border="0",hspace="20")
+                        +image(reply.thumb,reply.image)
                         p.h-threads-content!=reply.content
         hr
     div#h-threads-pagination.uk-container

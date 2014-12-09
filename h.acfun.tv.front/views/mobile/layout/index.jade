@@ -12,6 +12,12 @@ html
         meta(http-equiv="content-type",content="text/html; charset=utf-8")
         meta(name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width")
         title=((page) ? page.title + ' - ' : '' ) + H.settings.siteName
+        if H.settings.metaDescription
+            meta(name="description" content=H.settings.metaDescription)
+        if H.settings.metaKeyword
+            meta(name="keyword" content=H.settings.metaKeyword)
+        if H.settings.metaRobot
+            meta(name="robot" content=H.settings.metaRobot)
         link(rel="stylesheet",type="text/css",href="/css/uikit.min.css")
         link(rel="stylesheet",type="text/css",href="/css/uikit.almost-flat.min.css")
         link(rel="stylesheet",type="text/css",href="/css/h.mobile.css")
@@ -63,3 +69,7 @@ html
                         - }
                     - }
         +webAnalytics
+        //- 在线
+        div(style='display:none')
+            script#tc_iqsi5f1w.
+                var _tcq = _tcq || []; _tcq.push(['blog', 'iqsi5f1w', '001996', '5cfffa']);(function() { var e = document.createElement('script'); e.type = 'text/javascript'; e.async = true; e.src = 'http://widgets.tcimg.com/v2/blog.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(e, s); })();
