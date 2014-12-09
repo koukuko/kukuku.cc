@@ -4,9 +4,9 @@ html {
 }
 #h-menu {
   position: fixed;
-  margin: 0px;
-  left: 0px;
-  top: 0px;
+  margin: 0;
+  left: 0;
+  top: 0;
   color: #c00;
   border-right-width: 1px;
   border-right-color: #000;
@@ -298,4 +298,25 @@ html {
 }
 .h-admin-tool {
   display: none;
+}
+#h-settings {
+  color: #fff !important;
+  font-size: 12px;
+}
+#h-settings.uk-offcanvas .uk-panel {
+  color: #fff;
+  text-shadow: none;
+}
+#h-settings h1,
+#h-settings h2,
+#h-settings h3,
+#h-settings h4,
+#h-settings h5,
+#h-settings h6 {
+  color: #fff;
+  text-shadow: none;
+}
+#h-settings input[type=checkbox],
+#h-settings input[type=radio] {
+  vertical-align: middle;
 }

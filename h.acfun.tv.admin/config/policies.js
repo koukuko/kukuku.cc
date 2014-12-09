@@ -25,6 +25,10 @@ module.exports.policies = {
         signin:true
     },
 
-    'UserController':'9Auth'
+    'UserController':'9Auth',
+
+    'SettingController':{
+        update:'9Auth'
+    }
 
 };
