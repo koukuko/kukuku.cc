@@ -196,7 +196,7 @@ function initContent(){
 
         if(codeRegExp.test(html)  && typeof forum == 'object' && ['技术宅'].indexOf(forum.name) >= 0){
             isChanged = true;
-            html = html.replace(codeRegExp,'<code>$1</code>');
+            html = html.replace(codeRegExp,'<pre>$1</pre>').replace(/\<font color\=\"#789922\"\>(.*?)\<\/font\>/g,"$1");
         }
 
         if(hideenRegExp.test(html) && typeof forum == 'object' && ['动画','漫画'].indexOf(forum.name) >= 0){

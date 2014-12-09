@@ -1,239 +1,260 @@
 html
-  background #ffe
-  color #800000
+    background #ffe
+    color #800000
 
 #h-menu
-  position fixed
-  margin 0px
-  left 0px
-  top 0px
-  color rgb(204, 0, 0)
-  border-right-width 1px
-  border-right-color black
-  border-right-style solid
-  overflow auto
-  width 140px
-  height 100%
-  background-color #fff
-  #h-menu-top-img,#h-menu-top-sitename
-    display block
-    margin-left auto
-    margin-right auto
-    text-align center
-  #h-menu-top-img
-    margin-top 5px
-    margin-bottom 5px
-  #h-menu-top-sitename
-    font-size 18px
-    margin-bottom 10px
-  #h-menu-search
-    #h-menu-search-keyword
-      display block
-      width 90%
-      margin 5px auto
+    position fixed
+    margin 0
+    left 0
+    top 0
+    color rgb(204, 0, 0)
+    border-right-width 1px
+    border-right-color black
+    border-right-style solid
+    overflow auto
+    width 140px
+    height 100%
+    background-color #fff
+    #h-menu-top-img, #h-menu-top-sitename
+        display block
+        margin-left auto
+        margin-right auto
+        text-align center
+    #h-menu-top-img
+        margin-top 5px
+        margin-bottom 5px
+    #h-menu-top-sitename
+        font-size 18px
+        margin-bottom 10px
+    #h-menu-search
+        #h-menu-search-keyword
+            display block
+            width 90%
+            margin 5px auto
 
-  #h-menu-content
-    font-size 12px
-    .h-nav-parent-header,.h-nav-header
-      color #c00
-      font-weight bold
-    .h-active
-      margin-left -15px
-      padding-left 15px
-      background #ea8
-      a
-        font-weight bold
-        color #fff
-    .h-nav-item
-      a
-        color #07d
-      &:hover
-        a
-          color #059
+    #h-menu-content
+        font-size 12px
+        .h-nav-parent-header, .h-nav-header
+            color #c00
+            font-weight bold
+        .h-active
+            margin-left -15px
+            padding-left 15px
+            background #ea8
+            a
+                font-weight bold
+                color #fff
+        .h-nav-item
+            a
+                color #07d
+            &:hover
+                a
+                    color #059
 
 #h-bottom-nav
-  position fixed
-  margin-bottom 0px
-  width 100%
-  left 0px
-  bottom 0px
-  border-top 1px black solid
-  background #ffe
-  z-index 500
+    position fixed
+    margin-bottom 0px
+    width 100%
+    left 0px
+    bottom 0px
+    border-top 1px black solid
+    background #ffe
+    z-index 500
 
 #h-tool
-  position fixed
-  bottom 180px
-  right 10px
-  .h-tool-btn
-    display block
-    background #b00
-    width 40px
-    height 40px
-    line-height 40px
-    text-align center
-    color #fff
-    font-size 16px
-    margin-bottom 5px
-    opacity .5
-    cursor pointer
-    &:hover
-      opacity .9
+    position fixed
+    bottom 180px
+    right 10px
+    .h-tool-btn
+        display block
+        background #b00
+        width 40px
+        height 40px
+        line-height 40px
+        text-align center
+        color #fff
+        font-size 16px
+        margin-bottom 5px
+        opacity .5
+        cursor pointer
+        &:hover
+            opacity .9
 
 #h-content
-  margin auto auto 50px 140px
-  h2.h-title
-    text-align center
-    font-weight bold
-    color #800000
+    margin auto auto 50px 140px
+    h2.h-title
+        text-align center
+        font-weight bold
+        color #800000
+
 #h-content-top-nav
-  margin 5px 0
+    margin 5px 0
+
 #h-post-form
-  .h-post-form-grid
-    margin-top 1px
-  .h-post-form-title,.h-post-form-input,.h-post-form-option
-    padding 2px 0 2px 5px
-  .h-post-form-title
-    height 100%
-    background #ea8
-    font-weight bold
-    text-align left
-    padding-left 10px
-  .h-post-form-input input
-    width 100%
-  .h-post-form-option
-    padding-left 10px
-  .h-post-form-textarea-title
-    height 90px
-    line-height 90px
-  .h-post-form-textarea
-    width 100%
-    height 80px
-    padding 0
-.h-forum-header
-  margin-top 10px
-  font-size 12px
-  img
-    padding 0
-.h-threads-item
-  display block
-  clear both
-  .h-threads-img-box
-    display inline
-    position relative
-    margin 3px 0
-    .h-threads-img-tool
-      display none
-      font-size 12px
-      .h-threads-img-tool-btn
-        cursor pointer
-        &:nth-child(n+2):before
-          color #999
-          content: "|";
-          display: inline-block;
-          margin: 0 10px;
-        i
-          padding-right 3px
-          color #800000
-    .h-threads-img-a
-      cursor zoom-in
-      .h-threads-img
+    .h-post-form-grid
+        margin-top 1px
+    .h-post-form-title, .h-post-form-input, .h-post-form-option
+        padding 2px 0 2px 5px
+    .h-post-form-title
+        height 100%
+        background #ea8
+        font-weight bold
+        text-align left
+        padding-left 10px
+    .h-post-form-input input
+        width 100%
+    .h-post-form-option
+        padding-left 10px
+    .h-post-form-textarea-title
+        height 90px
+        line-height 90px
+    .h-post-form-textarea
+        width 100%
+        height 80px
         padding 0
-        margin 0 20px
-        max-width 250px
-    &.h-active
-      .h-threads-img-tool
-        display block
-      .h-threads-img-a
-        display block
-        cursor zoom-out
-        .h-threads-img
-          position relative
-          margin 0
-          max-width 100%
-  .h-threads-info
-    .h-threads-info-title
-      font-weight bold
-      color #cc1105
-    .h-threads-info-email
-      font-weight bold
-      color #117743
-    .h-threads-info-email,.h-threads-info-createdat,.h-threads-info-uid,.h-threads-info-id,.h-threads-info-reply-btn,.h-threads-info-report-btn
-      margin-left 5px
-    .h-threads-info-reply-btn
-      font-size 16px
-      a
-        margin 0 2px
-    .h-threads-info-report-btn
-      font-size 12px
-      a
-        margin 0 2px
-  .h-threads-content
-    font-size 16px
-    line-height 22px
-    margin 15px 40px
-  .h-threads-item-replys
-    .h-threads-item-reply
-      display table
-      margin-bottom 3px
-      .h-threads-item-reply-icon,.h-threads-item-reply-main
-        display table-cell
-      .h-threads-item-reply-main
-        background #F0E0D6
-  .h-threads-tips
-    color #707070
-.h-pagination
-  li
-      a,span
-        color #07d
-        background #FFF
-        border-radius 0
-      &:hover
-        a
-          color #059
-      &.uk-active
-        a,span
-          color #FFF
-          background #b00
-#h-ref-view
-  position absolute
-  display none
-  .h-threads-item-ref
-    background #f0e0d6
-    border 1px solid #000
-    margin-top 20px
-  .uk-container
-    background #f0e0d6
-.h-hidden-text
-  background #666
-  color #666
-  &:hover
-    background transparent
-    color #800000
-#h-acfun-preview
-  position absolute
-  display none
-  .h-acfun-preview-container
-    background #f0e0d6
-    border 1px solid #000
-    width 350px
-    height 110px
-    margin-top 20px
-    padding 5px
-    .h-acfun-preview-cover
-      float left
-      width 120px
-      height 90px
-      padding 3px
-    .h-acfun-preview-info
-      font-size 12px
-      margin-left 130px
-      height 90px
-      overflow hidden
-      .h-acfun-preview-desc
+
+.h-forum-header
+    margin-top 10px
+    font-size 12px
+    img
+        padding 0
+
+.h-threads-item
+    display block
+    clear both
+    .h-threads-img-box
+        display inline
+        position relative
         margin 3px 0
-    .h-acfun-preview-etc
-      margin-top 3px
-      font-size 12px
+        .h-threads-img-tool
+            display none
+            font-size 12px
+            .h-threads-img-tool-btn
+                cursor pointer
+                &:nth-child(n+2):before
+                    color #999
+                    content: "|";
+                    display: inline-block;
+                    margin: 0 10px;
+                i
+                    padding-right 3px
+                    color #800000
+        .h-threads-img-a
+            cursor zoom-in
+            .h-threads-img
+                padding 0
+                margin 0 20px
+                max-width 250px
+        &.h-active
+            .h-threads-img-tool
+                display block
+            .h-threads-img-a
+                display block
+                cursor zoom-out
+                .h-threads-img
+                    position relative
+                    margin 0
+                    max-width 100%
+    .h-threads-info
+        .h-threads-info-title
+            font-weight bold
+            color #cc1105
+        .h-threads-info-email
+            font-weight bold
+            color #117743
+        .h-threads-info-email, .h-threads-info-createdat, .h-threads-info-uid, .h-threads-info-id, .h-threads-info-reply-btn, .h-threads-info-report-btn
+            margin-left 5px
+        .h-threads-info-reply-btn
+            font-size 16px
+            a
+                margin 0 2px
+        .h-threads-info-report-btn
+            font-size 12px
+            a
+                margin 0 2px
+    .h-threads-content
+        font-size 16px
+        line-height 22px
+        margin 15px 40px
+    .h-threads-item-replys
+        .h-threads-item-reply
+            display table
+            margin-bottom 3px
+            .h-threads-item-reply-icon, .h-threads-item-reply-main
+                display table-cell
+            .h-threads-item-reply-main
+                background #F0E0D6
+    .h-threads-tips
+        color #707070
+
+.h-pagination
+    li
+        a, span
+            color #07d
+            background #FFF
+            border-radius 0
+        &:hover
+            a
+                color #059
+        &.uk-active
+            a, span
+                color #FFF
+                background #b00
+
+#h-ref-view
+    position absolute
+    display none
+    .h-threads-item-ref
+        background #f0e0d6
+        border 1px solid #000
+        margin-top 20px
+    .uk-container
+        background #f0e0d6
+
+.h-hidden-text
+    background #666
+    color #666
+    &:hover
+        background transparent
+        color #800000
+
+#h-acfun-preview
+    position absolute
+    display none
+    .h-acfun-preview-container
+        background #f0e0d6
+        border 1px solid #000
+        width 350px
+        height 110px
+        margin-top 20px
+        padding 5px
+        .h-acfun-preview-cover
+            float left
+            width 120px
+            height 90px
+            padding 3px
+        .h-acfun-preview-info
+            font-size 12px
+            margin-left 130px
+            height 90px
+            overflow hidden
+            .h-acfun-preview-desc
+                margin 3px 0
+        .h-acfun-preview-etc
+            margin-top 3px
+            font-size 12px
+
 .h-admin-tool
-  display none
+    display none
+
+#h-settings
+    color #fff !important
+    font-size 12px
+    &.uk-offcanvas .uk-panel
+        color #fff
+        text-shadow none
+    h1, h2, h3, h4, h5, h6
+        color #fff
+        text-shadow none
+    input[type=checkbox], input[type=radio]
+        vertical-align middle
