@@ -52,7 +52,7 @@ module.exports = {
                             return res.notFound();
                         }
 
-                        var forum = sails.models.forum.findForumById(threads.forum);
+                        var forum = sails.models.forum.findForumById(threads.forum) || {};
 
                         sails.models.threads.count()
                             .where({parent: threadsId})
