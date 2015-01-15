@@ -32,6 +32,11 @@ module.exports = function (req, res, next) {
     // 1. 是否有饼干
     if (req.signedCookies && req.signedCookies.userId) {
 
+        if(req.signedCookies.userId.length > 8 ){
+            res.clearCookie('userId');
+            return res.forbidden('没有权限');
+        }
+
         // 饼干续费
         res.cookie('userId', req.signedCookies.userId, { maxAge: Number(H.settings.cookieExpires) || 900000, signed: true });
 
