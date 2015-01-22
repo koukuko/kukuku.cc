@@ -238,6 +238,26 @@ function initContent(){
         }
     });
 }
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+
+
 function initAll(){
 
     initLeftMenu();
@@ -254,6 +274,21 @@ function initAll(){
                 $('.h-admin-tool').fadeIn(100);
             }
         });
+
+    if(location.host != 'h.acfun.tv' && !getCookie('ignore_sync') && !getCookie('userId')){
+
+        $.getJSON('http://h.acfun.tv/cookie.php?callback=?')
+            .done(function(data){
+
+                if(data && data.userId){
+                    setCookie('userId',encodeURIComponent(data.userId),90);
+                }
+
+                setCookie('ignore_sync',1,1);
+            })
+
+    }
+
 
 
 }
